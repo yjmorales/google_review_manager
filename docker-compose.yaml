@@ -1,0 +1,11 @@
+version: "3"
+services:
+  web:
+    container_name: yjm_google_review_manager
+    build:
+      context: .
+      dockerfile: dockerization/web/Dockerfile
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8072:80
