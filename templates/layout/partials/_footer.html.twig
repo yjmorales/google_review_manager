@@ -1,0 +1,19 @@
+{% set startDate = '2022' %}
+<footer class="main-footer">
+    <div class="text-center">
+        {% if systemVersion is defined and systemVersion %}
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> systemVersion
+            </div>
+        {% endif %}
+        <strong>
+            {% set nowYear = 'now' | date('Y') %}
+            {% if nowYear == startDate %}
+                Copyright &copy; {{ startDate }}.
+            {% else %}
+                Copyright &copy; {{ startDate }} - {{ nowYear }}
+            {% endif %}
+        </strong>
+        All rights reserved.
+    </div>
+</footer>
