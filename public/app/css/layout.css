@@ -30,3 +30,23 @@
 .card input, .card select {
     font-size: 14px;
 }
+
+.modal-body select {
+    font-size: 14px;
+    margin-bottom: 0;
+    height: 25px;
+}
+
+.modal-body input {
+    font-size: 14px;
+    margin-bottom: 0;
+    height: 25px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.modal-body label {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+

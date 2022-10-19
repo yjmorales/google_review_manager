@@ -26,6 +26,7 @@ gulp.task('css', function () {
         [
             'vendor/almasaeed2010/adminlte/plugins/fontawesome-free/css/all.min.css',
             'vendor/almasaeed2010/adminlte/dist/css/adminlte.min.css',
+            'vendor/almasaeed2010/adminlte/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.css',
         ])
         .pipe(concat('template.min.css'))
         .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -52,6 +53,7 @@ gulp.task('js', function () {
             'vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
             'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
             'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/bootstrap-switch/js/bootstrap-switch.js',
         ])
         .pipe(concat('template.min.js'))
         .pipe(terser())

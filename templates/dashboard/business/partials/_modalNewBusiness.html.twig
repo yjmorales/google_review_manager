@@ -1,0 +1,89 @@
+<div class="modal fade"
+     id="modalNewBusinessForm"
+     tabindex="-1"
+     aria-labelledby="modalNewBusinessFormLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-info pt-2 pb-2">
+                    <h6 class="modal-title" id="modalNewBusinessFormLabel">Add Business</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <label for="fieldNewBusinessName">Name</label>
+                            <input type="text" class="form-control form-control-border" id="fieldNewBusinessName"
+                                   placeholder="Business name">
+                        </div>
+                        <div class="col-4">
+                            <small>The business name.</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <label for="fieldNewBusinessCategory">Category</label>
+                            <input type="text" class="form-control form-control-border" id="fieldNewBusinessCategory"
+                                   placeholder="Category">
+                        </div>
+                        <div class="col-4">
+                            <small>Indicates what the business does.</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <div class="mb-3">
+                                <label>Location</label>
+                                <input type="text" class="form-control form-control-border" id="fieldNewBusinessAddress"
+                                       placeholder="Address">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control form-control-border" id="fieldNewBusinessCity"
+                                       placeholder="City">
+                            </div>
+                            <div class="mb-2 row">
+                                <div class="col">
+                                    <input type="text" class="form-control form-control-border"
+                                           id="fieldNewBusinessState"
+                                           placeholder="State">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control form-control-border"
+                                           id="fieldNewBusinessZipCode"
+                                           placeholder="Zip Code">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <small>The business location is the current address the business is located.</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <label for="fieldNewBusinessActive">Active</label>
+                            <div>
+                                <input type="checkbox" data-on-text="Yes"
+                                       data-off-text="No" data-switch="true" class="form-control form-control-border"
+                                       id="fieldNewBusinessActive"
+                                       placeholder="Location">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <small>The business <strong>active</strong> is an indicator of whether the business is
+                                currently
+                                open and generating goods and/or services.</small>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-info btn-sm">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -16,7 +16,7 @@
                 <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#filter-business">
                     <i class="fas fa-search"></i>
                 </button>
-                <button type="button" class="btn btn-tool bg-info btn-xs">
+                <button type="button" class="btn btn-tool bg-info btn-xs" data-target="#modalNewBusinessForm" data-toggle="modal">
                     Add Business
                 </button>
             </div>
@@ -62,6 +62,10 @@
             {% include '/dashboard/business/list.html.twig' %}
         </div>
     </div>
+
+
+    {% include '/dashboard/business/partials/_modalNewBusiness.html.twig' %}
+
 {% endblock %}
 {% block js %}
     {{ parent() }}

@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    container_name: yjm_google_review_manager
+    container_name: yjm_google_review_manager_web
     build:
       context: .
       dockerfile: dockerization/web/Dockerfile
@@ -9,3 +9,28 @@ services:
       - .:/var/www/html
     ports:
       - 8072:80
+
+  db:
+    container_name: yjm_google_review_manager_db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: google_review_manager
+      MYSQL_USER: admin_testing_docker
+      MYSQL_PASSWORD: admin_testing_docker
+    ports:
+      - 3313:3306
+
+  phpmyadmin:
+    container_name: yjm_google_review_manager_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8088:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: admin
