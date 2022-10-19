@@ -19,49 +19,7 @@
             </div>
         </div>
         <div class="card-body p-2">
-            <div class="table-responsive">
-                <table data-is-datatable="true" class="table table-hover text-nowrap table-sm">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Location</th>
-                        <th class="cursor-help"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            data-html="true"
-                            title="The <em>status</em> represents whether a business is currently open and providing services and/or goods.">Status</th>
-                        <th>Review Code</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in business %}
-                        <tr>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.location }}</td>
-                            <td>
-                                {% if item.active %}
-                                    <i class="fa fa-check text-success" data-toggle="tooltip" data-placement="top"
-                                       title="Active"></i>
-                                {% else %}
-                                    <i class="fa fa-times text-danger" data-toggle="tooltip" data-placement="top"
-                                       title="Inactive"></i>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                            <td class="text-right">
-                                <button type="button" class="btn btn-outline-info btn-xs">
-                                    <i class="fa fa-pen"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-xs">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include '/dashboard/business/list.html.twig' %}
         </div>
     </div>
 {% endblock %}

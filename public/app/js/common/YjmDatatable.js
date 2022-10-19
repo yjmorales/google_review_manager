@@ -19,6 +19,7 @@ function YjmDatatable() {
      */
     function init() {
         $(document).ready(initClientDataTable);
+        $(`${ui.$table} tbody`).on('click', 'td.dt-control', expandRow);
     }
 
     /**
@@ -51,6 +52,44 @@ function YjmDatatable() {
         };
 
         state.table = $(ui.$table).DataTable(config);
+    }
+
+    /**
+     * Function to expand a row
+     */
+    function expandRow() {
+        const $td = $(this);
+        const id = $td.data('id');
+        const $tr = $td.closest('tr');
+        const row = state.table.row($tr);
+        const $open = $td.find('i[data-open="true"]');
+        const $close = $td.find('i[data-open="false"]');
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            $tr.removeClass('shown');
+            $open.removeClass('d-none');
+            $close.addClass('d-none');
+        } else {
+            // Open this row
+            row.child(buildSubRow(id, row.data())).show();
+            $tr.addClass('shown');
+            $open.addClass('d-none');
+            $close.removeClass('d-none');
+        }
+    }
+
+    /**
+     * Builds the inner html to render inside the table row. It's built based on data.
+     */
+    function buildSubRow(rowId) {
+        const $rowDetails = $(`div[data-child-list-row-details="true"][data-id=${rowId}]`);
+        if (!$rowDetails.length) {
+            return '';
+        }
+        const $newRowDetails = $rowDetails.clone();
+        $newRowDetails.removeClass('d-none');
+        return ($newRowDetails.html());
     }
 
     init();

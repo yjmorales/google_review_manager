@@ -7,13 +7,18 @@
             </div>
         {% endif %}
         <strong>
-            {% set nowYear = 'now' | date('Y') %}
-            {% if nowYear == startDate %}
-                Copyright &copy; {{ startDate }}.
-            {% else %}
-                Copyright &copy; {{ startDate }} - {{ nowYear }}
-            {% endif %}
+            <small>
+                {% set nowYear = 'now' | date('Y') %}
+                {% if nowYear == startDate %}
+                    Copyright &copy; {{ startDate }}.
+                {% else %}
+                    Copyright &copy; {{ startDate }} - {{ nowYear }}
+                {% endif %}
+            </small>
         </strong>
-        All rights reserved.
+        <small>Yenier Jimenez - All rights reserved.</small>
+        <div>
+            <small>Design based on <a href="https://adminlte.io" target="_blank">AdminLTE.io.</a></small>
+        </div>
     </div>
 </footer>
