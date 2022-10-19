@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table data-is-datatable="true" class="table table-hover text-nowrap table-sm">
+    <table data-is-datatable="true" class="table table-hover text-nowrap table-sm  dt-responsive">
         <thead>
         <tr>
             <th></th>
@@ -43,7 +43,8 @@
                 <td class="text-center">
                     <ul class="list-inline m-0">
                         <li class="list-inline-item">
-                            <img class="table-avatar" src="{{ asset('/img/qrcode.png') }}" height="25" width="25">
+                            <img class="qr-code-hover cursor-pointer" src="{{ asset('/img/qrcode.png') }}" height="25" width="25"
+                                 data-toggle="modal" data-target="#exampleModal">
                             <a href="#">https://link.review.com</a>
                         </li>
                     </ul>
@@ -66,4 +67,6 @@
         {% endfor %}
         </tbody>
     </table>
+    {% include '/dashboard/business/partials/_modalQrCode.html.twig' %}
 </div>
+

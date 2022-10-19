@@ -1,0 +1,7 @@
+.qr-code-hover {
+    border: solid transparent 2px;
+}
+
+.qr-code-hover:hover {
+    border: solid #c1c1c1 2px;
+}

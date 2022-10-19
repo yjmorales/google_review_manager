@@ -13,34 +13,38 @@
             <hr>
         </div>
         <div class="col">
-            <div class="text-right">
+            <div class="text-center mb-3">
                 <button class="btn btn-info btn-xs">
                     Add Review link and QR code.
                 </button>
             </div>
-            {% for i in 1..3 %}
-                <div class="text-center {{ not loop.last ? 'mb-5' }}">
-                    <div>
-                        <a href="#">https://link.review.com</a>
-                    </div>
-                    <div>
-                        <img class="table-avatar" src="{{ asset('/img/qrcode.png') }}" height="100" width="100">
-                    </div>
-                    <div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info btn-xs" title="Regenerate link and QR code">
-                                <i class="fa fa-undo"></i>
-                            </button>
-                            <button type="button" class="btn btn-info btn-xs" title="Export PDF">
-                                <i class="fa fa-file-pdf"></i>
-                            </button>
-                            <button type="button" class="btn btn-info btn-xs" title="Delete link and QR code">
-                                <i class="fa fa-trash"></i>
-                            </button>
+            <div class="row">
+                {% for i in 1..3 %}
+                    <div class="col text-center {{ not loop.last ? 'mb-5' }}">
+                        <div>
+                            <a href="#">https://link.review.com</a>
+                        </div>
+                        <div class="p-1">
+                            <img class="cursor-pointer qr-code-hover" src="{{ asset('/img/qrcode.png') }}" height="100"
+                                 width="100"
+                                 data-toggle="modal" data-target="#exampleModal">
+                        </div>
+                        <div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-xs" title="Regenerate link and QR code">
+                                    <i class="fa fa-undo"></i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-xs" title="Export PDF">
+                                    <i class="fa fa-file-pdf"></i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-xs" title="Delete link and QR code">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

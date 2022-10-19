@@ -19,6 +19,14 @@
     cursor: help;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .datatable-child-details {
     background-color: #d8dbdf;
+}
+
+.card input, .card select {
+    font-size: 14px;
 }
