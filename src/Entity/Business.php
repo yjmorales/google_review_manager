@@ -2,59 +2,91 @@
 
 namespace App\Entity;
 
+use App\Repository\BusinessRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=BusinessRepository::class)
+ */
 class Business
 {
-    private int $id;
-
-    private string$name;
-
-    private string$location;
-
-    private bool $active;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
     /**
-     * @param int    $id
-     * @param string $name
-     * @param string $location
-     * @param bool   $active
+     * @ORM\Column(type="string", length=255)
      */
-    public function __construct(int $id, string $name, string $location, bool $active)
-    {
-        $this->id       = $id;
-        $this->name     = $name;
-        $this->location = $location;
-        $this->active   = $active;
-    }
+    private $name;
 
     /**
-     * @return int
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    public function getId(): int
+    private $location;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $category;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getLocation(): string
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
     {
         return $this->location;
     }
 
-    /**
-     * @return bool
-     */
-    public function isActive(): bool
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
     {
         return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }

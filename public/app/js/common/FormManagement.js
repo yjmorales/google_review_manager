@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Controls the form elements. It must be initialize by 'new FormManagement()'
+ * Controls the form elements. It must be initialized by 'new FormManagement()'
  */
 function FormManagement() {
 

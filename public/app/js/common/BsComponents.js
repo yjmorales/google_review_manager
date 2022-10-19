@@ -8,6 +8,7 @@ function BsComponents() {
     // UI Elements.
     const ui = {
         $tooltip: '[data-toggle="tooltip"]',
+        $switch: 'input[data-switch="true"]',
     };
 
     /**
@@ -15,6 +16,7 @@ function BsComponents() {
      */
     function init() {
         $(document).ready(initTooltip);
+        $(document).ready(initSwitch);
     }
 
     /**
@@ -22,6 +24,13 @@ function BsComponents() {
      */
     function initTooltip() {
         $(ui.$tooltip).tooltip();
+    }
+
+    /**
+     * Once the page is loaded it initializes tooltip
+     */
+    function initSwitch() {
+        $(ui.$switch).bootstrapSwitch()
     }
 
     init();

@@ -42,4 +42,5 @@ composer.phar
 .phpunit
 /public/uploads/
 /.githubsendgrid.env
-sendgrid.env
+/sendgrid.env
+/execute_migrations.sh
