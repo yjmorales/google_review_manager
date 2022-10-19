@@ -1,0 +1,66 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('dist/css/layout_adminlte_datatable_css.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card card-primary card-outline direct-chat direct-chat-primary">
+        <div class="card-header card-header-compressed">
+            <h4 class="card-title">Business</h4>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <div class="table-responsive">
+                <table data-is-datatable="true" class="table table-hover text-nowrap table-sm">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Review Code</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in business %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.location }}</td>
+                            <td></td>
+                            <td>
+                                {% if item.active %}
+                                    <i class="fa fa-check text-success"></i>
+                                {% else %}
+                                    <i class="fa fa-times text-danger"></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-info btn-xs">
+                                    <i class="fa fa-pen"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-xs">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('dist/js/layout_adminlte_datatable_js') }}"></script>
+    <script src="{{ asset('/app/js/common/YjmDatatable.js') }}"></script>
+    <script>
+        new YjmDatatable();
+    </script>
+{% endblock %}

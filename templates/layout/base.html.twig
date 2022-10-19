@@ -1,0 +1,55 @@
+{% set pageTitlePrefix = 'Google Review Manager' %}
+{% set pageTitle = false %}
+{% set title = pageTitlePrefix %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if pageTitle %}
+        {% set title = pageTitlePrefix ~ ' | pageTitle' %}
+    {% endif %}
+    <title>{{ title }}</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{{ asset('/dist/css/template.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/layout.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
+    {% block css %}{% endblock %}
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+    {% include '/layout/partials/_top_nav_bar.html.twig' %}
+    <div class="content-wrapper">
+        <div class="content-header d-none">
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h3 class="m-0">
+                            {% block pageHeader %}{% endblock %}
+                        </h3>
+                    </div>
+                    <div class="col-sm-6">
+                        {% include '/layout/partials/_breadcrumb.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col p-3">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include '/layout/partials/_footer.html.twig' %}
+</div>
+
+<script src="{{ asset('/dist/js/template.min.js') }}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>
