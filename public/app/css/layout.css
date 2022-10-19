@@ -6,3 +6,15 @@
 .dataTables_filter {
     text-align: end;
 }
+
+.table-sm th, .table-sm td {
+    font-size: 14px;
+}
+
+.dataTables_length, .dataTables_filter, .dataTables_info, .paginate_button {
+    font-size: 14px;
+}
+
+.cursor-help {
+    cursor: help;
+}

@@ -10,6 +10,9 @@
         <div class="card-header card-header-compressed">
             <h4 class="card-title">Business</h4>
             <div class="card-tools">
+                <button type="button" class="btn btn-tool bg-info btn-xs">
+                    Add Business
+                </button>
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
@@ -22,8 +25,12 @@
                     <tr>
                         <th>Name</th>
                         <th>Location</th>
+                        <th class="cursor-help"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            data-html="true"
+                            title="The <em>status</em> represents whether a business is currently open and providing services and/or goods.">Status</th>
                         <th>Review Code</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -32,15 +39,17 @@
                         <tr>
                             <td>{{ item.name }}</td>
                             <td>{{ item.location }}</td>
-                            <td></td>
                             <td>
                                 {% if item.active %}
-                                    <i class="fa fa-check text-success"></i>
+                                    <i class="fa fa-check text-success" data-toggle="tooltip" data-placement="top"
+                                       title="Active"></i>
                                 {% else %}
-                                    <i class="fa fa-times text-danger"></i>
+                                    <i class="fa fa-times text-danger" data-toggle="tooltip" data-placement="top"
+                                       title="Inactive"></i>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td></td>
+                            <td class="text-right">
                                 <button type="button" class="btn btn-outline-info btn-xs">
                                     <i class="fa fa-pen"></i>
                                 </button>
@@ -60,7 +69,9 @@
     {{ parent() }}
     <script src="{{ asset('dist/js/layout_adminlte_datatable_js') }}"></script>
     <script src="{{ asset('/app/js/common/YjmDatatable.js') }}"></script>
+    <script src="{{ asset('/app/js/common/BsComponents.js') }}"></script>
     <script>
         new YjmDatatable();
+        new BsComponents();
     </script>
 {% endblock %}

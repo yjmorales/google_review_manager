@@ -26,24 +26,28 @@ function YjmDatatable() {
      */
     function initClientDataTable() {
         const config = {
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            'pageLength': 10,
-            "compact": true,
-            "emptyTable": 'No business available',
-            'oLanguage': {
+            paging: true,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            pageLength: 10,
+            compact: true,
+            emptyTable: 'No business available',
+            oLanguage: {
                 'sSearch': 'Search',
                 "sLengthMenu": "Show _MENU_",
             },
-            "aria": {
+            aria: {
                 "sortAscending": ": activate to sort column ascending",
                 "sortDescending": ": activate to sort column descending"
             },
+            rowReorder: true,
+            columnDefs: [
+                {orderable: true, className: 'reorder', targets: [0, 1]},
+                {orderable: false, targets: '_all'}
+            ]
         };
 
         state.table = $(ui.$table).DataTable(config);
