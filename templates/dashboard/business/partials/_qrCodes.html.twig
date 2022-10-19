@@ -1,5 +1,46 @@
-<div class="d-none datatable-child-details" data-id="{{ id }}" data-child-list-row-details="true">
-    <div class="row p-3">
-        Data
+<div class="d-none" data-id="{{ id }}" data-child-list-row-details="true">
+    <div class="row p-3 datatable-child-details">
+        <div class="col-4">
+
+            <strong>
+                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                Business name
+            </strong>
+            <p class="text-muted">Name</p>
+            <hr>
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+            <p class="text-muted">Location</p>
+            <hr>
+        </div>
+        <div class="col">
+            <div class="text-right">
+                <button class="btn btn-info btn-xs">
+                    Add Review link and QR code.
+                </button>
+            </div>
+            {% for i in 1..3 %}
+                <div class="text-center {{ not loop.last ? 'mb-5' }}">
+                    <div>
+                        <a href="#">https://link.review.com</a>
+                    </div>
+                    <div>
+                        <img class="table-avatar" src="{{ asset('/img/qrcode.png') }}" height="100" width="100">
+                    </div>
+                    <div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-xs" title="Regenerate link and QR code">
+                                <i class="fa fa-undo"></i>
+                            </button>
+                            <button type="button" class="btn btn-info btn-xs" title="Export PDF">
+                                <i class="fa fa-file-pdf"></i>
+                            </button>
+                            <button type="button" class="btn btn-info btn-xs" title="Delete link and QR code">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>

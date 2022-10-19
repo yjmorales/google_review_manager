@@ -5,14 +5,14 @@
             <th></th>
             <th>Name</th>
             <th>Location</th>
-            <th class="cursor-help"
+            <th class="cursor-help text-center"
                 data-toggle="tooltip"
                 data-placement="top"
                 data-html="true"
                 title="The <em>status</em> represents whether a business is currently open and providing services and/or goods.">
                 Status
             </th>
-            <th>Review Code</th>
+            <th class="text-center">Review link & QR code</th>
             <th></th>
         </tr>
         </thead>
@@ -25,8 +25,13 @@
             <tr>
                 <td data-id="{{ id }}" class="dt-control"></td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.location }}</td>
                 <td>
+                    {{ item.location }}
+                    <a href="https://www.google.com/maps" target="_blank" title="Locate on Google Maps">
+                        <img src="{{ asset('/img/googlemap.png') }}" height="25" width="25">
+                    </a>
+                </td>
+                <td class="text-center">
                     {% if item.active %}
                         <i class="fa fa-check text-success" data-toggle="tooltip" data-placement="top"
                            title="Active"></i>
@@ -35,8 +40,21 @@
                            title="Inactive"></i>
                     {% endif %}
                 </td>
-                <td></td>
+                <td class="text-center">
+                    <ul class="list-inline m-0">
+                        <li class="list-inline-item">
+                            <img class="table-avatar" src="{{ asset('/img/qrcode.png') }}" height="25" width="25">
+                            <a href="#">https://link.review.com</a>
+                        </li>
+                    </ul>
+                </td>
                 <td class="text-right">
+                    <button type="button" class="btn btn-outline-info btn-xs">
+                        <i class="fa fa-qrcode" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-xs" title="Export PDF">
+                        <i class="fa fa-file-pdf"></i>
+                    </button>
                     <button type="button" class="btn btn-outline-info btn-xs">
                         <i class="fa fa-pen"></i>
                     </button>
