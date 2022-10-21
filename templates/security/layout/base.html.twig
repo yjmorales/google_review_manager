@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Google Review Manager{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{{ asset('/dist/css/layout_login_css.css') }}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <!-- /.login-logo -->
+    <div class="w-100 text-center pb-2">
+        <img src="{{ asset('/img/logo.png') }}" height="60" width="60">
+    </div>
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <h4>Google Review Manager</h4>
+        </div>
+        <div class="card-body">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.login-box -->
+<script src="{{ asset('dist/css/layout_login_css.css') }}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

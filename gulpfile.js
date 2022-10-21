@@ -40,7 +40,17 @@ gulp.task('layout_adminlte_datatable_css', function () {
             'vendor/almasaeed2010/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
         ])
         .pipe(concat('layout_adminlte_datatable_css.css'))
-        .pipe(gulp.dest('public/dist/css'));
+        .pipe(gulp.dest(cssDest));
+});
+gulp.task('layout_login_css', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/fontawesome-free/css/all.min.css',
+            'vendor/almasaeed2010/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
+            'vendor/almasaeed2010/adminlte/dist/css/adminlte.min.css',
+        ])
+        .pipe(concat('layout_login_css.css'))
+        .pipe(gulp.dest(cssDest));
 });
 
 
@@ -77,10 +87,23 @@ gulp.task('layout_adminlte_datatable_js', function () {
         ])
         .pipe(concat('layout_adminlte_datatable_js.js'))
         .pipe(terser())
-        .pipe(gulp.dest('public/dist/js'));
+        .pipe(gulp.dest(jsDest));
+});
+gulp.task('layout_login_js', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
+            'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
+        ])
+        .pipe(concat('layout_login_js.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
 });
 
-
+/**
+ * Compressing fonts
+ */
 gulp.task('fonts', function () {
     return gulp.src(
         [
@@ -103,5 +126,7 @@ gulp.task('run', gulp.parallel(
     'js',
     'fonts',
     'layout_adminlte_datatable_js',
-    'layout_adminlte_datatable_css'
+    'layout_adminlte_datatable_css',
+    'layout_login_css',
+    'layout_login_js',
 ));
