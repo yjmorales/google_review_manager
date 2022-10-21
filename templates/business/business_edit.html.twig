@@ -1,0 +1,43 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+{% endblock %}
+
+{% block title %} | Edit Business{% endblock %}
+
+{% block content %}
+    <div class="card card-info card-outline direct-chat direct-chat-primary">
+        {{ form_start(form) }}
+        <div class="card-header card-header-compressed">
+            <h4 class="card-title">Edit Business</h4>
+            <div class="card-tools">
+                <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
+                <button type="submit" class="btn btn-xs btn-info">Update</button>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <div class="row">
+                <div class="col-8 offset-2">
+                    {% include '/business/_form_fields.html.twig' %}
+                    {% include '/business/_review_list.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer p-2 text-right">
+            <a href="{{ path('dashboard') }}" class="btn btn-light btn-xs">Cancel</a>
+            <button type="submit" class="btn btn-info btn-xs">Update</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    {% include '/business/_modalRemoveReviewItem.html.twig' %}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
+    <script>
+        (new BusinessEdit()).init();
+    </script>
+{% endblock %}

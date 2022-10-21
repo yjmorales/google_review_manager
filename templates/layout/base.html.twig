@@ -1,3 +1,5 @@
+{% set title = 'Google Review Manager' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +8,15 @@
     <title>Google Review Manager{% block title %}{% endblock %}</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    {# Vendor styles #}
     <link rel="stylesheet" href="{{ asset('/dist/css/template.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/css_select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/adminlte_toastr_css.css') }}">
+
+    {# App Styles #}
     <link rel="stylesheet" href="{{ asset('/app/css/layout.css') }}">
+
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
     {% block css %}{% endblock %}
 </head>
@@ -15,24 +24,21 @@
 <div class="wrapper">
     {% include '/layout/partials/_top_nav_bar.html.twig' %}
     <div class="content-wrapper">
-        <div class="content-header d-none">
+        <div class="content-header p-1">
             <div class="container">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h3 class="m-0">
-                            {% block pageHeader %}{% endblock %}
-                        </h3>
-                    </div>
-                    <div class="col-sm-6">
-                        {% include '/layout/partials/_breadcrumb.html.twig' %}
-                    </div>
+                <div class="row">
+                    {% if breadcrumb is defined and breadcrumb is not empty %}
+                        <div class="col text-right">
+                            {% include '/layout/partials/_breadcrumb.html.twig' %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="content">
             <div class="container">
                 <div class="row">
-                    <div class="col p-3">
+                    <div class="col">
                         {% block content %}{% endblock %}
                     </div>
                 </div>
@@ -42,7 +48,19 @@
     {% include '/layout/partials/_footer.html.twig' %}
 </div>
 
+{# Vendor JS #}
+<script src="https://kit.fontawesome.com/8b7bd8c027.js" crossorigin="anonymous"></script>
 <script src="{{ asset('/dist/js/template.min.js') }}"></script>
+<script src="{{ asset('/dist/js/adminlte_toastr_js.js') }}"></script>
+<script src="{{ asset('/dist/js/js_select2.min.js') }}"></script>
+
+
+{# App JSs #}
+<script src="{{ asset('/app/js/common/Notification.js') }}"></script>
+<script src="{{ asset('/app/js/common/BsComponents.js') }}"></script>
+<script>
+    new BsComponents();
+</script>
 {% block js %}{% endblock %}
 </body>
 </html>

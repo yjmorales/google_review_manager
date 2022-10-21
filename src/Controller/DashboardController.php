@@ -5,27 +5,23 @@
 
 namespace App\Controller;
 
-use App\Entity\BusinessModel;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\Core\BaseController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class acting as dashboard controller.
  */
-class DashboardController extends AbstractController
+class DashboardController extends BaseController
 {
     /**
      * Main route.
      *
      * @Route("/", name="dashboard")
      */
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
-        $model = new BusinessModel();
-
-        return $this->render('dashboard/dashboard.html.twig', [
-            'business' => $model->generate(),
-        ]);
+        return $this->redirectToRoute('business_list');
     }
 }

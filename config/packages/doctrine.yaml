@@ -1,7 +1,7 @@
 doctrine:
     dbal:
-#        url: '%env(resolve:DATABASE_URL)%'
-        url: '%env(resolve:DATABASE_URL_CONSOLE)%'
+        url: '%env(resolve:DATABASE_URL)%'
+#        url: '%env(resolve:DATABASE_URL_CONSOLE)%'
         server_version: '8'
     orm:
         auto_generate_proxy_classes: true

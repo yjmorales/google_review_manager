@@ -1,0 +1,281 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('dist/css/layout_adminlte_datatable_css.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="card card-info card-outline direct-chat direct-chat-primary">
+        <div class="card-header card-header-compressed">
+            <h4 class="card-title">Business</h4>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool btn-xs text-info mr-2" data-toggle="collapse"
+                        title="Filter business list"
+                        data-target="#filter-business">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <a href="{{ path('business_create') }}" class="btn btn-tool bg-info btn-xs">
+                    Add Business
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <div class="collapse {{ filtered ? 'show' }} business-list-filter-container font-14" id="filter-business">
+                <form action="{{ path('business_list') }}">
+                    <div class="row">
+                        <div class="col">
+                            <label>Name</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" name="businessName"
+                                       placeholder="Business name" value="{{ criteria.businessName }}">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Created date</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" name="businessCreatedDate"
+                                       value="{{ criteria.businessCreatedDate }}"
+                                       placeholder="mm/dd/YYYY">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Industry Sector</label>
+                            <select class="yjmSelect2" name="businessIndustrySector">
+                                {% for item in industrySector %}
+                                    <option value="{{ item.id }}" {{ criteria.businessIndustrySector == item.id ? 'selected' }}>{{ item.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Status</label>
+                            <select class="yjmSelect2" name="businessStatus">
+                                {% for id, item in activeEnum %}
+                                    <option value="{{ id }}" {{ criteria.businessStatus == id ? 'selected' }}>{{ item }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Address</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" placeholder="Business address"
+                                       value="{{ criteria.businessAddress }}"
+                                       name="businessAddress">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>City</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" placeholder="Business city"
+                                       name="businessCity" value="{{ criteria.businessCity }}">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>State</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" placeholder="State or province"
+                                       name="businessState" value="{{ criteria.businessState }}">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Zip Code</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control default-input" placeholder="Zip Code"
+                                       value="{{ criteria.businessZipCode }}"
+                                       name="businessZipCode">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="button" class="btn btn-sm btn-light" data-clear-form="true">
+                                Clear
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light" data-dismiss-collapsable="true"
+                                    data-clear-form="true">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-info">Filter</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+            <div id="businessTableContainer" class="table-responsive d-none">
+                <table data-is-datatable="true" data-container="#businessTableContainer"
+                       class="table table-hover text-nowrap table-sm  dt-responsive">
+                    <thead>
+                    <tr>
+                        <th class="non-top-border"></th>
+                        <th class="non-top-border">Name</th>
+                        <th class="non-top-border">Industry sector</th>
+                        <th class="non-top-border">Location</th>
+                        <th class="non-top-border cursor-help text-center"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            data-html="true"
+                            title="The <em>status</em> represents whether a business is currently open and providing services and/or goods.">
+                            Status
+                        </th>
+                        <th class="non-top-border text-center">Review Link QR code</th>
+                        <th class="non-top-border"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in businesses %}
+                        {% set location = [item.address, item.city, item.state, item.zipCode]|join(', ') %}
+                        {% include '/business/_business_details.html.twig' with {
+                            'business': item
+                        } %}
+
+                        <tr id="business-list-item-{{ item.id }}"
+                            class="business-list-item"
+                            data-id="{{ item.id }}"
+                            data-name="{{ item.name }}">
+                            <td data-id="{{ item.id }}" class="dt-control"></td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.industrySector ? item.industrySector.name }}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <a href="https://www.google.com/maps" target="_blank"
+                                           title="Locate on Google Maps">
+                                            <img src="{{ asset('/img/googlemap.png') }}" height="25" width="25">
+                                        </a></div>
+                                    <div class="col">
+                                        <div>{{ item.address }}</div>
+                                        <div>
+                                            <small>{{ item.city }}, {{ item.state }}, {{ item.zipCode }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                {% if item.active %}
+                                    <span class="badge badge-success">Active</span>
+                                {% else %}
+                                    <span class="badge badge-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <ul class="list-inline m-0">
+                                    <li class="list-inline-item">
+                                        <img class="qr-code-hover cursor-pointer" src="{{ asset('/img/qrcode.png') }}"
+                                             height="30"
+                                             width="30"
+                                             data-toggle="modal" data-target="#modalShowQrCode">
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="text-right">
+
+                                <!-- Small button groups (default and split) -->
+                                {#                                <div class="btn-group "> #}
+                                {#                                    <button class="btn btn-outline-info btn-xs dropdown-toggle" type="button" #}
+                                {#                                            data-toggle="dropdown" #}
+                                {#                                            aria-haspopup="true" aria-expanded="false"> #}
+                                {#                                        Actions #}
+                                {#                                    </button> #}
+                                {#                                    <div class="dropdown-menu"> #}
+                                {#                                        <a class="dropdown-item text-info font-14" href="{{ path('business_edit', {id: item.id}) }}"> #}
+                                {#                                            <i class="fa fa-pencil-alt"></i> #}
+                                {#                                            Edit Review #}
+                                {#                                        </a> #}
+                                {#                                        <a class="dropdown-item text-info font-14" href="#"> #}
+                                {#                                            <i class="fa fa-download" aria-hidden="true"></i> #}
+                                {#                                            Download QR Codes #}
+                                {#                                        </a> #}
+                                {#                                        <a class="dropdown-item text-info font-14" href="#"> #}
+                                {#                                            <i class="fa fa-file-pdf"></i> #}
+                                {#                                            Export PDF #}
+                                {#                                        </a> #}
+
+                                {#                                        <a class="dropdown-item text-info font-14" href="#" data-id="btn-remove-business"> #}
+                                {#                                            <i class="fa fa-trash"></i> #}
+                                {#                                            Remove Review #}
+                                {#                                        </a> #}
+                                {#                                    </div> #}
+                                {#                                </div> #}
+
+                                <button type="button" class="btn btn-outline-info btn-xs">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-info btn-xs" title="Export PDF">
+                                    <i class="fa fa-file-pdf"></i>
+                                </button>
+                                <a href="{{ path('business_edit', {id: item.id}) }}" type="button"
+                                   class="btn btn-outline-info btn-xs"
+                                   data-id="btn-edit-business">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger btn-xs"
+                                        data-id="btn-remove-business">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% include '/business/_modalReviewQrCode.html.twig' %}
+            </div>
+        </div>
+    </div>
+    {% include '/business/_modalRemoveBusiness.html.twig' %}
+    {% include '/business/_modalRemoveReviewItem.html.twig' %}
+
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('dist/js/layout_adminlte_datatable_js') }}"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/row().show().js"></script>
+    <script src="{{ asset('/app/js/common/ModalManagement.js') }}"></script>
+    <script src="{{ asset('/app/js/common/YjmDatatable.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessList.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
+    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
+    <script>
+        new FormManagement();
+        $(document).ready(function () {
+            new BusinessList(new YjmDatatable()).init();
+        });
+        (new BusinessEdit()).init();
+        (new CopyClipboard()).init();
+    </script>
+{% endblock %}
