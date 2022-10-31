@@ -1,0 +1,5 @@
+back_api:
+  prefix: /api/v1
+  resource: bo-openapi-specifications.yaml
+  type: openapi
+  name_prefix: "api_v1_"

@@ -5,7 +5,7 @@
 
 namespace App\Controller;
 
-use App\Controller\Core\BaseController;
+use App\Core\Controller\BaseController;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

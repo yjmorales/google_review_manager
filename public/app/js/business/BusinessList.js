@@ -17,7 +17,7 @@ function BusinessList(YJMDatatable) {
             YJMDatatable: YJMDatatable, Notification: new Notification(),
             ModalManager: new ModalManagement(),
         }, clicked: {
-            btnRemoveBusinessSelector: null
+            rowToRemoveSelector: null
         }
     }
     /**
@@ -49,7 +49,7 @@ function BusinessList(YJMDatatable) {
      * on the state and opens the confirmation modal.
      */
     function setBusinessIdToRemove() {
-        state.clicked.btnRemoveBusinessSelector = `#${$(this).closest('tr').attr('id')}`;
+        state.clicked.rowToRemoveSelector = `#${$(this).closest('tr').attr('id')}`;
         initModalRemove();
         $(ui.$modalRemoveBusinessConfirmation).modal('show');
     }
@@ -58,7 +58,7 @@ function BusinessList(YJMDatatable) {
      * Initializes the remove conformation modal.
      */
     function initModalRemove() {
-        const $row = $(state.clicked.btnRemoveBusinessSelector),
+        const $row = $(state.clicked.rowToRemoveSelector),
             businessName = $row.data('name'),
             body = `<p>You selected to remove the business <strong>${businessName}</strong></p>
                        <p>If you remove the business name the operation cannot be undo.</p> 
@@ -77,14 +77,21 @@ function BusinessList(YJMDatatable) {
      */
     function removeBusiness() {
         try {
-            // todo: call to the endpoint to remove the business
-            state.modules.YJMDatatable.removeRow(state.clicked.btnRemoveBusinessSelector);
-            const message = `Business successfully removed`;
-            state.modules.Notification.success(message);
-            $(ui.$modalRemoveBusinessConfirmation).modal('hide');
+            const url = $(state.clicked.rowToRemoveSelector).data('remove-url');
+            fetch(url, {method: 'POST'})
+                .then((response) => response.json())
+                .then(() => {
+                    updateUI();
+                });
         }
         catch (e) {
             state.modules.Notification.error('Unable to remove the business.');
+        }
+        const updateUI = function () {
+            state.modules.YJMDatatable.removeRow(state.clicked.rowToRemoveSelector);
+            const message = `Business successfully removed`;
+            state.modules.Notification.success(message);
+            $(ui.$modalRemoveBusinessConfirmation).modal('hide');
         }
     }
 

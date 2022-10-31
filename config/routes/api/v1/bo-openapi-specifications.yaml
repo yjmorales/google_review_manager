@@ -1,0 +1,240 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub server provided by  Swagger
+    url: https://virtserver.swaggerhub.com/Macagua/SimpleBackOffice/1.0.0
+info:
+  description: This is an api for Google Review management.
+  version: 0.1.0
+  title: Google Review Manager API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    name: Yenier Jimenez <yjmorales86@gmail.com>
+
+
+#************************************
+#******** Paths *********************
+#************************************
+paths:
+  /business/list:
+    get:
+      x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::list
+      tags:
+        - Business
+      summary: Gets all businesses information.
+      operationId: findAllBusinessInventory
+      description: |
+        By passing in the appropriate options, you can search for the available businesses.
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParameter'
+        - $ref: '#/components/parameters/limitQueryParameter'
+      responses:
+        '200':
+          description: Search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Business'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+
+  /business/{id}/remove:
+    post:
+      x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::remove
+      tags:
+        - Business
+      summary: Removes the business represented by `id`.
+      operationId: removeBusinessById
+      description: |
+        Removes the business represented by `id`.
+      responses:
+        '200':
+          description: Removes the business represented by `id` and returns its data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Business'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+
+#************************************
+#******** Components ****************
+#************************************
+components:
+
+  #************************************
+  #...Schemas
+  schemas:
+    Business:
+      type: object
+      description: The present object represents a business entity.
+      properties:
+        id:
+          description: An unique identifier associated with the business.
+          type: integer
+          example: 1
+        name:
+          type: string
+          description: Holds the official business name.
+          minLength: 2
+          maxLength: 255
+          nullable: false
+          example: 'Spring Restaurant'
+        active:
+          type: boolean
+          description: Holds a boolean indicator of whether the business is active or not.
+          example: true
+        address:
+          type: string
+          description: Holds the official business address.
+          minLength: 2
+          maxLength: 255
+          example: '125 54th AVE'
+        city:
+          type: string
+          description: Holds the city where the business is placed.
+          minLength: 2
+          maxLength: 255
+          example: 'Nashville'
+        state:
+          type: string
+          description: Holds the state where the business is placed.
+          minLength: 2
+          maxLength: 255
+          example: 'Tennessee'
+        zipCode:
+          type: string
+          description: Holds the zip code where the business is placed.
+          minLength: 5
+          maxLength: 15
+          example: '33176'
+
+    #....Errors
+    BaseError:
+      description: The base error object parent to all documented errors.
+      type: object
+      properties:
+        type:
+          description: >-
+            The specific error type. The client *SHOULD* use this value to
+            determine which type of error is provided.
+          type: string
+          example: PayloadValidationError
+          enum:
+            - UnexpectedFailure
+            - PayloadValidationError
+
+    EntityNotFoundError:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+
+    UnexpectedFailure:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+      properties:
+        type:
+          description: >-
+            This error covers any other type of failure regarding the internal logic.
+          example: UnexpectedFailure
+          type: string
+          enum:
+            - UnexpectedFailure
+        message:
+          type: string
+          example: An unexpected error has occurred.
+  #************************************
+
+  #...Parameters
+  parameters:
+    identifierParameter:
+      in: path
+      name: id
+      description: An identifier value.
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+      example: 1
+    limitQueryParameter:
+      in: query
+      name: limit
+      description: A value to limit the count of values to return
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        nullable: true
+      example: 25
+    pageQueryParameter:
+      in: query
+      name: page
+      description: The number of the page.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        default: 1
+        nullable: true
+      example: 1
+
+  #************************************
+  #...Responses
+  responses:
+    EmptySuccessResponse:
+      description: A successful response that does not contain a body.
+      content:
+        application/json:
+          schema:
+            type: object
+
+    EntityNotFoundResponse:
+      description: The requested entity was not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/EntityNotFoundError'
+
+    BadRequestResponse:
+      description: >-
+        The server cannot or will not process the request due to an apparent client error
+      content:
+        application/json:
+          schema:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/UnexpectedFailure'
+
+    ServerErrorResponse:
+      description: The server or the application returned an unexpected error.
+      content:
+        application/json:
+          schema:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/UnexpectedFailure'

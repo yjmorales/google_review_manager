@@ -49,20 +49,13 @@ class ActiveEnum
         return $this->_label;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function _populate(array $definition)
+    protected function _populate(array $definition): void
     {
         $this->_id    = $definition['id'];
         $this->_label = $definition['label'];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    protected static function _initializeDefinitions()
+    protected static function _initializeDefinitions(): array
     {
         return [
             'ALL'      => [
