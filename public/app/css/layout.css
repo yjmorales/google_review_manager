@@ -31,22 +31,52 @@
     font-size: 14px;
 }
 
-.modal-body select {
+.modal-body select, .card-body select {
     font-size: 14px;
     margin-bottom: 0;
     height: 25px;
 }
 
-.modal-body input {
+.business-list-filter-container .default-input {
+    height: 38px;
+}
+
+.modal-body input, .card-body input {
     font-size: 14px;
     margin-bottom: 0;
     height: 25px;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-.modal-body label {
+.modal-body label, .card-body label {
     font-size: 14px;
     margin-bottom: 0;
 }
 
+.modal-body [data-id="modal-body"], .modal-header [data-id="modal-title" ] {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.modal-body {
+    font-size: 14px;
+}
+
+th.non-top-border {
+    border-top: none !important;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+.bg-shadow {
+    box-shadow: -1px 2px 5px -2px rgba(0, 0, 0, 0.72);
+    -webkit-box-shadow: -1px 2px 5px -2px rgba(0, 0, 0, 0.72);
+    -moz-box-shadow: -1px 2px 5px -2px rgba(0, 0, 0, 0.72);
+}

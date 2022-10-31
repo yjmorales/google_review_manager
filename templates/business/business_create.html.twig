@@ -1,0 +1,29 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+{% endblock %}
+
+{% block title %} | Create Business{% endblock %}
+
+{% block content %}
+    <div class="card card-info card-outline direct-chat direct-chat-info">
+        {{ form_start(form) }}
+        <div class="card-header card-header-compressed">
+            <h4 class="card-title">Create Business</h4>
+        </div>
+        <div class="card-body p-2">
+            <div class="row">
+                <div class="col-8 offset-2">
+                    {% include '/business/_form_fields.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer p-2 text-right">
+            <a href="{{ path('dashboard') }}" class="btn btn-light btn-sm">Cancel</a>
+            <button type="submit" class="btn btn-info btn-sm">Insert</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

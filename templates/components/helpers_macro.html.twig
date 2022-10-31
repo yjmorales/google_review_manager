@@ -1,0 +1,26 @@
+
+{% macro field(field) %}
+    <div class="form-group">
+        {{ form_label(field) }}
+        {{ form_widget(field) }}
+        {% if field.vars.errors|length %}
+            <div class="text-danger">
+                {{ form_errors(field) }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+
+{% macro no_result(message, id) %}
+    <div class="row" {% if id %}id="{{ id }}"{% endif %}>
+        <div class="col text-center font-14 text-muted">
+            {% if message %}
+                {{ message }}
+            {% else %}
+                No results found.
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+

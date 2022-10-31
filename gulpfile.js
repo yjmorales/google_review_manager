@@ -32,6 +32,16 @@ gulp.task('css', function () {
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest(cssDest));
 });
+gulp.task('css_select2', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/select2/css/select2.min.css',
+            'vendor/almasaeed2010/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+        ])
+        .pipe(concat('css_select2.min.css'))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest(cssDest));
+});
 gulp.task('layout_adminlte_datatable_css', function () {
     return gulp.src(
         [
@@ -52,7 +62,16 @@ gulp.task('layout_login_css', function () {
         .pipe(concat('layout_login_css.css'))
         .pipe(gulp.dest(cssDest));
 });
-
+gulp.task('adminlte_toastr_css', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
+            'vendor/almasaeed2010/adminlte/plugins/toastr/toastr.min.css',
+        ])
+        .pipe(concat('adminlte_toastr_css.css'))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest(cssDest));
+});
 
 /**
  * Compressing *.js files
@@ -66,6 +85,16 @@ gulp.task('js', function () {
             'vendor/almasaeed2010/adminlte/plugins/bootstrap-switch/js/bootstrap-switch.js',
         ])
         .pipe(concat('template.min.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
+});
+gulp.task('js_select2', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/select2/js/select2.full.min.js',
+
+        ])
+        .pipe(concat('js_select2.min.js'))
         .pipe(terser())
         .pipe(gulp.dest(jsDest));
 });
@@ -100,6 +129,16 @@ gulp.task('layout_login_js', function () {
         .pipe(terser())
         .pipe(gulp.dest(jsDest));
 });
+gulp.task('adminlte_toastr_js', function () {
+    return gulp.src(
+        [
+            'vendor/almasaeed2010/adminlte/plugins/sweetalert2/sweetalert2.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/toastr/toastr.min.js',
+        ])
+        .pipe(concat('adminlte_toastr_js.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
+});
 
 /**
  * Compressing fonts
@@ -129,4 +168,8 @@ gulp.task('run', gulp.parallel(
     'layout_adminlte_datatable_css',
     'layout_login_css',
     'layout_login_js',
+    'adminlte_toastr_js',
+    'adminlte_toastr_css',
+    'css_select2',
+    'js_select2',
 ));
