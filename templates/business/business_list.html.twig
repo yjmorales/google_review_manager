@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
 {% endblock %}
 
+{% block data %}
+data-criteria-business-industry-sector={{ criteria.businessIndustrySector }}
+data-criteria-business-status={{ criteria.businessStatus }}
+{% endblock %}
+
 {% block content %}
     <div class="card card-info card-outline direct-chat direct-chat-primary">
         <div class="card-header card-header-compressed">
@@ -29,10 +34,10 @@
                         <div class="col">
                             <label>Name</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" name="businessName"
+                                <input class="form-control " name="businessName"
                                        placeholder="Business name" value="{{ criteria.businessName }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -41,11 +46,11 @@
                         <div class="col">
                             <label>Created date</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" name="businessCreatedDate"
+                                <input class="form-control" name="businessCreatedDate"
                                        value="{{ criteria.businessCreatedDate }}"
                                        placeholder="mm/dd/YYYY">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -53,7 +58,8 @@
                         </div>
                         <div class="col">
                             <label>Industry Sector</label>
-                            <select class="yjmSelect2" name="businessIndustrySector">
+                            <select class="yjmSelect2" name="businessIndustrySector"
+                                    data-placeholder="Select an option">
                                 {% for item in industrySector %}
                                     <option value="{{ item.id }}" {{ criteria.businessIndustrySector == item.id ? 'selected' }}>{{ item.name }}</option>
                                 {% endfor %}
@@ -72,11 +78,11 @@
                         <div class="col">
                             <label>Address</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" placeholder="Business address"
+                                <input class="form-control" placeholder="Business address"
                                        value="{{ criteria.businessAddress }}"
                                        name="businessAddress">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -85,10 +91,10 @@
                         <div class="col">
                             <label>City</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" placeholder="Business city"
+                                <input class="form-control" placeholder="Business city"
                                        name="businessCity" value="{{ criteria.businessCity }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -97,10 +103,10 @@
                         <div class="col">
                             <label>State</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" placeholder="State or province"
+                                <input class="form-control" placeholder="State or province"
                                        name="businessState" value="{{ criteria.businessState }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -109,11 +115,11 @@
                         <div class="col">
                             <label>Zip Code</label>
                             <div class="input-group mb-3">
-                                <input class="form-control default-input" placeholder="Zip Code"
+                                <input class="form-control" placeholder="Zip Code"
                                        value="{{ criteria.businessZipCode }}"
                                        name="businessZipCode">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-info" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -122,14 +128,14 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <button type="button" class="btn btn-sm btn-light" data-clear-form="true">
+                            <button type="button" class="btn btn-xs btn-light" data-clear-form="true">
                                 Clear
                             </button>
-                            <button type="button" class="btn btn-sm btn-light" data-dismiss-collapsable="true"
+                            <button type="button" class="btn btn-xs btn-light" data-dismiss-collapsable="true"
                                     data-clear-form="true">
                                 Cancel
                             </button>
-                            <button type="submit" class="btn btn-sm btn-info">Filter</button>
+                            <button type="submit" class="btn btn-xs btn-info pl-5 pr-5">Filter</button>
                         </div>
                     </div>
                 </form>

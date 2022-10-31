@@ -31,6 +31,10 @@ function BusinessList(YJMDatatable) {
         $btnRemoveBusinessSelectorListItem: '[data-id="btn-remove-business"]',
         // Form containers and dialogs.
         $modalRemoveBusinessConfirmation: '#modalDeleteListItem',
+        // Filter
+        $filterActive: $('select[name="businessIndustrySector"]'),
+        $filterIndustrySector: $('select[name="businessStatus"]'),
+        $data: $('#data'),
     };
 
     /**
@@ -85,11 +89,26 @@ function BusinessList(YJMDatatable) {
     }
 
     /**
+     * This clears the criteria selection on select2 components if any criteria is being selected once the page is loaded.
+     */
+    function initSelect2() {
+        const criteriaIndustrySector = ui.$data.data('criteria-business-industry-sector');
+        const criteriaStatus = ui.$data.data('criteria-business-status');
+        if (!criteriaIndustrySector) {
+            ui.$filterIndustrySector.val(null).trigger('change');
+        }
+        if (!criteriaStatus) {
+            ui.$filterActive.val(null).trigger('change');
+        }
+    }
+
+    /**
      * Function used to initialize the module.
      */
     function init() {
         listenUIEvents();
         state.modules.YJMDatatable.initDataTable(ui.$table);
+        initSelect2();
     }
 
     this.init = init;

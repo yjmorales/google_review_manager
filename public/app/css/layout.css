@@ -80,3 +80,34 @@ th.non-top-border {
     -webkit-box-shadow: -1px 2px 5px -2px rgba(0, 0, 0, 0.72);
     -moz-box-shadow: -1px 2px 5px -2px rgba(0, 0, 0, 0.72);
 }
+
+.paginate_button.active .page-link {
+    background-color: #117a8b !important;
+    border-color: #117a8b !important;
+    color: white;
+}
+
+.paginate_button:not(.active):not(.disabled) .page-link {
+    color: #117a8b !important;
+}
+
+.select2-selection__rendered {
+    height: 25px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 25px !important;
+}
+
+.select2-selection__arrow {
+    height: 25px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+    top: 0;
+}
+
+.select2-container--bootstrap4 .select2-results__option {
+    height: 30px;
+    font-size: 14px;
+}

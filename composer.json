@@ -3,13 +3,18 @@
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "git",
+            "url":  "git@github.com:yjmorales/php-core.git"
+        }
+    ],
     "require": {
         "php": ">=7.4.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "almasaeed2010/adminlte": "^3.2",
         "composer/package-versions-deprecated": "1.11.99.5",
-        "crussell52/php-enum": "^0.1.0",
         "doctrine/annotations": "^1.13",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
@@ -50,7 +55,8 @@
         "symfony/yaml": "^5.4",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^3.4",
-        "twilio/sdk": "^6.42"
+        "twilio/sdk": "^6.42",
+        "yjmorales/php-core": "^0.6.3"
     },
     "config": {
         "allow-plugins": {

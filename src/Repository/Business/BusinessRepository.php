@@ -50,7 +50,6 @@ class BusinessRepository extends ServiceEntityRepository
         $qb         = $this->createQueryBuilder('c');
         $conditions = [];
 
-
         if (!empty($name = $criteria->getBusinessName())) {
             $name         = trim($name);
             $conditions[] = ' c.name LIKE :name';
@@ -65,12 +64,13 @@ class BusinessRepository extends ServiceEntityRepository
         }
         if (!empty($businessStatus = $criteria->getBusinessStatus())) {
             if ($businessStatus !== ActiveEnum::ALL()->getId()) {
+                $active       = ActiveEnum::ACTIVE()->getId() === $businessStatus;
                 $conditions[] = 'c.active = :active';
-                $qb->setParameter('active', $businessStatus);
+                $qb->setParameter('active', $active);
             }
         }
         if (!empty($address = $criteria->getBusinessAddress())) {
-            $address        = trim($address);
+            $address      = trim($address);
             $conditions[] = 'c.address = :address';
             $qb->setParameter('address', $address);
         }
@@ -89,7 +89,6 @@ class BusinessRepository extends ServiceEntityRepository
             $conditions[] = 'c.zipCode = :zipCode';
             $qb->setParameter('zipCode', $zipCode);
         }
-
         if (count($conditions)) {
             $qb->andWhere(join(' AND ', $conditions));
         }

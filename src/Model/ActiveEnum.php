@@ -5,7 +5,7 @@
 
 namespace App\Model;
 
-use CRusell52\Enum\TEnum;
+use Common\Utils\Enum\TEnum;
 
 /**
  * Class acting as enum of active status.
@@ -21,7 +21,6 @@ class ActiveEnum
     private int $_id;
 
     private string $_label;
-
 
     public static function map()
     {
