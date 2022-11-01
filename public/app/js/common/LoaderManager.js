@@ -4,38 +4,45 @@
  * Manages the loaders.
  */
 function LoaderManager() {
-
-    const ui = {
-        $loaderSm: '[data-id="loading-dot"]',
-        $loaderOverlay: '.overlay',
-    };
+    /**
+     * Holds the loaders modules
+     * @type {Object}
+     */
+    const modules = {
+        DotsLoaderManager: new DotsLoaderManager(),
+        OverlayLoaderManager: new OverlayLoaderManager(),
+    }
 
     /**
      * Starts the dot loader.
+     * @return {void}
      */
     function startDotLoader() {
-        $(ui.$loaderSm).removeClass('d-none');
+        modules.DotsLoaderManager.start();
     }
 
     /**
      * Stops the dot loader.
+     * @return {void}
      */
     function stopDotLoader() {
-        $(ui.$loaderSm).addClass('d-none');
+        modules.DotsLoaderManager.stop();
     }
 
     /**
      * Starts the dot loader.
+     * @return {void}
      */
     function startOverlay() {
-        $(ui.$loaderOverlay).removeClass('d-none');
+        modules.OverlayLoaderManager.start();
     }
 
     /**
      * Stops the dot loader.
+     * @return {void}
      */
     function stopOverlay() {
-        $(ui.$loaderOverlay).addClass('d-none');
+        modules.OverlayLoaderManager.stop();
     }
 
     this.startDotLoader = startDotLoader;

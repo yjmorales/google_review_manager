@@ -6,22 +6,20 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <img class="table-avatar" src="{{ asset('/img/qrcode.png') }}" height="350" width="350">
+                <img class="table-avatar qr-img" height="350" width="350">
                 <div class="row">
-                    <div class="col-12 p-2 bg-light text-center">
-                        <span class="font-14 text-muted">https://symfony.com/doc/5.4/validation.html</span>
+                    <div class="col-12 bg-light text-center">
+                        <strong>Business: </strong><span class="font-14 text-muted qr-business-name"></span>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 bg-light text-center">
+                        <strong>Google Review Link: </strong><span class="font-14 text-muted qr-link"></span>
+                    </div>
+                    <div class="col-12 p-2">
                         <button title="Copy Review Link to Clipboard"
                                 data-review-link="https://symfony.com/doc/5.4/validation.html"
                                 class="btn btn-outline-secondary btn-xs btnCopyToClipBoard">
                             <i class="fa fa-copy"></i>
                             <span class="text-copy-clipboard">Copy Review Link to Clipboard</span>
-                        </button>
-                        <button title="Download QR Code"
-                                class="btn btn-outline-secondary btn-xs">
-                            <i class="fa fa-file-download"></i>
-                            <span class="text-copy-clipboard">Download QR Code</span>
                         </button>
                     </div>
                 </div>

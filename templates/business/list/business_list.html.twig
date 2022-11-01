@@ -14,6 +14,11 @@ data-criteria-business-status={{ criteria.businessStatus }}
 {% endblock %}
 
 {% block content %}
+
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+
     <div class="card card-info card-outline direct-chat direct-chat-primary">
         <div class="card-header card-header-compressed">
             <h4 class="card-title">Business</h4>
@@ -147,7 +152,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                        class="table table-hover text-nowrap table-sm  dt-responsive">
                     <thead>
                     <tr>
-                        <th class="non-top-border"></th>
+                        <th class="non-top-border text-center"> </th>
                         <th class="non-top-border">Name</th>
                         <th class="non-top-border">Industry sector</th>
                         <th class="non-top-border">Location</th>
@@ -158,14 +163,13 @@ data-criteria-business-status={{ criteria.businessStatus }}
                             title="The <em>status</em> represents whether a business is currently open and providing services and/or goods.">
                             Status
                         </th>
-                        <th class="non-top-border text-center">Review Link QR code</th>
                         <th class="non-top-border"></th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for item in businesses %}
                         {% set location = [item.address, item.city, item.state, item.zipCode]|join(', ') %}
-                        {% include '/business/_business_details.html.twig' with {
+                        {% include '/business/list/_business_details.html.twig' with {
                             'business': item
                         } %}
 
@@ -198,16 +202,6 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                 {% else %}
                                     <span class="badge badge-danger">Inactive</span>
                                 {% endif %}
-                            </td>
-                            <td class="text-center">
-                                <ul class="list-inline m-0">
-                                    <li class="list-inline-item">
-                                        <img class="qr-code-hover cursor-pointer" src="{{ asset('/img/qrcode.png') }}"
-                                             height="30"
-                                             width="30"
-                                             data-toggle="modal" data-target="#modalShowQrCode">
-                                    </li>
-                                </ul>
                             </td>
                             <td class="text-right">
 
@@ -259,32 +253,30 @@ data-criteria-business-status={{ criteria.businessStatus }}
                     {% endfor %}
                     </tbody>
                 </table>
-                {% include '/business/_modalReviewQrCode.html.twig' %}
+                {% include '/business/common/_modalReviewQrCode.html.twig' %}
             </div>
         </div>
         {{ helpers.form_processing() }}
     </div>
-    {% include '/business/_modalRemoveBusiness.html.twig' %}
-    {% include '/business/_modalRemoveReviewItem.html.twig' %}
-
+    {% include '/business/list/_modalRemoveBusiness.html.twig' %}
 {% endblock %}
 {% block js %}
     {{ parent() }}
     <script src="{{ asset('dist/js/layout_adminlte_datatable_js') }}"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/row().show().js"></script>
+    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
     <script src="{{ asset('/app/js/common/ModalManagement.js') }}"></script>
     <script src="{{ asset('/app/js/common/YjmDatatable.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessList.js') }}"></script>
-    <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
-    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
+    <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
     <script>
         new FormManagement();
         $(document).ready(function () {
             new BusinessList(new YjmDatatable()).init();
         });
-        (new BusinessEdit()).init();
         (new CopyClipboard()).init();
+        (new Notification()).listenUIEvents();
     </script>
 {% endblock %}

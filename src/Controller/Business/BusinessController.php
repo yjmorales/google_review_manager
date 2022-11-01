@@ -37,7 +37,7 @@ class BusinessController extends BaseController
         $criteria        = new BusinessCriteria();
         $businesses      = $this->findBusiness($request, $this->em($doctrine), $criteria);
 
-        return $this->render('/business/business_list.html.twig', [
+        return $this->render('/business/list/business_list.html.twig', [
             'businesses'     => $businesses,
             'activeEnum'     => ActiveEnum::map(),
             'industrySector' => $industrySectors,
@@ -58,7 +58,8 @@ class BusinessController extends BaseController
         $response = $this->redirectToRoute('dashboard');
 
         if (!$this->_save($request, $doctrine, $form, $business)) {
-            $response = $this->render('/business/business_create.html.twig', [
+            $response = $this->render('/business/create_edit/business_create.html.twig', [
+                'business'   => $business,
                 'form'       => $form->createView(),
                 'breadcrumb' => [
                     'Dashboard'       => $this->generateUrl('dashboard'),
@@ -80,7 +81,7 @@ class BusinessController extends BaseController
         $form     = $this->createForm(BusinessFormType::class, $business);
         $response = $this->redirectToRoute('dashboard');
         if (!$this->_save($request, $doctrine, $form, $business)) {
-            $response = $this->render('/business/business_edit.html.twig', [
+            $response = $this->render('/business/create_edit/business_edit.html.twig', [
                 'form'       => $form->createView(),
                 'business'   => $business,
                 'breadcrumb' => [
@@ -126,8 +127,7 @@ class BusinessController extends BaseController
             $em->persist($business);
             $em->flush();
             $action = $isEdit ? 'updated' : 'inserted';
-
-            $this->notifySuccess("The business {$business->getName()} has been $action successfully.");
+            $this->notifySuccess("The business \"{$business->getName()}\" has been $action successfully.");
 
             return true;
         }

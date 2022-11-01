@@ -14,6 +14,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "almasaeed2010/adminlte": "^3.2",
+        "chillerlan/php-qrcode": "^4.3",
         "composer/package-versions-deprecated": "1.11.99.5",
         "doctrine/annotations": "^1.13",
         "doctrine/doctrine-bundle": "^2.7",

@@ -1,0 +1,130 @@
+.skeleton-box {
+    width: 100%;
+    padding: 0 15px;
+}
+
+.skeleton-box .skeleton {
+    padding: 15px;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.skeleton-box .skeleton .square {
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
+    background: rgba(130, 130, 130, 0.2);
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, rgba(130, 130, 130, 0.2)), color-stop(18%, rgba(130, 130, 130, 0.3)), color-stop(33%, rgba(130, 130, 130, 0.2)));
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.2) 8%, rgba(130, 130, 130, 0.3) 18%, rgba(130, 130, 130, 0.2) 33%);
+    background-size: 800px 100px;
+    animation: wave-squares 2s infinite ease-out;
+}
+
+.skeleton-box .skeleton .line {
+    height: 12px;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    background: rgba(130, 130, 130, 0.2);
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, rgba(130, 130, 130, 0.2)), color-stop(18%, rgba(130, 130, 130, 0.3)), color-stop(33%, rgba(130, 130, 130, 0.2)));
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.2) 8%, rgba(130, 130, 130, 0.3) 18%, rgba(130, 130, 130, 0.2) 33%);
+    background-size: 800px 100px;
+    animation: wave-lines 2s infinite ease-out;
+}
+
+.skeleton-box .skeleton-right {
+    flex: 1;
+}
+
+.skeleton-box .skeleton-left {
+    flex: 2;
+    padding-right: 15px;
+}
+
+.skeleton-box .flex1 {
+    flex: 1;
+}
+
+.skeleton-box .flex2 {
+    flex: 2;
+}
+
+.skeleton-box .skeleton .line:last-child {
+    margin-bottom: 0;
+}
+
+.skeleton-box .h8 {
+    height: 8px !important;
+}
+
+.skeleton-box .h10 {
+    height: 10px !important;
+}
+
+.skeleton-box .h12 {
+    height: 12px !important;
+}
+
+.skeleton-box .h15 {
+    height: 15px !important;
+}
+
+.skeleton-box .h17 {
+    height: 17px !important;
+}
+
+.skeleton-box .h20 {
+    height: 20px !important;
+}
+
+.skeleton-box .h25 {
+    height: 25px !important;
+}
+
+.skeleton-box .w25 {
+    width: 25% !important
+}
+
+.skeleton-box .w40 {
+    width: 40% !important;
+}
+
+.skeleton-box .w50 {
+    width: 50% !important
+}
+
+.skeleton-box .w75 {
+    width: 75% !important
+}
+
+.skeleton-box .m10 {
+    margin-bottom: 10px !important;
+}
+
+.skeleton-box .circle {
+    border-radius: 50% !important;
+    height: 80px !important;
+    width: 80px;
+}
+
+@keyframes wave-lines {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+@keyframes wave-squares {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}

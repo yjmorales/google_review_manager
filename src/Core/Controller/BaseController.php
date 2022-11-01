@@ -11,6 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class acting as a controller abstraction for this application.
@@ -101,16 +102,37 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * @param AbstractApiResponseModel $apiResponseModel
+     * Helper function to build the dir where are saved the qr images.
+     *
+     * @param bool $excludePublicRoot Indicator of whether is used the `public` directory on the path or not.
+     *
+     * @return string
+     */
+    protected function _getQrCodeDir(bool $excludePublicRoot = true): string
+    {
+        $dir = 'google_reviews/qr_codes';
+        if (!$excludePublicRoot) {
+            $dir = "{$this->_getPublicDir()}/$dir";
+        }
+
+        return $dir;
+    }
+
+    /**
+     * @param AbstractApiResponseModel $apiResponseModel Model holding the information to render.
+     * @param int                      $code             Response http status code.
      *
      * @return JsonResponse
      */
-    protected function buildJsonResponse(AbstractApiResponseModel $apiResponseModel): JsonResponse
-    {
-        $response = new JsonResponse($apiResponseModel->toObject());
+    protected function buildJsonResponse(
+        AbstractApiResponseModel $apiResponseModel,
+        int $code = Response::HTTP_OK
+    ): JsonResponse {
+        $response = new JsonResponse($apiResponseModel->toObject(), $code, [], false);
         $response->headers->addCacheControlDirective('no-store');
         $response->headers->addCacheControlDirective('no-cache');
         $response->headers->addCacheControlDirective('must-revalidate');
+        $response->headers->set('Content-Type', 'application/json');
         $response->headers->add(['Pragma' => 'no-cache', 'Expires' => '0']);
 
         return $response;

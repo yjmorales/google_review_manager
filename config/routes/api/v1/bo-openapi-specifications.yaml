@@ -37,7 +37,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
+                  business:
                     type: array
                     items:
                       $ref: '#/components/schemas/Business'
@@ -65,13 +65,202 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Business'
+                  business:
+                    $ref: '#/components/schemas/Business'
 
         '400':
           $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /business/{business_id}/review/generate:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::generate
+      tags:
+        - Review
+      summary: Generates a new business review link and qr code.
+      operationId: generateReview
+      description: Generates a new business review link and qr code.
+      responses:
+        '200':
+          description: Generates a new business review link and qr code. The generated object is returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Review'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /business/{business_id}/review/all:
+    get:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::all
+      tags:
+        - Review
+      summary: Gets all Google Reviews that belongs to a given business.
+      operationId: generateReview
+      description: Gets all Google Reviews that belongs to a given business.
+      responses:
+        '200':
+          description: Gets all Google Reviews that belongs to a given business.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/{id}/remove:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::remove
+      tags:
+        - Review
+      summary: Removes a Google Review Link
+      operationId: removeReview
+      description: Removes a Google Review Link
+      responses:
+        '200':
+          description: Removes a Google Review Link and returns the removed entity.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/multiple:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::removeMultiple
+      tags:
+        - Review
+      summary: Removes multiples Google Review Links
+      operationId: removeMultiplesReviews
+      description: Removes multiples Google Review Links
+      responses:
+        '200':
+          description: Removes multiples Google Review Links
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/remove-all:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::removeAll
+      tags:
+        - Review
+      summary: Removes all Google Review Links that belong to a business
+      operationId: removeAllReviews
+      description: Removes all Google Review Links that belong to a business
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/{id}/update:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::update
+      tags:
+        - Review
+      summary: Updates a Google Review Link
+      operationId: updateReview
+      description: Updates a Google Review Link
+      responses:
+        '200':
+          description: Updates a Google Review Link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/{id}/send-by-email:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::sendByEmail
+      tags:
+        - Review
+      summary: Sends a Google Review Link by email to the email address registered on the business.
+      operationId: sendReviewByEmail
+      description: Sends a Google Review Link by email to the email address registered on the business.
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /review/send-many-by-email:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::sendManyByEmail
+      tags:
+        - Review
+      summary: >
+        Sends one or many Google Review Link(s) by email to the email address registered on the business or 
+        other defines email addresses.
+      operationId: sendManyReviewByEmail
+      description: >
+        Sends one or many Google Review Link(s) by email to the email address registered on the business or 
+        other defines email addresses.
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
@@ -127,6 +316,36 @@ components:
           minLength: 5
           maxLength: 15
           example: '33176'
+
+    Review:
+      type: object
+      description: The present object represents a business review entity.
+      properties:
+        id:
+          description: An unique identifier associated with the business review.
+          type: integer
+          example: 1
+        name:
+          type: string
+          description: Holds the business review name.
+          required: false
+          minLength: 2
+          maxLength: 255
+          nullable: true
+          example: 'Review for Spring Restaurant'
+        link:
+          type: string
+          description: Holds the google review link respective to the business.
+          required: true
+          nullable: false
+          example: 'http://review.link'
+        business:
+          type: integer
+          description: Holds the business identifier owning the review.
+          required: true
+          nullable: false
+          example: 1
+
 
     #....Errors
     BaseError:

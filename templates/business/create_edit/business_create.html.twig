@@ -1,4 +1,6 @@
 {% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
 
 {% block css %}
     {{ parent() }}
@@ -12,11 +14,15 @@
         {{ form_start(form) }}
         <div class="card-header card-header-compressed">
             <h4 class="card-title">Create Business</h4>
+            <div class="card-tools">
+                <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
+                <button type="submit" class="btn btn-xs btn-info">Insert</button>
+            </div>
         </div>
         <div class="card-body p-2">
             <div class="row">
                 <div class="col-8 offset-2">
-                    {% include '/business/_form_fields.html.twig' %}
+                    {% include '/business/create_edit/_form_fields.html.twig' %}
                 </div>
             </div>
         </div>
@@ -25,5 +31,15 @@
             <button type="submit" class="btn btn-info btn-sm">Insert</button>
         </div>
         {{ form_end(form) }}
+        {{ helpers.form_processing() }}
     </div>
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
+    <script>
+        (new BusinessCreate()).init();
+    </script>
 {% endblock %}
