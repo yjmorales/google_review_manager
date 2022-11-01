@@ -1,4 +1,5 @@
 {% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
 
 {% block css %}
     {{ parent() }}
@@ -30,6 +31,7 @@
             <button type="submit" class="btn btn-info btn-xs">Update</button>
         </div>
         {{ form_end(form) }}
+        {{ helpers.form_processing() }}
     </div>
     {% include '/business/_modalRemoveReviewItem.html.twig' %}
 {% endblock %}
@@ -37,7 +39,9 @@
 {% block js %}
     {{ parent() }}
     <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
     <script>
         (new BusinessEdit()).init();
+        new FormManagement();
     </script>
 {% endblock %}

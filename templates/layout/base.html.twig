@@ -16,6 +16,7 @@
 
     {# App Styles #}
     <link rel="stylesheet" href="{{ asset('/app/css/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/loading-dot.css') }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
     {% block css %}{% endblock %}
@@ -59,6 +60,7 @@
 {# App JSs #}
 <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
 <script src="{{ asset('/app/js/common/BsComponents.js') }}"></script>
+<script src="{{ asset('/app/js/common/LoaderManager.js') }}"></script>
 <script>
     new BsComponents();
 </script>

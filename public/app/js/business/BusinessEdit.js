@@ -11,6 +11,7 @@ function BusinessEdit() {
     const state = {
         modules: {
             Notification: new Notification(),
+            LoaderManager: new LoaderManager(),
         }, clicked: {
             btnRemoveReview: null
         }
@@ -22,6 +23,7 @@ function BusinessEdit() {
         // Buttons
         $btnOpenRemoveReviewConfirmation: '[data-id="btn-open-remove-review-confirmation"]',
         $btnRemoveReview: $('#btnSubmitRemoveReview'),
+        $btnGenerateReviewOnEditForm: $('#btnGenerateReviewOnEditForm'),
         // Modals
         $modalRemoveReviewItem: '#modalRemoveReviewItem',
     };
@@ -32,6 +34,7 @@ function BusinessEdit() {
     function listenUIEvents() {
         $(document).on('click', ui.$btnOpenRemoveReviewConfirmation, openRemoveReviewConfirmationModal);
         ui.$btnRemoveReview.on('click', submitRemoveReview);
+        ui.$btnGenerateReviewOnEditForm.on('click', generateReview);
     }
 
     /**
@@ -51,6 +54,20 @@ function BusinessEdit() {
         state.clicked.btnRemoveReview.remove();
         $(ui.$modalRemoveReviewItem).modal('hide');
         state.modules.Notification.success('Review removed successfully');
+    }
+
+    /**
+     * Generates a new review.
+     */
+    function generateReview() {
+        const $btn = $(this);
+        $btn.prop('disabled', true);
+        state.modules.LoaderManager.startDotLoader();
+        // todo: generate in BO
+        setTimeout(function () {
+            state.modules.LoaderManager.stopDotLoader();
+            $btn.prop('disabled', false);
+        }, 2000);
     }
 
     /**

@@ -1,4 +1,5 @@
 {% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
 
 {% block css %}
     {{ parent() }}
@@ -37,7 +38,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                 <input class="form-control " name="businessName"
                                        placeholder="Business name" value="{{ criteria.businessName }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -50,7 +51,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                        value="{{ criteria.businessCreatedDate }}"
                                        placeholder="mm/dd/YYYY">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -82,7 +83,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                        value="{{ criteria.businessAddress }}"
                                        name="businessAddress">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -94,7 +95,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                 <input class="form-control" placeholder="Business city"
                                        name="businessCity" value="{{ criteria.businessCity }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -106,7 +107,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                 <input class="form-control" placeholder="State or province"
                                        name="businessState" value="{{ criteria.businessState }}">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -119,7 +120,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                        value="{{ criteria.businessZipCode }}"
                                        name="businessZipCode">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-form="true">
+                                    <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -135,7 +136,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                     data-clear-form="true">
                                 Cancel
                             </button>
-                            <button type="submit" class="btn btn-xs btn-info pl-5 pr-5">Filter</button>
+                            <button type="submit" class="btn btn-xs btn-info pl-3 pr-3">Filter</button>
                         </div>
                     </div>
                 </form>
@@ -171,7 +172,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                         <tr id="business-list-item-{{ item.id }}"
                             class="business-list-item"
                             data-id="{{ item.id }}"
-                            data-remove-url="{{ path('api_business_remove', {id: item.id}) }}"
+                            data-remove-url="{{ path('api_v1_business_id_remove_post', {id: item.id}) }}"
                             data-name="{{ item.name }}">
                             <td data-id="{{ item.id }}" class="dt-control"></td>
                             <td>{{ item.name }}</td>
@@ -261,6 +262,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                 {% include '/business/_modalReviewQrCode.html.twig' %}
             </div>
         </div>
+        {{ helpers.form_processing() }}
     </div>
     {% include '/business/_modalRemoveBusiness.html.twig' %}
     {% include '/business/_modalRemoveReviewItem.html.twig' %}
