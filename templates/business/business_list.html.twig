@@ -171,6 +171,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                         <tr id="business-list-item-{{ item.id }}"
                             class="business-list-item"
                             data-id="{{ item.id }}"
+                            data-remove-url="{{ path('api_business_remove', {id: item.id}) }}"
                             data-name="{{ item.name }}">
                             <td data-id="{{ item.id }}" class="dt-control"></td>
                             <td>{{ item.name }}</td>

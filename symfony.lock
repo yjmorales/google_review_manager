@@ -50,6 +50,9 @@
             "migrations/.gitignore"
         ]
     },
+    "nijens/openapi-bundle": {
+        "version": "1.4.1"
+    },
     "phpunit/phpunit": {
         "version": "9.5",
         "recipe": {

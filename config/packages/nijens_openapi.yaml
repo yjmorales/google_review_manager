@@ -1,0 +1,3 @@
+nijens_openapi:
+  exception_handling:
+    enabled: true

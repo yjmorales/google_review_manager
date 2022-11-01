@@ -3,17 +3,17 @@
  * @author Yenier Jimenez <yjmorales86@gmail.com>
  */
 
-namespace App\Controller\Core;
+namespace App\Core\Controller;
 
+use App\Core\Models\AbstractApiResponseModel;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class acting as a controller abstraction for this application.
- *
- * @package App\Controller\Core
  */
 abstract class BaseController extends AbstractController
 {
@@ -98,5 +98,21 @@ abstract class BaseController extends AbstractController
     protected function _getPublicDir(): string
     {
         return "{$this->_getProjectDir()}/public";
+    }
+
+    /**
+     * @param AbstractApiResponseModel $apiResponseModel
+     *
+     * @return JsonResponse
+     */
+    protected function buildJsonResponse(AbstractApiResponseModel $apiResponseModel): JsonResponse
+    {
+        $response = new JsonResponse($apiResponseModel->toObject());
+        $response->headers->addCacheControlDirective('no-store');
+        $response->headers->addCacheControlDirective('no-cache');
+        $response->headers->addCacheControlDirective('must-revalidate');
+        $response->headers->add(['Pragma' => 'no-cache', 'Expires' => '0']);
+
+        return $response;
     }
 }
