@@ -1,3 +1,5 @@
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
 <div class="row mt-2">
     <div class="col">
         <h5 class="mb-0">Review Links</h5>
@@ -5,17 +7,20 @@
 </div>
 <div class="row form-group">
     <div class="col">
-        <button class="btn btn-xs btn-outline-info" type="button">
+        <button id="btnGenerateReviewOnEditForm" class="btn btn-xs btn-outline-info" type="button">
             <i class="fa fa-plus"></i>
             Generate new Review link
         </button>
     </div>
 </div>
+
+{{ helpers.loading_dot() }}
+
 <div class="row form-group">
-    <div class="col-12">
-        {% include '/business/_review_details.html.twig' %}
-    </div>
-    <div class="col-12">
-        {% include '/business/_review_details.html.twig' %}
-    </div>
+{#    <div class="col-12">#}
+{#        {% include '/business/_review_details.html.twig' %}#}
+{#    </div>#}
+{#    <div class="col-12">#}
+{#        {% include '/business/_review_details.html.twig' %}#}
+{#    </div>#}
 </div>

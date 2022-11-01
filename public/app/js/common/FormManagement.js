@@ -5,10 +5,17 @@
  */
 function FormManagement() {
 
+    const state = {
+        modules: {
+            loaderManager: new LoaderManager(),
+        },
+    };
+
     // UI Elements.
     const ui = {
         $btnClearField: $('button[data-clear-field="true"]'),
         $btnClearForm: $('button[data-clear-form="true"]'),
+        $form: 'form',
     };
 
     /**
@@ -18,6 +25,7 @@ function FormManagement() {
         // Clear the form fields
         ui.$btnClearField.on('click', clearField);
         ui.$btnClearForm.on('click', clearForm);
+        $(document).on('submit', ui.$form, showLoader);
     }
 
     /**
@@ -39,6 +47,13 @@ function FormManagement() {
         $form.find('textarea').val(null);
         $form.find('select').val(null);
         $form.find('.yjmSelect2').val(null).trigger('change');
+    }
+
+    /**
+     * Shows the overlay loader while the form is submitted.
+     */
+    function showLoader() {
+        state.modules.loaderManager.startOverlay();
     }
 
     init();

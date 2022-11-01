@@ -31,7 +31,6 @@ class ApiBusinessController extends BaseController
     /**
      * List of business.
      *
-     * Route("/list", name="api_business_list")
      * @throws ApiErrorException
      */
     public function list(ManagerRegistry $doctrine, Request $request): Response
@@ -48,7 +47,6 @@ class ApiBusinessController extends BaseController
     /**
      * Removes business entity.
      *
-     * Route("/{id}/remove", name="api_business_remove")
      * @throws ApiErrorException
      */
     public function remove(ManagerRegistry $doctrine, Business $business): JsonResponse

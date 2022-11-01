@@ -60,7 +60,7 @@ class BusinessRepository extends ServiceEntityRepository
         }
         if (!empty($industrySector = $criteria->getBusinessIndustrySector())) {
             $conditions[] = 'c.industrySector = :industrySector';
-            $qb->setParameter('industrySector', "%$industrySector%");
+            $qb->setParameter('industrySector', $industrySector);
         }
         if (!empty($businessStatus = $criteria->getBusinessStatus())) {
             if ($businessStatus !== ActiveEnum::ALL()->getId()) {

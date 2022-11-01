@@ -16,6 +16,7 @@ function BusinessList(YJMDatatable) {
         modules: {
             YJMDatatable: YJMDatatable, Notification: new Notification(),
             ModalManager: new ModalManagement(),
+            LoadingDots: new LoaderManager(),
         }, clicked: {
             rowToRemoveSelector: null
         }
@@ -76,22 +77,29 @@ function BusinessList(YJMDatatable) {
      * Removes a business row from datatable.
      */
     function removeBusiness() {
+        const $btn = $(this);
+        $btn.prop('disabled', true);
+        state.modules.LoadingDots.startOverlay();
         try {
             const url = $(state.clicked.rowToRemoveSelector).data('remove-url');
             fetch(url, {method: 'POST'})
                 .then((response) => response.json())
-                .then(() => {
-                    updateUI();
+                .then((data) => {
+                    updateUI(data.business.name);
                 });
         }
         catch (e) {
+            state.modules.LoadingDots.stopOverlay();
             state.modules.Notification.error('Unable to remove the business.');
+            $btn.prop('disabled', false);
         }
-        const updateUI = function () {
+        const updateUI = function (businessName) {
             state.modules.YJMDatatable.removeRow(state.clicked.rowToRemoveSelector);
-            const message = `Business successfully removed`;
+            const message = `"${businessName}" successfully removed.`;
             state.modules.Notification.success(message);
             $(ui.$modalRemoveBusinessConfirmation).modal('hide');
+            state.modules.LoadingDots.stopOverlay();
+            $btn.prop('disabled', false);
         }
     }
 
