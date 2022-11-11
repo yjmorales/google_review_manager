@@ -39,6 +39,7 @@ composer.phar
 /.gitignore
 /.idea/
 /public/dist/*
+/public/google_reviews/*
 .phpunit
 /public/uploads/
 /.githubsendgrid.env

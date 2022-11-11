@@ -83,6 +83,9 @@ gulp.task('js', function () {
             'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
             'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
             'vendor/almasaeed2010/adminlte/plugins/bootstrap-switch/js/bootstrap-switch.js',
+            'vendor/almasaeed2010/adminlte/plugins/jquery-validation/jquery.validate.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/jquery-validation/additional-methods.min.js',
+
         ])
         .pipe(concat('template.min.js'))
         .pipe(terser())

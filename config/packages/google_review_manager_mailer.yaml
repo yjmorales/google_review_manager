@@ -1,0 +1,4 @@
+parameters:
+  sender_email: 'yenjim1986@gmail.com'
+  sender_name: 'Google Review Manager'
+  sendgrid_api_key: ''

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\Business\BusinessRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,27 +36,50 @@ class Business
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private $state;
 
     /**
      * @ORM\Column(type="string", length=15)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 15)]
     private $zipCode;
 
     /**
      * @ORM\ManyToOne(targetEntity=IndustrySector::class)
      */
     private $industrySector;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="business", orphanRemoval=true)
+     */
+    private $reviews;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -167,5 +192,47 @@ class Business
         }
 
         return join(', ', $location);
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setBusiness($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getBusiness() === $this) {
+                $review->setBusiness(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 }

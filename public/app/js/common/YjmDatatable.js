@@ -32,8 +32,8 @@ function YjmDatatable() {
             },
             rowReorder: true,
             columnDefs: [
-                {orderable: true, className: 'reorder', targets: [0, 1]},
-                {orderable: false, targets: '_all'}
+                {orderable: true, className: 'reorder', targets: [1,2]},
+                {orderable: false, targets: '_all'},
             ],
             initComplete: onDatatableIsLoaded
         }

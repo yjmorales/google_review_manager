@@ -23,3 +23,14 @@ services:
         class: App\Demo\EntityGeneratorCommand
         public: true,
         arguments: [ '@App\Demo\Generator\EntityGenerator']
+
+    App\Entity\Business\GoogleReviewManager\GoogleReviewManager:
+        class: App\Entity\Business\GoogleReviewManager\GoogleReviewManager
+        public: true
+
+    Common\Communication\Mailer\SendGrid\Mailer:
+        class: Common\Communication\Mailer\SendGrid\Mailer
+        arguments:
+            - '%sendgrid_api_key%'
+            - '%sender_email%'
+            - '%sender_name%'

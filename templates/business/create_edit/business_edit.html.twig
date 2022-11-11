@@ -8,6 +8,12 @@
 
 {% block title %} | Edit Business{% endblock %}
 
+{% block urls %}
+    data-api_v1_business_business_id_review_generate_post="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
+    data-api_v1_business_business_id_review_all_get="{{ path('api_v1_business_business_id_review_all_get', {business_id: business.id}) }}"
+
+{% endblock %}
+
 {% block content %}
     <div class="card card-info card-outline direct-chat direct-chat-primary">
         {{ form_start(form) }}
@@ -21,8 +27,8 @@
         <div class="card-body p-2">
             <div class="row">
                 <div class="col-8 offset-2">
-                    {% include '/business/_form_fields.html.twig' %}
-                    {% include '/business/_review_list.html.twig' %}
+                    {% include '/business/create_edit/_form_fields.html.twig' %}
+                    {% include '/business/create_edit/_review_list.html.twig' %}
                 </div>
             </div>
         </div>
@@ -33,15 +39,27 @@
         {{ form_end(form) }}
         {{ helpers.form_processing() }}
     </div>
-    {% include '/business/_modalRemoveReviewItem.html.twig' %}
+    {% include '/business/create_edit/_modalRemoveReviewItem.html.twig' %}
+    {% include '/business/create_edit/_modalUpdateReviewItem.html.twig' %}
 {% endblock %}
 
 {% block js %}
     {{ parent() }}
+    <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
+    <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
+    <script src="{{ asset('/app/js/common/OverlayLoaderManager.js') }}"></script>
+    <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
+    <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
+    <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
+
     <script>
-        (new BusinessEdit()).init();
+        const businessEdit = new BusinessEdit();
+        businessEdit.init();
+        businessEdit.loadReviewsByBusiness();
         new FormManagement();
+        (new CopyClipboard()).init();
+        (new ExpandCollapse()).init();
     </script>
 {% endblock %}

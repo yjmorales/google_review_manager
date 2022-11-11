@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @method static PAYLOAD_VALIDATION_ERROR
  * @method static UNEXPECTED_FAILURE
+ * @method static ENTITY_NOT_FOUND_ERROR
  */
 class ApiErrorType
 {
@@ -82,6 +83,11 @@ class ApiErrorType
                 'type'     => 'UnexpectedFailure',
                 'message'  => 'An unexpected error has occurred.',
                 'httpCode' => Response::HTTP_INTERNAL_SERVER_ERROR,
+            ],
+            'ENTITY_NOT_FOUND_ERROR'   => [
+                'type'     => 'EntityNotFoundError',
+                'message'  => 'The requested entity has not been found',
+                'httpCode' => Response::HTTP_NOT_FOUND,
             ],
         ];
     }

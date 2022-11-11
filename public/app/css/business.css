@@ -5,3 +5,13 @@
 .qr-code-hover:hover {
     border: solid #c1c1c1 2px;
 }
+
+.review-details {
+    width: 230px;
+    margin: 5px;
+    border: solid 1px transparent;
+}
+
+.review-details:hover {
+    border: solid 1px #117a8b;
+}

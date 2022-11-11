@@ -16,7 +16,7 @@ function BusinessList(YJMDatatable) {
         modules: {
             YJMDatatable: YJMDatatable, Notification: new Notification(),
             ModalManager: new ModalManagement(),
-            LoadingDots: new LoaderManager(),
+            OverlayLoaderManager: new OverlayLoaderManager(),
         }, clicked: {
             rowToRemoveSelector: null
         }
@@ -29,9 +29,12 @@ function BusinessList(YJMDatatable) {
         $table: '.table[data-is-datatable="true"]',
         $tableRow: '.business-list-item',
         // Buttons
+        $btnGenerateReviewOnListPage: '.btnGenerateNewReviewFromBusinessList',
         $btnRemoveBusinessSelectorListItem: '[data-id="btn-remove-business"]',
+        $btnOpenQrDetailsDialog: 'div[data-id="review-details"]',
         // Form containers and dialogs.
         $modalRemoveBusinessConfirmation: '#modalDeleteListItem',
+        $modalShowQrCode: '#modalShowQrCode',
         // Filter
         $filterActive: $('select[name="businessIndustrySector"]'),
         $filterIndustrySector: $('select[name="businessStatus"]'),
@@ -43,6 +46,7 @@ function BusinessList(YJMDatatable) {
      */
     function listenUIEvents() {
         $(ui.$btnRemoveBusinessSelectorListItem).on('click', setBusinessIdToRemove);
+        $(document).on('click', ui.$btnOpenQrDetailsDialog, openQrDetailsDialog);
     }
 
     /**
@@ -79,7 +83,7 @@ function BusinessList(YJMDatatable) {
     function removeBusiness() {
         const $btn = $(this);
         $btn.prop('disabled', true);
-        state.modules.LoadingDots.startOverlay();
+        state.modules.OverlayLoaderManager.start();
         try {
             const url = $(state.clicked.rowToRemoveSelector).data('remove-url');
             fetch(url, {method: 'POST'})
@@ -89,7 +93,7 @@ function BusinessList(YJMDatatable) {
                 });
         }
         catch (e) {
-            state.modules.LoadingDots.stopOverlay();
+            state.modules.OverlayLoaderManager.stop();
             state.modules.Notification.error('Unable to remove the business.');
             $btn.prop('disabled', false);
         }
@@ -98,7 +102,7 @@ function BusinessList(YJMDatatable) {
             const message = `"${businessName}" successfully removed.`;
             state.modules.Notification.success(message);
             $(ui.$modalRemoveBusinessConfirmation).modal('hide');
-            state.modules.LoadingDots.stopOverlay();
+            state.modules.OverlayLoaderManager.stop();
             $btn.prop('disabled', false);
         }
     }
@@ -115,6 +119,21 @@ function BusinessList(YJMDatatable) {
         if (!criteriaStatus) {
             ui.$filterActive.val(null).trigger('change');
         }
+    }
+
+    /**
+     * Shows the QR Details via a modal.
+     */
+    function openQrDetailsDialog() {
+        const $this = $(this);
+        const imgBase64 = $this.data('base64');
+        const link = $this.data('link');
+        const businessName = $this.data('business-name');
+        const $modal = $(ui.$modalShowQrCode);
+        $modal.find('.qr-img').attr('src', imgBase64);
+        $modal.find('.qr-link').text(link);
+        $modal.find('.qr-business-name').text(businessName);
+        $modal.modal('show');
     }
 
     /**

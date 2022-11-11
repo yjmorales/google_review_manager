@@ -1,3 +1,7 @@
+{#
+Renders a symfony form field.
+@param field: represents the form field.
+#}
 {% macro field(field) %}
     <div class="form-group">
         {{ form_label(field) }}
@@ -10,10 +14,14 @@
     </div>
 {% endmacro %}
 
-
-{% macro no_result(message, id) %}
-    <div class="row" {% if id %}id="{{ id }}"{% endif %}>
-        <div class="col text-center font-14 text-muted">
+{#
+Renders a "No results found" label.
+@param message: represents the message to be rendered
+@param id: represents the id of the component
+#}
+{% macro no_result(message, id, textCenter = true, class = null) %}
+    <div class="row {{ class ? class  }}" {% if id %}id="{{ id }}"{% endif %}>
+        <div class="col {{ textCenter ? 'text-center' }} font-14 text-muted">
             {% if message %}
                 {{ message }}
             {% else %}
@@ -23,8 +31,11 @@
     </div>
 {% endmacro %}
 
+{#
+Renders Dots loading component
+#}
 {% macro loading_dot() %}
-    <div class="text-center d-none" data-id="loading-dot">
+    <div class="text-center d-none p-1" data-id="loading-dot">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -37,4 +48,61 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
+{% endmacro %}
+
+{#
+Renders a skeleton loading component
+@param id Represents the components id.
+#}
+{% macro loading_skeleton(id) %}
+    {% set idAttr = 'loading-skeleton' %}
+    {% if id %}
+        {% set idAttr = id %}
+    {% endif %}
+    <div id="{{ idAttr }}" class="skeleton-box">
+        <div class="skeleton">
+            <div class="skeleton-left flex1">
+                <div class="square"></div>
+            </div>
+            <div class="skeleton-right flex2">
+                <div class="line h17 w40 m10"></div>
+                <div class="line"></div>
+                <div class="line h8 w50"></div>
+                <div class="line  w75"></div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{#
+Renders the success flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_success() %}
+    {% for message in app.flashes('success') %}
+        <div class="notifications-success d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the error flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_error() %}
+    {% for message in app.flashes('error') %}
+        <div class="notifications-error d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{#
+Renders the warning flash notification messages caming from symfony controllers.
+#}
+{% macro notifications_warning() %}
+    {% for message in app.flashes('warning') %}
+        <div class="notifications-warning d-none">
+            {{ message }}
+        </div>
+    {% endfor %}
 {% endmacro %}
