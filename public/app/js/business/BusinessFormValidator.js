@@ -67,7 +67,7 @@ function BusinessFormValidator() {
                         maxlength: "The business name must not be longer than 255 characters long.",
                     },
                     'business_form[industrySector]': {
-                        required: "Please provide an industry sector.",
+                        required: "Please enter an industry sector.",
                     },
                     'business_form[address]': {
                         required: "Please enter a business address.",

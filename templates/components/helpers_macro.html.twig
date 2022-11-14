@@ -23,8 +23,10 @@ Renders a "No results found" label.
     <div class="row {{ class ? class  }}" {% if id %}id="{{ id }}"{% endif %}>
         <div class="col {{ textCenter ? 'text-center' }} font-14 text-muted">
             {% if message %}
+                <i class="fa-solid fa-circle-info"></i>
                 {{ message }}
             {% else %}
+                <i class="fa-solid fa-circle-info"></i>
                 No results found.
             {% endif %}
         </div>
