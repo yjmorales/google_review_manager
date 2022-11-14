@@ -8,6 +8,7 @@ use App\Repository\IndustrySectorRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,8 @@ class BusinessFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Business name',
                     'class'       => 'form-control form-control-border',
+                    'minlength'   => 2,
+                    'maxlength'   => 255
                 ],
             ])
             ->add('industrySector', EntityType::class, [
@@ -43,24 +46,33 @@ class BusinessFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Address',
                     'class'       => 'form-control form-control-border',
+                    'minlength'   => 2,
+                    'maxlength'   => 255
                 ],
+
             ])
             ->add('city', TextType::class, [
                 'attr' => [
                     'placeholder' => 'City',
                     'class'       => 'form-control form-control-border',
+                    'minlength'   => 2,
+                    'maxlength'   => 255
                 ],
             ])
             ->add('state', TextType::class, [
                 'attr' => [
                     'placeholder' => 'State',
                     'class'       => 'form-control form-control-border',
+                    'minlength'   => 2,
+                    'maxlength'   => 255
                 ],
             ])
             ->add('zipCode', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Zip Code',
-                    'class'       => 'form-control form-control-border',
+                    'class'       => 'form-control form-control-border zip-code',
+                    'minlength'   => 2,
+                    'maxlength'   => 15,
                 ],
             ])
             ->add('active', CheckboxType::class, [
@@ -71,6 +83,14 @@ class BusinessFormType extends AbstractType
                     'data-on-text'   => 'Active',
                     'data-off-text'  => 'Inactive',
                     'data-off-color' => 'danger',
+                ],
+            ])
+            ->add('email', EmailType::class, [
+                'attr' => [
+                    'class'     => 'form-control form-control-border',
+                    'placeholder' => 'Business email',
+                    'minlength' => 2,
+                    'maxlength' => 255
                 ],
             ]);
     }

@@ -1,5 +1,6 @@
 {% extends '/layout/base.html.twig' %}
 {% import '/components/helpers_macro.html.twig' as helpers %}
+{% import _self as self %}
 
 {% block css %}
     {{ parent() }}
@@ -22,8 +23,7 @@
         <div class="card-header card-header-compressed">
             <h4 class="card-title">Edit business</h4>
             <div class="card-tools">
-                <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
-                <button type="submit" class="btn btn-xs btn-info">Update</button>
+                {{ self.actions() }}
             </div>
         </div>
         <div class="card-body p-2">
@@ -35,8 +35,7 @@
             </div>
         </div>
         <div class="card-footer p-2 text-right">
-            <a href="{{ path('dashboard') }}" class="btn btn-light btn-xs">Cancel</a>
-            <button type="submit" class="btn btn-info btn-xs">Update</button>
+            {{ self.actions() }}
         </div>
         {{ form_end(form) }}
         {{ helpers.form_processing() }}
@@ -45,9 +44,21 @@
     {% include '/business/create_edit/_modalUpdateReviewItem.html.twig' %}
 {% endblock %}
 
+{# Macro defining the btns holding the actions to perform #}
+{% macro actions() %}
+    <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">
+        <i class="fa fa-plus"></i>
+        Add new business
+    </a>
+    <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
+    <button type="submit" class="btn btn-xs btn-info">Update</button>
+{% endmacro %}
+
 {% block js %}
     {{ parent() }}
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
     <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
@@ -55,6 +66,7 @@
     <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
     <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
     <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
+
     <script>
         const businessEdit = new BusinessEdit();
         businessEdit.init();
@@ -63,5 +75,6 @@
         (new CopyClipboard()).init();
         (new ExpandCollapse()).init();
         (new Notification()).listenUIEvents();
+        (new FormFieldFormatter()).formatZipCodeFields();
     </script>
 {% endblock %}

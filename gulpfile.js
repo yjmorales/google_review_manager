@@ -142,6 +142,15 @@ gulp.task('adminlte_toastr_js', function () {
         .pipe(terser())
         .pipe(gulp.dest(jsDest));
 });
+gulp.task('cleave_js', function () {
+    return gulp.src(
+        [
+            'node_modules/cleave.js/dist/cleave.min.js',
+        ])
+        .pipe(concat('cleave_js.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
+});
 
 /**
  * Compressing fonts
@@ -175,4 +184,5 @@ gulp.task('run', gulp.parallel(
     'adminlte_toastr_css',
     'css_select2',
     'js_select2',
+    'cleave_js'
 ));

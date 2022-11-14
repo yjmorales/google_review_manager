@@ -36,6 +36,12 @@ function BusinessFormValidator() {
                         minlength: 2,
                         maxlength: 255,
                     },
+                    'business_form[email]': {
+                        required: false,
+                        email: true,
+                        minlength: 2,
+                        maxlength: 255,
+                    },
                     'business_form[industrySector]': {
                         required: true
                     },

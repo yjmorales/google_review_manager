@@ -36,10 +36,14 @@
 {% endblock %}
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('/app/js/common/FormManagement.js') }}"></script>
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
+    <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
+    <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
+
     <script>
         (new BusinessCreate()).init();
+        (new FormFieldFormatter()).formatZipCodeFields();
     </script>
 {% endblock %}

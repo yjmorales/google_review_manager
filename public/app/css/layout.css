@@ -121,3 +121,7 @@ th.non-top-border {
 .link-black-no-hover:hover {
     color: #4f4f4f;
 }
+
+.form-group {
+    margin-bottom: .6rem;
+}
