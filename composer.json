@@ -58,7 +58,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^3.4",
         "twilio/sdk": "^6.42",
-        "yjmorales/php-core": "^0.6.3"
+        "yjmorales/php-core": "^0.6.6"
     },
     "config": {
         "allow-plugins": {

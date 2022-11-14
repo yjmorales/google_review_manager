@@ -40,7 +40,7 @@ class EntityGeneratorCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('generate:demo')
+            ->setName('demo:generate')
             ->setDescription('Generating Google Review Manager.')
             ->setHelp('This command allows you to create a Google Review Manager demo.')
             ->setHidden(true);

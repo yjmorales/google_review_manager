@@ -8,6 +8,7 @@ namespace App\Demo;
 use App\Entity\Business;
 use App\Entity\IndustrySector;
 use App\Model\IndustrySectorEnum;
+use Common\DataManagement\DataGenerator\RandomGenerator;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -43,7 +44,10 @@ class EntityGenerator extends Fixture
     /**
      * @inheritdoc
      *
+     * @param ObjectManager $manager
+     *
      * @return void
+     * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
@@ -54,6 +58,7 @@ class EntityGenerator extends Fixture
      * Manages demo fixtures.
      *
      * @return void
+     * @throws Exception
      */
     public function generateProjectFixtures(): void
     {
@@ -108,17 +113,13 @@ class EntityGenerator extends Fixture
      */
     protected function _createBusiness(): void
     {
-        $address  = ['3445 SW 4th Ave', '543 NE 6th St', '34234 N Little Road', '3432 NW 45th AVE'];
-        $cities   = ['Miami', 'Seattle', 'Atlanta', 'Oakland'];
-        $state    = ['Florida', 'Georgia', 'Washington', 'California'];
-        $zipCodes = ['33152', '88245', '62154', '69311'];
         for ($i = 0; $i < 15; $i++) {
             $business = new Business();
-            $business->setName("Business $i");
-            $business->setAddress($address[rand(0, 3)]);
-            $business->setCity($cities[rand(0, 3)]);
-            $business->setState($state[rand(0, 3)]);
-            $business->setZipCode($zipCodes[rand(0, 3)]);
+            $business->setName(RandomGenerator::generateBusinessName());
+            $business->setAddress(RandomGenerator::generateAddress());
+            $business->setCity(RandomGenerator::generateCity());
+            $business->setState(RandomGenerator::generateStateCode());
+            $business->setZipCode(RandomGenerator::generateStateZipCode());
             $business->setActive($i % 2 === 0);
             $business->setIndustrySector($this->_industrySectorList[rand(0, count($this->_industrySectorList) - 1)]);
             $this->_em->persist($business);

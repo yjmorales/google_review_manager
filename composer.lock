@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad781ec2314818ab5779f3ae5188853f",
+    "content-hash": "b2aa6a7dca0d2beb8d30584c94552a27",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -9232,11 +9232,11 @@
         },
         {
             "name": "yjmorales/php-core",
-            "version": "v0.6.4",
+            "version": "v0.6.6",
             "source": {
                 "type": "git",
                 "url": "git@github.com:yjmorales/php-core.git",
-                "reference": "f6df69060c779a592878f00b6eab0b7bbc298446"
+                "reference": "955e6ea8f152c584dff83a2436178d29be7379c4"
             },
             "require": {
                 "ext-json": "*",
@@ -9256,7 +9256,7 @@
                 "proprietary"
             ],
             "description": "PHP Core library for web applications.",
-            "time": "2022-10-31T16:29:10+00:00"
+            "time": "2022-11-14T18:08:19+00:00"
         }
     ],
     "packages-dev": [
