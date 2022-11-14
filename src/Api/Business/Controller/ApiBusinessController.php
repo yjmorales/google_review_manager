@@ -52,6 +52,13 @@ class ApiBusinessController extends BaseController
     public function remove(ManagerRegistry $doctrine, Business $business): JsonResponse
     {
         try {
+            foreach ($business->getReviews() as $review) {
+                if ($filename = $review->getQrCodeImgFilename()) {
+                    if (file_exists($filename)) {
+                        unlink($filename);
+                    }
+                }
+            }
             $removed = clone $business;
             $this->em($doctrine)->remove($business);
             $this->em($doctrine)->flush();

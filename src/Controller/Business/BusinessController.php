@@ -55,10 +55,9 @@ class BusinessController extends BaseController
     {
         $business = new Business();
         $form     = $this->createForm(BusinessFormType::class, $business);
-        $response = $this->redirectToRoute('dashboard');
 
         if (!$this->_save($request, $doctrine, $form, $business)) {
-            $response = $this->render('/business/create_edit/business_create.html.twig', [
+            return $this->render('/business/create_edit/business_create.html.twig', [
                 'business'   => $business,
                 'form'       => $form->createView(),
                 'breadcrumb' => [
@@ -68,7 +67,7 @@ class BusinessController extends BaseController
             ]);
         }
 
-        return $response;
+        return $this->redirectToRoute('business_edit', ['id' => $business->getId()]);
     }
 
     /**
@@ -101,7 +100,15 @@ class BusinessController extends BaseController
      */
     public function remove(ManagerRegistry $doctrine, Business $business): Response
     {
+        foreach ($business->getReviews() as $review) {
+            if ($filename = $review->getQrCodeImgFilename()) {
+                if (file_exists($filename)) {
+                    unlink($filename);
+                }
+            }
+        }
         $this->em($doctrine)->remove($business);
+        $this->notifySuccess("The business \"{$business->getName()}\" has been removed successfully.");
 
         return $this->render('/dashboard/dashboard.html.twig');
     }
@@ -119,15 +126,16 @@ class BusinessController extends BaseController
     private function _save(Request $request, ManagerRegistry $doctrine, FormInterface $form, Business $business): bool
     {
         $isEdit = (bool)$business->getId();
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->em($doctrine);
             $em->persist($business);
             $em->flush();
-            $action = $isEdit ? 'updated' : 'inserted';
-            $this->notifySuccess("The business \"{$business->getName()}\" has been $action successfully.");
+            if ($isEdit) {
+                $this->notifySuccess("The business \"{$business->getName()}\" has been updated successfully.");
+            } else {
+                $this->notifySuccess("The business \"{$business->getName()}\" has been created successfully. You are able to generate its Google Review Links.");
+            }
 
             return true;
         }

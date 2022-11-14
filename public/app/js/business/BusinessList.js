@@ -66,7 +66,8 @@ function BusinessList(YJMDatatable) {
         const $row = $(state.clicked.rowToRemoveSelector),
             businessName = $row.data('name'),
             body = `<p>You selected to remove the business <strong>${businessName}</strong></p>
-                       <p>If you remove the business name the operation cannot be undo.</p> 
+                       <p>If you remove the business the operation cannot undo. All Google Review Links assosiated with 
+                       the business will be removed and cannoy be recovered.</p> 
                        <p>Do you want to proceed?</p>`,
             settings = {
                 id: ui.$modalRemoveBusinessConfirmation,
@@ -99,8 +100,7 @@ function BusinessList(YJMDatatable) {
         }
         const updateUI = function (businessName) {
             state.modules.YJMDatatable.removeRow(state.clicked.rowToRemoveSelector);
-            const message = `"${businessName}" successfully removed.`;
-            state.modules.Notification.success(message);
+            state.modules.Notification.success(`The business <strong>${businessName}</strong> has been successfully removed.`, 'Removed Business');
             $(ui.$modalRemoveBusinessConfirmation).modal('hide');
             state.modules.OverlayLoaderManager.stop();
             $btn.prop('disabled', false);

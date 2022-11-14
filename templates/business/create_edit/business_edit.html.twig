@@ -6,19 +6,21 @@
     <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
 {% endblock %}
 
-{% block title %} | Edit Business{% endblock %}
+{% block title %} | Edit business{% endblock %}
 
 {% block urls %}
     data-api_v1_business_business_id_review_generate_post="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
     data-api_v1_business_business_id_review_all_get="{{ path('api_v1_business_business_id_review_all_get', {business_id: business.id}) }}"
-
 {% endblock %}
 
 {% block content %}
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
     <div class="card card-info card-outline direct-chat direct-chat-primary">
         {{ form_start(form) }}
         <div class="card-header card-header-compressed">
-            <h4 class="card-title">Edit Business</h4>
+            <h4 class="card-title">Edit business</h4>
             <div class="card-tools">
                 <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
                 <button type="submit" class="btn btn-xs btn-info">Update</button>
@@ -53,7 +55,6 @@
     <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
     <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
     <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
-
     <script>
         const businessEdit = new BusinessEdit();
         businessEdit.init();
@@ -61,5 +62,6 @@
         new FormManagement();
         (new CopyClipboard()).init();
         (new ExpandCollapse()).init();
+        (new Notification()).listenUIEvents();
     </script>
 {% endblock %}

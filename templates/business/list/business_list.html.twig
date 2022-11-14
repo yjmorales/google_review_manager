@@ -14,14 +14,12 @@ data-criteria-business-status={{ criteria.businessStatus }}
 {% endblock %}
 
 {% block content %}
-
     {{ helpers.notifications_success() }}
     {{ helpers.notifications_error() }}
     {{ helpers.notifications_warning() }}
-
     <div class="card card-info card-outline direct-chat direct-chat-primary">
         <div class="card-header card-header-compressed">
-            <h4 class="card-title">Business</h4>
+            <h4 class="card-title">Business list</h4>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool btn-xs text-info mr-2" data-toggle="collapse"
                         title="Filter business list"
@@ -29,7 +27,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                     <i class="fa-solid fa-sliders"></i>
                 </button>
                 <a href="{{ path('business_create') }}" class="btn btn-tool bg-info btn-xs">
-                    Add Business
+                    Add business
                 </a>
             </div>
         </div>
@@ -63,7 +61,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                             </div>
                         </div>
                         <div class="col">
-                            <label>Industry Sector</label>
+                            <label>Industry sector</label>
                             <select class="yjmSelect2" name="businessIndustrySector"
                                     data-placeholder="Select an option">
                                 {% for item in industrySector %}
@@ -109,7 +107,7 @@ data-criteria-business-status={{ criteria.businessStatus }}
                         <div class="col">
                             <label>State</label>
                             <div class="input-group mb-3">
-                                <input class="form-control" placeholder="State or province"
+                                <input class="form-control" placeholder="State"
                                        name="businessState" value="{{ criteria.businessState }}">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-xs btn-secondary" type="button" data-clear-field="true">
