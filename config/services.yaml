@@ -12,6 +12,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    logger:
+       alias: 'monolog.logger'
+       public: true
+
     App\Demo\Generator\EntityGenerator:
         class: App\Demo\EntityGenerator
         public: true,
@@ -33,4 +37,14 @@ services:
         arguments:
             - '%sendgrid_api_key%'
             - '%sender_email%'
+            - '%sender_name%'
+
+    Common\Communication\HtmlMailer\Mailer:
+        class: Common\Communication\HtmlMailer\Mailer
+        public: true
+        arguments:
+            - '@mailer'
+            - '@logger'
+            - '%sender_email%'
+            - '%internal_to_email%'
             - '%sender_name%'

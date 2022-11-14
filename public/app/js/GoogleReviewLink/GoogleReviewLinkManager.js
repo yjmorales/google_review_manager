@@ -17,10 +17,13 @@ function GoogleReviewLinkManager() {
         $btnUpdateReview: $('#btnSubmitUpdateReview'),
         $btnOpenRemoveReviewConfirmation: '[data-id="btn-open-remove-review-confirmation"]',
         $btnOpenRemoveAllConfirmation: $('#btnRemoveAllReviews'),
+        $btnOpenSendReviewByEmailConfirmation: $('#btnOpenSendReviewByEmailConfirmation'),
         $btnRemoveSelectedReview: $('#btnRemoveSelectedReview'),
         $btnSubmitRemoveMultipleReviews: $('#btnSubmitRemoveMultipleReviews'),
         $btnSubmitRemoveAllReviews: $('#btnSubmitRemoveAllReviews'),
+        $btnSubmitSendReviewByEmail: '#btnSubmitSendReviewByEmail',
         // Modals & Containers
+        $modalSendReviewByEmail: $('#modalSendReviewByEmail'),
         $modalRemoveReviewItem: '#modalRemoveReviewItem',
         $modalRemoveMultipleReviewsItem: '#modalRemoveMultipleReviewsItem',
         $modalRemoveAllReviewsItem: '#modalRemoveAllReviewsItem',
@@ -29,7 +32,8 @@ function GoogleReviewLinkManager() {
         // Fields
         $fieldReviewLink: 'input[name="review-link"]',
         $fieldCheckboxReviewSelector: '.fieldCheckboxReviewSelector',
-        $emptyReviewListLabel: $('#emptyReviewListLabel')
+        $emptyReviewListLabel: $('#emptyReviewListLabel'),
+        $fieldMultipleEmailsToSendReview: 'fieldMultipleEmailsToSendReview',
     }
 
     /**
@@ -46,6 +50,7 @@ function GoogleReviewLinkManager() {
         modules: {
             Notification: new Notification(),
             LoaderManager: new LoaderManager(),
+            MultipleEmailsField: new MultipleEmailsField(),
         },
         clicked: {
             btnRemoveReview: null,
@@ -53,6 +58,9 @@ function GoogleReviewLinkManager() {
             urlRemoveReview: null,
             btnUpdateReview: null,
             urlUpdateReview: null,
+        },
+        data: {
+            dataMultipleEmails: null,
         }
     };
 
@@ -87,11 +95,14 @@ function GoogleReviewLinkManager() {
         $(document).on('click', ui.$btnOpenRemoveReviewConfirmation, openRemoveReviewConfirmationModal);
         ui.$btnRemoveReview.on('click', submitRemoveReview);
         $(document).on('click', ui.$btnOpenUpdateReviewConfirmation, openUpdateReviewConfirmationModal);
+        $(document).on('change', ui.$fieldCheckboxReviewSelector, activateActionsForSelectedReviews);
         ui.$btnUpdateReview.on('click', submitUpdateReview);
         ui.$btnRemoveSelectedReview.on('click', openRemoveSelectedReviewConfirmationModal)
         ui.$btnSubmitRemoveMultipleReviews.on('click', submitRemoveMultipleReviews);
         ui.$btnSubmitRemoveAllReviews.on('click', submitRemoveAllReviews);
         ui.$btnOpenRemoveAllConfirmation.on('click', openRemoveAllReviewsConfirmationModal);
+        ui.$btnOpenSendReviewByEmailConfirmation.on('click', openSendReviewByEmailConfirmationModal);
+        $(document).on('click', ui.$btnSubmitSendReviewByEmail, submitSendReviewsByEmail);
     }
 
     /**
@@ -150,7 +161,7 @@ function GoogleReviewLinkManager() {
                 <img class="img-responsive" src="${review.qrCodeImgBase64}" height="150" width="150">
             </div>
             <div class="card-body p-2">
-                <strong class="d-block font-14">Review Link:</strong>
+                <strong class="d-block font-14">Review link:</strong>
                 <p class="card-text font-14"><a href="${review.link}" class="font-14">${review.link}</a></p>
             </div>
             <div class="card-footer p-2">
@@ -211,6 +222,21 @@ function GoogleReviewLinkManager() {
      */
     function openRemoveAllReviewsConfirmationModal() {
         $(ui.$modalRemoveAllReviewsItem).modal('show');
+    }
+
+    /**
+     * Opens 'send by email' confirmation modal.
+     * @return {void}
+     */
+    function openSendReviewByEmailConfirmationModal() {
+        const $modal = $(ui.$modalSendReviewByEmail);
+        const multipleEmailsOptions = {
+            id: ui.$fieldMultipleEmailsToSendReview
+        };
+        const dataMultipleEmails = state.modules.MultipleEmailsField.initMultipleEmailField(multipleEmailsOptions);
+        state.data.dataMultipleEmails = dataMultipleEmails;
+        $modal.modal('show');
+        $modal.find('[data-business-email="true"]').text($(this).data('business-email'));
     }
 
     /**
@@ -358,6 +384,64 @@ function GoogleReviewLinkManager() {
             .finally(() => {
                 state.modules.LoaderManager.stopOverlay();
                 $btn.prop('disabled', false);
+            });
+    }
+
+    /**
+     * Once a review is selected by clicking the checkbox this activates some actions (buttons) that only
+     * should be active whenever at least there are 1 selected review.
+     */
+    function activateActionsForSelectedReviews() {
+        let atLeastOnceSelected = 0;
+        $(ui.$fieldCheckboxReviewSelector).each(function () {
+            if (atLeastOnceSelected) {
+                return;
+            }
+            atLeastOnceSelected = $(this).is(':checked');
+        });
+        ui.$btnRemoveSelectedReview.prop('disabled', !atLeastOnceSelected);
+        ui.$btnOpenSendReviewByEmailConfirmation.prop('disabled', !atLeastOnceSelected);
+    }
+
+    /**
+     * Once the user clicks and accepts to send a review via email this function perform the process to send the email.
+     * @return {void}
+     */
+    function submitSendReviewsByEmail() {
+        if (!state.modules.MultipleEmailsField) {
+            throw 'Unable to get the other receivers';
+        }
+        const $btn = $(this)
+            , url = $btn.data('url')
+            , otherReceivers = state.data.dataMultipleEmails.getEmailsList()
+            , reviewIds = [];
+        state.modules.LoaderManager.startOverlay();
+        $btn.prop('disabled', true);
+        $(ui.$fieldCheckboxReviewSelector).each(function () {
+            const $this = $(this);
+            if (!$this.is(':checked')) {
+                return;
+            }
+            reviewIds.push($this.data('review-id'));
+        });
+        const data = new FormData();
+        data.append('otherReceivers', JSON.stringify(otherReceivers));
+        data.append('reviewIds', JSON.stringify(reviewIds));
+        fetch(url, {method: 'POST', body: data})
+            .then((response) => response.json())
+            .then((data) => {
+                if (200 > data.status || data.status > 299) {
+                    throw 'Error';
+                }
+                state.modules.Notification.success(`The selected reviews have been successfully sent via email.`, 'Email notification');
+            })
+            .catch((e) => {
+                console.debug(e)
+                state.modules.Notification.error('Unable to send the email.', 'Email notification');
+            })
+            .finally(() => {
+                $btn.prop('disabled', false);
+                state.modules.LoaderManager.stopOverlay();
             });
     }
 

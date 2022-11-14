@@ -15,6 +15,15 @@
             <p class="text-muted">
                 {{ business.location }}
             </p>
+            {% if business.email %}
+                <strong>
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </strong>
+                <p class="text-muted">
+                    <a href="mailto:{{ business.email }}">{{ business.email }}</a>
+                </p>
+            {% endif %}
             <strong>
                 <i class="fa fa-list-alt"></i>
                 Industry Sector

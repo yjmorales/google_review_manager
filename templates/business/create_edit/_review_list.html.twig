@@ -24,28 +24,31 @@
                 Generate new Google Review Link
             </button>
         </div>
-        <div class="col-auto p-1 d-none"> {# todo: When this is fully implemented then make visible again #}
-            <button class="btn btn-xs disabled text-gray" disabled
-                    type="button"> {# todo: when there is no selected review then to disable the Remove Selected btn. This is the btn template to disable it. #}
-                Select all
+        <div class="col-auto p-1">
+            <button id="btnOpenSendReviewByEmailConfirmation"
+                    role="button"
+                    class="btn btn-xs btn-outline-info"
+                    disabled
+                    data-business-email="{{ business.email }}"
+                    type="button">
+                Send by email
             </button>
-            <a role="button" class="btn-xs btn-outline-info"
-               type="button">
-                Select all
-            </a>
         </div>
         <div class="col-auto p-1">
-            <a id="btnRemoveSelectedReview" role="button" class="btn-xs btn-outline-info"
-               type="button">
+            <button id="btnRemoveSelectedReview"
+                    role="button"
+                    class="btn btn-xs btn-outline-info"
+                    disabled
+                    type="button">
                 Remove selected
-            </a>
+            </button>
         </div>
         <div class="col-auto p-1">
-            <a id="btnRemoveAllReviews"
-               role="button" class="btn-xs btn-outline-info"
-               type="button">
-                Remove all
-            </a>
+            <button id="btnRemoveAllReviews"
+                    role="button"
+                    class="btn btn-xs btn-outline-info"
+                    type="button"> Remove all
+            </button>
         </div>
     </div>
     {{ helpers.loading_dot() }}

@@ -1,0 +1,38 @@
+<div class="modal fade"
+     id="modalSendReviewByEmail"
+     tabindex="-1"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-info pt-1 pb-1">
+                <span class="modal-title " data-id="modal-title" id="modalSendReviewByEmailLabel">
+                    Send Google Review Link by email
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" data-id="modal-body">
+                <div class="row">
+                    <div id="modalSendReviewByEmailConfirmationText" class="font-14">
+                        <p>The selected Google Review Link will be sent via email to the email address owned by this business:
+                            <strong data-business-email="true"></strong>
+                        </p>
+                        <br>
+                        <p>Additionally you are able to sent it to others receivers. If that is the case please use the
+                            bellow component to enter their email addresses:</p>
+                        <div data-multiple-emails="true"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-1">
+                <button id="btnSubmitSendReviewByEmail"
+                        data-url="{{ path('api_v1_business_business_id_send_reviews_by_email_post', {business_id: business.id }) }}"
+                        type="button"
+                        class="btn btn-info btn-xs m-0">
+                    Send email
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

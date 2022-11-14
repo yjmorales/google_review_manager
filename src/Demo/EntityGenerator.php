@@ -116,6 +116,7 @@ class EntityGenerator extends Fixture
         for ($i = 0; $i < 15; $i++) {
             $business = new Business();
             $business->setName(RandomGenerator::generateBusinessName());
+            $business->setEmail(RandomGenerator::generateEmail());
             $business->setAddress(RandomGenerator::generateAddress());
             $business->setCity(RandomGenerator::generateCity());
             $business->setState(RandomGenerator::generateStateCode());

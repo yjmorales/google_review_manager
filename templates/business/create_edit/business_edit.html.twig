@@ -5,6 +5,8 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/lib/emails-input.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/assets/styles.css') }}">
 {% endblock %}
 
 {% block title %} | Edit business{% endblock %}
@@ -42,6 +44,7 @@
     </div>
     {% include '/business/create_edit/_modalRemoveReviewItem.html.twig' %}
     {% include '/business/create_edit/_modalUpdateReviewItem.html.twig' %}
+    {% include '/business/create_edit/_modalSendReviewByEmail.html.twig' %}
 {% endblock %}
 
 {# Macro defining the btns holding the actions to perform #}
@@ -51,11 +54,13 @@
         Add new business
     </a>
     <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
-    <button type="submit" class="btn btn-xs btn-info">Update</button>
+    <button type="button" class="btn btn-xs btn-info">Update</button>
 {% endmacro %}
 
 {% block js %}
     {{ parent() }}
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/vendor/email_multiple/lib/emails-input.js') }}"></script>
     <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
@@ -66,7 +71,7 @@
     <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
     <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
     <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
-
+    <script src="{{ asset('/app/js/common/MultipleEmailsField.js') }}"></script>
     <script>
         const businessEdit = new BusinessEdit();
         businessEdit.init();

@@ -1,0 +1,11 @@
+{% extends  '/email/layout/base_email.html.twig' %}
+
+{% block content %}
+    <div class="row form-group">
+        <div class="col-8 offset-2">
+            <p class="text-center" style="font-size: 35px">
+                <img src="{{ email.image('@qr_codes' ~ qrCodeBaseName) }}" height="80" width="80">
+            </p>
+        </div>
+    </div>
+{% endblock %}

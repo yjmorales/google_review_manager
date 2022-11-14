@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Open-sans';
+  src: url('./font/OpenSans-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Open-sans';
+  src: url('./font/OpenSans-Bold.ttf');
+  font-weight: 900;
+}
+
+[data-multiple-emails="true"] .emails-form {
+  background: #f8f8f7;
+  padding: 50px 50px 24px;
+}
+
+[data-multiple-emails="true"] #emails-input {
+  height: 100px;
+}
+
+[data-multiple-emails="true"] .action-bar {
+  padding: 24px 50px;
+}

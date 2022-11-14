@@ -1,0 +1,35 @@
+{% apply inline_css(source('@styles/email/css/template.css'), source('@styles/dist/css/template.min.css')) %}
+    {% import '/components/helpers_macro.html.twig' as helpers %}
+    <span style="opacity: 0;"> {{ 'now'|date('m/d/Y') }} </span>
+    <div class="border-10">
+        <div class="row text-center">
+            <div class="col-6 offset-3 text-center">
+                <div class="google-review-manager-icon-container p-3">
+                    <div class="text-center">
+                        <span class="grm-title grm-font-16 grm-black">{{ system_title }}</span>
+                    </div>
+                    <div class="mt-1">
+                        <img src="{{ email.image('@default_images/logo.png') }}" height="80" width="80">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 p-2">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row text-center mt-5">
+            <div class="col-lg-8 offset-lg-2 col-12 grm-black" style="font-size: 12px;">
+                <hr class="muted">
+                {{ helpers.copyright() }}
+                <span class="me-2">{{ system_title }}</span>
+                <span class="me-2" style="font-size: 15px">&reg;</span>
+                <span class="me-2">|</span>
+                All Rights Reserved
+            </div>
+        </div>
+    </div>
+    <span style="opacity: 0"> {{ 'now'|date('m/d/Y') }} </span>
+{% endapply %}

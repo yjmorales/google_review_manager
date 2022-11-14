@@ -127,6 +127,22 @@ paths:
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
+  /business/{business_id}/send-reviews-by-email:
+    post:
+      x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::sendByEmail
+      tags:
+        - Business
+      summary: Sends one or more Google Review Link(s) by email.
+      operationId: sendReviewsByEmail
+      description: Sends one or more Google Review Link(s) by email.
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
   /review/{id}/remove:
     post:
       x-symfony-controller: App\Api\Review\Controller\ApiReviewController::remove
@@ -223,47 +239,6 @@ paths:
           $ref: '#/components/responses/EntityNotFoundResponse'
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
-
-  /review/{id}/send-by-email:
-    post:
-      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::sendByEmail
-      tags:
-        - Review
-      summary: Sends a Google Review Link by email to the email address registered on the business.
-      operationId: sendReviewByEmail
-      description: Sends a Google Review Link by email to the email address registered on the business.
-      responses:
-        '200':
-          $ref: '#/components/responses/EmptySuccessResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/EntityNotFoundResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
-
-  /review/send-many-by-email:
-    post:
-      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::sendManyByEmail
-      tags:
-        - Review
-      summary: >
-        Sends one or many Google Review Link(s) by email to the email address registered on the business or 
-        other defines email addresses.
-      operationId: sendManyReviewByEmail
-      description: >
-        Sends one or many Google Review Link(s) by email to the email address registered on the business or 
-        other defines email addresses.
-      responses:
-        '200':
-          $ref: '#/components/responses/EmptySuccessResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/EntityNotFoundResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
-
 
 #************************************
 #******** Components ****************

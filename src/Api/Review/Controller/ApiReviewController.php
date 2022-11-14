@@ -84,6 +84,8 @@ class ApiReviewController extends BaseController
             throw new ApiErrorException([$e->getMessage()], 0, $e);
         }
 
+
+
         return $this->buildJsonResponse(new ReviewModel($review, $router));
     }
 
@@ -190,104 +192,6 @@ class ApiReviewController extends BaseController
     }
 
     /**
-     * todo: implement the front end logic
-     * Represents an endpoint used to send a review by email.
-     *
-     * @param Review  $review  Review to be sent via email
-     * @param Request $request Holds all the data needed to send the review.
-     * @param Mailer  $mailer  Holds the mailing logic.
-     *
-     * @return JsonResponse
-     * @throws ApiErrorException
-     * @throws ApiNormalOperationException
-     * @throws TypeException
-     */
-    public function sendByEmail(Review $review, Mailer $mailer, Request $request): JsonResponse
-    {
-        $this->_sendEmail($request, $mailer, $review);
-
-        return $this->buildJsonResponse(new ApiEmptyResponse());
-    }
-
-    /**
-     * todo: implement the front end logic
-     *
-     * This function allows to send one or many reviews to whether its business email or others email addresses.
-     *
-     * @param Request         $request  Hols the sender information and the review to be sent.
-     * @param Mailer          $mailer   Holds the mailing logic.
-     * @param ManagerRegistry $doctrine Used to find the review info on db.
-     *
-     * @return JsonResponse
-     * @throws ApiErrorException
-     * @throws ApiNormalOperationException
-     * @throws TypeException
-     */
-    public function sendManyByEmail(Request $request, Mailer $mailer, ManagerRegistry $doctrine): JsonResponse
-    {
-        $sendingAssigment = $request->get('sending-assigment', []);
-
-        foreach ($sendingAssigment as $reviewId => $config) {
-            $repository = $this->repository($doctrine, Review::class);
-            if (!$review = $repository->find($reviewId)) {
-                continue;
-            }
-            $this->_sendEmail($request, $mailer, $review);
-        }
-
-        return $this->buildJsonResponse(new ApiEmptyResponse());
-    }
-
-    /**
-     * Helper function used to hold the common actions to send a review by email.
-     *
-     * @param Request $request Holds all the data needed to send the review.
-     * @param Mailer  $mailer  Holds the mailing logic.;
-     * @param Review  $review  Review to be sent via email
-     *
-     * @return void
-     *
-     * @throws ApiErrorException
-     * @throws ApiNormalOperationException
-     * @throws TypeException
-     */
-    private function _sendEmail(Request $request, Mailer $mailer, Review $review): void
-    {
-        $sendToOthers   = (bool)$request->get('send-to-others');
-        $sendToBusiness = (bool)$request->get('send-to-business');
-
-        $subject = "Google Review for business {$review->getBusiness()->getName()}";
-        $content = $this->renderView('/email/send_review_by_email.html.twig', [  // todo: edit this template
-            'review' => $review,
-        ]);
-
-        $to = [];
-        if ($sendToBusiness) {
-            if (!$businessEmail = $review->getBusiness()->getEmail()) {
-                throw new ApiNormalOperationException(["The business {$review->getBusiness()->getName()} must have an email,"]);
-            }
-            $to[] = new To($businessEmail, $review->getBusiness()->getName());
-        }
-
-        if ($sendToOthers) {
-            $othersEmails = $request->get('other-emails', []);
-            foreach ($othersEmails as $email) {
-                $to[] = new To($email, $email);
-            }
-        }
-
-        try {
-            $send = $mailer->send($subject, $content, ...$to);
-            if (!$send) {
-                throw new Exception('Not sent');
-            }
-        } catch (Exception $e) {
-            throw new ApiErrorException(["Unable to send the reviews to the receivers. {$e->getMessage()}"]);
-        }
-    }
-
-
-    /**
      * Helper function used to create the qr code respective to the Google Review link.
      *
      * @param Review $review Holds the link.
@@ -305,9 +209,10 @@ class ApiReviewController extends BaseController
         $qrCodeBase64 = (new QrCodeManager())->generate($link);
         $dir          = $this->_initQrCodeDir();
         $fileName     = "$dir/" . md5(uniqid('google_review'));
-        if (false === file_put_contents($fileName, $qrCodeBase64)) {
-            throw new Exception('Unable to save the QR code on the respective directory');
-        }
+//        if (false === file_put_contents($fileName, $qrCodeBase64)) {
+//            throw new Exception('Unable to save the QR code on the respective directory');
+//        }
+        file_put_contents($fileName, file_get_contents($qrCodeBase64));
         $review->setQrCodeImgFilename($fileName);
         $review->setQrCodeBase64($qrCodeBase64);
     }
