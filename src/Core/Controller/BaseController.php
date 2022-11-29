@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -129,12 +130,22 @@ abstract class BaseController extends AbstractController
         int $code = Response::HTTP_OK
     ): JsonResponse {
         $response = new JsonResponse($apiResponseModel->toObject(), $code, [], false);
-        $response->headers->addCacheControlDirective('no-store');
-        $response->headers->addCacheControlDirective('no-cache');
-        $response->headers->addCacheControlDirective('must-revalidate');
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->add(['Pragma' => 'no-cache', 'Expires' => '0']);
 
         return $response;
+    }
+
+    /**
+     * Use this function to download a Google review link qr code image.
+     *
+     * @param string $filename     QR code image absolute path.
+     * @param string $fileBaseName QR code image base filename
+     *
+     * @return BinaryFileResponse
+     */
+    protected function _downloadGoogleReviewLinkQrCodeImg(string $filename, string $fileBaseName): BinaryFileResponse
+    {
+        return $this->file($filename, "$fileBaseName.png");
     }
 }

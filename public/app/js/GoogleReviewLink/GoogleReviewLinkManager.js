@@ -34,6 +34,7 @@ function GoogleReviewLinkManager() {
         $fieldCheckboxReviewSelector: '.fieldCheckboxReviewSelector',
         $emptyReviewListLabel: $('#emptyReviewListLabel'),
         $fieldMultipleEmailsToSendReview: 'fieldMultipleEmailsToSendReview',
+        $indicatorSendEmailToOwner: $('#indicatorSendEmailToOwner'),
     }
 
     /**
@@ -103,6 +104,7 @@ function GoogleReviewLinkManager() {
         ui.$btnOpenRemoveAllConfirmation.on('click', openRemoveAllReviewsConfirmationModal);
         ui.$btnOpenSendReviewByEmailConfirmation.on('click', openSendReviewByEmailConfirmationModal);
         $(document).on('click', ui.$btnSubmitSendReviewByEmail, submitSendReviewsByEmail);
+        ui.$modalSendReviewByEmail.on('hidden.bs.modal', resetSendByEmailForm);
     }
 
     /**
@@ -233,8 +235,9 @@ function GoogleReviewLinkManager() {
         const multipleEmailsOptions = {
             id: ui.$fieldMultipleEmailsToSendReview
         };
-        const dataMultipleEmails = state.modules.MultipleEmailsField.initMultipleEmailField(multipleEmailsOptions);
-        state.data.dataMultipleEmails = dataMultipleEmails;
+        if (!state.data.dataMultipleEmails) {
+            state.data.dataMultipleEmails = state.modules.MultipleEmailsField.initMultipleEmailField(multipleEmailsOptions);
+        }
         $modal.modal('show');
         $modal.find('[data-business-email="true"]').text($(this).data('business-email'));
     }
@@ -414,7 +417,9 @@ function GoogleReviewLinkManager() {
         const $btn = $(this)
             , url = $btn.data('url')
             , otherReceivers = state.data.dataMultipleEmails.getEmailsList()
-            , reviewIds = [];
+            , reviewIds = []
+            , sendToBusiness = ui.$indicatorSendEmailToOwner.is(':checked')
+        ;
         state.modules.LoaderManager.startOverlay();
         $btn.prop('disabled', true);
         $(ui.$fieldCheckboxReviewSelector).each(function () {
@@ -427,6 +432,7 @@ function GoogleReviewLinkManager() {
         const data = new FormData();
         data.append('otherReceivers', JSON.stringify(otherReceivers));
         data.append('reviewIds', JSON.stringify(reviewIds));
+        data.append('sendToBusiness', JSON.stringify(sendToBusiness));
         fetch(url, {method: 'POST', body: data})
             .then((response) => response.json())
             .then((data) => {
@@ -443,6 +449,13 @@ function GoogleReviewLinkManager() {
                 $btn.prop('disabled', false);
                 state.modules.LoaderManager.stopOverlay();
             });
+    }
+
+    /**
+     * After the user closes the `send by email` modal this resets the form within the modal.
+     */
+    function resetSendByEmailForm() {
+        ui.$indicatorSendEmailToOwner.prop('checked', true).trigger('change');
     }
 
     this.init = init;

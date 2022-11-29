@@ -9,7 +9,6 @@ use App\Api\Business\Model\BusinessListModel;
 use App\Api\Business\Model\BusinessRemoveModel;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
-use App\Api\Core\Exception\ApiNotFoundException;
 use App\Controller\Business\TBusinessController;
 use App\Core\Controller\BaseController;
 use App\Core\Models\ApiEmptyResponse;
@@ -88,9 +87,7 @@ class ApiBusinessController extends BaseController
      * @param Business        $business Review to be sent via email
      *
      * @return JsonResponse
-     * @throws ApiErrorException
      * @throws ApiNormalOperationException
-     * @throws ApiNotFoundException
      */
     public function sendByEmail(
         Request $request,
@@ -98,47 +95,54 @@ class ApiBusinessController extends BaseController
         ManagerRegistry $doctrine,
         Business $business
     ): JsonResponse {
-
         $reviews        = json_decode($request->get('reviewIds'));
         $otherReceivers = json_decode($request->get('otherReceivers'));
+        $sendToBusiness = json_decode($request->get('sendToBusiness'));
 
         $valid = (new ApiBusinessValidator())->validateEmailSending($reviews, $errors = new ArrayObject());
         if (!$valid) {
             throw new ApiNormalOperationException($errors->getArrayCopy());
         }
-
-        $reviewId = $reviews[0];
-        $review   = $this->repository($doctrine, Review::class)->find($reviewId);
-        if (!$review) {
-            throw new ApiNotFoundException(["The review $reviewId is not found"]);
-        }
-
-        $to = [];
-        if ($businessEmail = $business->getEmail()) {
-            $to[] = $businessEmail;
-        }
-        if ($otherReceivers) {
-            foreach ($otherReceivers as $email) {
-                $to[] = $email;
+        $sentEmails = 0;
+        foreach ($reviews as $reviewId) {
+            $review = $this->repository($doctrine, Review::class)->find($reviewId);
+            if (!$review) {
+                $errors->append("The review $reviewId was not found.");
+                continue;
+            }
+            $to = [];
+            if ($sendToBusiness && $businessEmail = $business->getEmail()) {
+                $to[] = $businessEmail;
+            }
+            if ($otherReceivers) {
+                foreach ($otherReceivers as $email) {
+                    $to[] = $email;
+                }
+            }
+            try {
+                $qrCodeBaseName = str_replace($this->_getQrCodeDir(false), '', $review->getQrCodeImgFilename());
+                $subject        = "Google Review Link - {$business->getName()}";
+                $context        = [
+                    'review'         => $review,
+                    'qrCodeBaseName' => $qrCodeBaseName,
+                    'downloadLink'   => $this->generateUrl('review_download', ['review_id' => $review->getId()]),
+                ];
+                $msg            = new MailerMessage($subject, ...$to);
+                $msg->setContext($context);
+                $msg->setHtmlTemplate('/email/business/send_review_by_email.html.twig');
+                $sent = $mailer->send($msg);
+                if (!$sent) {
+                    throw new Exception('not sent');
+                }
+                $sentEmails++;
+            } catch (Exception $e) {
+                $errors->append("Unable to send the Google Review Link $reviewId by email");
             }
         }
 
-        try {
-            $qrCodeBaseName = str_replace($this->_getQrCodeDir(false), '', $review->getQrCodeImgFilename());
-            $subject        = "Google Review Link - {$business->getName()}";
-            $context        = [
-                'review'         => $review,
-                'qrCodeBaseName' => $qrCodeBaseName,
-            ];
-            $msg            = new MailerMessage($subject, ...$to);
-            $msg->setContext($context);
-            $msg->setHtmlTemplate('/email/business/send_review_by_email.html.twig');
-            $sent = $mailer->send($msg);
-            if (!$sent) {
-                throw new Exception('not sent');
-            }
-        } catch (Exception $e) {
-            throw new ApiErrorException(["Unable to send the email holding the Google Review Link(s). {$e->getMessage()}"]);
+        $totalReviews = count($reviews);
+        if ($totalReviews && $totalReviews !== $sentEmails) {
+            throw new ApiNormalOperationException($errors->getArrayCopy());
         }
 
         return $this->buildJsonResponse(new ApiEmptyResponse());

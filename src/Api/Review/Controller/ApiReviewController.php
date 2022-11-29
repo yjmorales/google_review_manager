@@ -8,23 +8,18 @@ namespace App\Api\Review\Controller;
 use App\Api\Business\Model\ReviewListModel;
 use App\Api\Business\Model\ReviewModel;
 use App\Api\Core\Exception\ApiErrorException;
-use App\Api\Core\Exception\ApiNormalOperationException;
 use App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager;
 use App\Api\Core\Services\QrCodeManager;
 use App\Core\Controller\BaseController;
 use App\Core\Models\ApiEmptyResponse;
 use App\Entity\Business;
 use App\Entity\Review;
-use Common\Communication\Mailer\SendGrid\Mailer;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use SendGrid\Mail\To;
-use SendGrid\Mail\TypeException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\RouterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * API Controller to manage review
@@ -83,8 +78,6 @@ class ApiReviewController extends BaseController
         } catch (Exception $e) {
             throw new ApiErrorException([$e->getMessage()], 0, $e);
         }
-
-
 
         return $this->buildJsonResponse(new ReviewModel($review, $router));
     }

@@ -26,12 +26,12 @@ class ApiBusinessValidator
     /**
      * Validates the information provided to send a review by email.
      *
-     * @param mixed       $reviews Holds the review ids. It will be validated.
+     * @param             $reviews > Holds the review ids. It will be validated.
      * @param ArrayObject $error   Will hold the errors.
      *
      * @return bool
      */
-    public function validateEmailSending(mixed $reviews, ArrayObject $error): bool
+    public function validateEmailSending($reviews, ArrayObject $error): bool
     {
         if (!$reviews) {
             $error->append('No review has been provided to be sent via email.');

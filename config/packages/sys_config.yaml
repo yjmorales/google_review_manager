@@ -1,2 +1,4 @@
 parameters:
   system_title: 'Google Review Link Manager'
+
+  google_write_review_base_url: https://search.google.com/local/writereview?placeid=

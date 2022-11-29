@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-gradient-info pt-1 pb-1">
-                <span class="modal-title " data-id="modal-title" id="modalSendReviewByEmailLabel">
+                <span class="modal-title" data-id="modal-title" id="modalSendReviewByEmailLabel">
                     Send Google Review Link by email
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -15,12 +15,25 @@
             <div class="modal-body" data-id="modal-body">
                 <div class="row">
                     <div id="modalSendReviewByEmailConfirmationText" class="font-14">
-                        <p>The selected Google Review Link will be sent via email to the email address owned by this business:
-                            <strong data-business-email="true"></strong>
+                        <p>
+                            You opted to send the QR code respective to the Google review link via email.
+                            This business own a contact email address <strong data-business-email="true"></strong>
+                            where the email may be sent.
                         </p>
+                        <p class="text-center">
+                            Do you want to send the email to business?
+                        </p>
+                        <div class="text-center">
+                            <input id="indicatorSendEmailToOwner"
+                                   data-switch="true"
+                                   data-on-text="YES"
+                                   data-off-text="NO"
+                                   checked
+                                   type="checkbox">
+                        </div>
                         <br>
-                        <p>Additionally you are able to sent it to others receivers. If that is the case please use the
-                            bellow component to enter their email addresses:</p>
+                        <p>Additionally you are able to send QR code to others receivers. If that is the case please
+                            use the bellow component to enter their email addresses:</p>
                         <div data-multiple-emails="true"></div>
                     </div>
                 </div>
