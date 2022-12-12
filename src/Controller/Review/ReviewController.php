@@ -32,6 +32,6 @@ class ReviewController extends BaseController
     {
         $basename = uniqid('google-review-link-qr-code-');
 
-        return $this->_downloadGoogleReviewLinkQrCodeImg($review->getQrCodeImgFilename(), $basename);
+        return $this->_downloadFile($review->getQrCodeImgFilename(), $basename, 'png');
     }
 }

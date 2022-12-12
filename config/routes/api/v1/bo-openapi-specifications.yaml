@@ -17,37 +17,6 @@ info:
 #******** Paths *********************
 #************************************
 paths:
-  /business/list:
-    get:
-      x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::list
-      tags:
-        - Business
-      summary: Gets all businesses information.
-      operationId: findAllBusinessInventory
-      description: |
-        By passing in the appropriate options, you can search for the available businesses.
-      parameters:
-        - $ref: '#/components/parameters/pageQueryParameter'
-        - $ref: '#/components/parameters/limitQueryParameter'
-      responses:
-        '200':
-          description: Search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  business:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Business'
-
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
-
-
   /business/{id}/remove:
     post:
       x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::remove
@@ -170,49 +139,6 @@ paths:
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
-  /review/multiple:
-    post:
-      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::removeMultiple
-      tags:
-        - Review
-      summary: Removes multiples Google Review Links
-      operationId: removeMultiplesReviews
-      description: Removes multiples Google Review Links
-      responses:
-        '200':
-          description: Removes multiples Google Review Links
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Review'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/EntityNotFoundResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
-
-  /review/remove-all:
-    post:
-      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::removeAll
-      tags:
-        - Review
-      summary: Removes all Google Review Links that belong to a business
-      operationId: removeAllReviews
-      description: Removes all Google Review Links that belong to a business
-      responses:
-        '200':
-          $ref: '#/components/responses/EmptySuccessResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
-
   /review/{id}/update:
     post:
       x-symfony-controller: App\Api\Review\Controller\ApiReviewController::update
@@ -237,6 +163,56 @@ paths:
           $ref: '#/components/responses/BadRequestResponse'
         '404':
           $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /google/place/autocomplete:
+    get:
+      x-symfony-controller: App\Api\Google\Place\Controller\GooglePlaceController::autocomplete
+      tags:
+        - Google Places
+      summary: Having an input, this uses the Google Place API to find matches and returns the respective addresses.
+      operationId: findPlacesAutocomplete
+      description: Having an input, this uses the Google Place API to find matches and returns the respective addresses.
+      responses:
+        '200':
+          description: Having an input, this uses the Google Place API to find matches and returns the respective addresses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GooglePrediction'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
+  /google/place/details:
+    post:
+      x-symfony-controller: App\Api\Google\Place\Controller\GooglePlaceController::details
+      tags:
+        - Google Places
+      summary: This retrieves from Google Place API the details of a place. The place id is required to perform the query.
+      operationId: findPlacesDetails
+      description: This retrieves from Google Place API the details of a place. The place id is required to perform the query.
+      responses:
+        '200':
+          description: This retrieves from Google Place API the details of a place. The place id is required to perform the query.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GooglePlaceDetails'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
@@ -357,6 +333,48 @@ components:
         message:
           type: string
           example: An unexpected error has occurred.
+
+    GooglePrediction:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+      properties:
+        placeId:
+          description: Holds the place id that Google uses to identify a place.
+          example: ChIJuZhqKxm32YgRT6R2Ft2FH7o
+          type: string
+        label:
+          type: string
+          description: The description that identifies the place name.
+          example: 10343 SW 34th St, Miami, Fl, 33124, US
+
+    GooglePlaceDetails:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+      properties:
+        address:
+          description: Holds the street number + street name of an address.
+          type: string
+          example: 34545 SW 44th St
+        city:
+          description: Holds the city where a place is located.
+          type: string
+          example: Miami
+        state:
+          description: Holds the state where a place is located.
+          type: string
+          example: FL
+        zipCode:
+          description: Holds the zip code where a place is located.
+          type: string
+          example: 33180
+        country:
+          description: Holds the country where a place is located.
+          type: string
+          example: USA
+
+
   #************************************
 
   #...Parameters

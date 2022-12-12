@@ -20,16 +20,14 @@ Renders a "No results found" label.
 @param id: represents the id of the component
 #}
 {% macro no_result(message, id, textCenter = true, class = null) %}
-    <div class="row {{ class ? class }}" {% if id %}id="{{ id }}"{% endif %}>
-        <div class="col {{ textCenter ? 'text-center' }} font-14 text-muted">
+    <div {% if id %}id="{{ id }}"{% endif %} class="callout callout-warning {{ class ? class }}">
+        <p class="{{ textCenter ? 'text-center' }} text-muted font-14">
             {% if message %}
-                <i class="fa-solid fa-circle-info"></i>
                 {{ message }}
             {% else %}
-                <i class="fa-solid fa-circle-info"></i>
                 No results found.
             {% endif %}
-        </div>
+        </p>
     </div>
 {% endmacro %}
 
@@ -119,4 +117,24 @@ Renders the copyright information #}
     {% else %}
         Copyright &copy; {{ startDate }} - {{ nowYear }}
     {% endif %}
+{% endmacro %}
+
+{#
+Use this macro to render an input field with a spinner loader inside.
+#}
+{% macro inputSpinner(field) %}
+    <div class="form-group">
+        {{ form_label(field) }}
+        <div class="inputcontainer">
+            {{ form_widget(field) }}
+            <div class="icon-container d-none">
+                <i class="loader"></i>
+            </div>
+        </div>
+        {% if field.vars.errors|length %}
+            <div class="text-danger">
+                {{ form_errors(field) }}
+            </div>
+        {% endif %}
+    </div>
 {% endmacro %}

@@ -43,13 +43,18 @@ function BusinessEdit() {
             .then((data) => {
                 if (!data.reviews.length) {
                     state.modules.GoogleReviewLinkManager.setReviewNumberLabel();
+                    state.modules.GoogleReviewLinkManager.showGenerateReviewBtn();
+                    state.modules.GoogleReviewLinkManager.hideManagmentReviewBtn();
                     return;
                 }
+                state.modules.GoogleReviewLinkManager.hideGenerateReviewBtn();
+                state.modules.GoogleReviewLinkManager.showManagmentReviewBtn();
                 data.reviews.forEach((review) => {
                     addReviewToDom(state.modules.GoogleReviewLinkManager.getReviewHtml(review));
                 });
             })
             .catch((e) => {
+                console.debug(e)
                 state.modules.Notification.warning(`The business information was loaded successfully, 
                 however this page was unable to load its Google Review Links.', 'Google Review Links`);
             })

@@ -28,9 +28,9 @@ abstract class BaseController extends AbstractController
      *
      * @return ObjectRepository
      */
-    protected function repository(ManagerRegistry $doctrine, string $className, string $em = null): ObjectRepository
+    protected function _repository(ManagerRegistry $doctrine, string $className, string $em = null): ObjectRepository
     {
-        return $this->em($doctrine, $em)->getRepository($className);
+        return $this->_em($doctrine, $em)->getRepository($className);
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class BaseController extends AbstractController
      *
      * @return ObjectManager
      */
-    protected function em(ManagerRegistry $doctrine, string $em = null): ObjectManager
+    protected function _em(ManagerRegistry $doctrine, string $em = null): ObjectManager
     {
         return $doctrine->getManager($em);
     }
@@ -53,7 +53,7 @@ abstract class BaseController extends AbstractController
      *
      * @return void
      */
-    protected function notifySuccess(string $message = null): void
+    protected function _notifySuccess(string $message = null): void
     {
         $this->addFlash('success', $message ?? 'Action performed successfully.');
     }
@@ -65,7 +65,7 @@ abstract class BaseController extends AbstractController
      *
      * @return void
      */
-    protected function notifyError(string $message = null): void
+    protected function _notifyError(string $message = null): void
     {
         $this->addFlash('error', $message ?? 'An error occur.');
     }
@@ -77,7 +77,7 @@ abstract class BaseController extends AbstractController
      *
      * @return void
      */
-    protected function notifyWarning(string $message = null): void
+    protected function _notifyWarning(string $message = null): void
     {
         $this->addFlash('warning', $message ?? 'You should check the performed action.');
     }
@@ -125,11 +125,11 @@ abstract class BaseController extends AbstractController
      *
      * @return JsonResponse
      */
-    protected function buildJsonResponse(
+    protected function _buildJsonResponse(
         AbstractApiResponseModel $apiResponseModel,
         int $code = Response::HTTP_OK
     ): JsonResponse {
-        $response = new JsonResponse($apiResponseModel->toObject(), $code, [], false);
+        $response = new JsonResponse($apiResponseModel->toObject(), $code);
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->add(['Pragma' => 'no-cache', 'Expires' => '0']);
 
@@ -141,11 +141,12 @@ abstract class BaseController extends AbstractController
      *
      * @param string $filename     QR code image absolute path.
      * @param string $fileBaseName QR code image base filename
+     * @param string $extention    The file extention.
      *
      * @return BinaryFileResponse
      */
-    protected function _downloadGoogleReviewLinkQrCodeImg(string $filename, string $fileBaseName): BinaryFileResponse
+    protected function _downloadFile(string $filename, string $fileBaseName, string $extention): BinaryFileResponse
     {
-        return $this->file($filename, "$fileBaseName.png");
+        return $this->file($filename, "$fileBaseName.$extention");
     }
 }

@@ -5,7 +5,6 @@
 
 namespace App\Api\Business\Controller;
 
-use App\Api\Business\Model\BusinessListModel;
 use App\Api\Business\Model\BusinessRemoveModel;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
@@ -14,7 +13,6 @@ use App\Core\Controller\BaseController;
 use App\Core\Models\ApiEmptyResponse;
 use App\Entity\Business;
 use App\Entity\Review;
-use App\Repository\Business\BusinessCriteria;
 use ArrayObject;
 use Common\Communication\HtmlMailer\MailerMessage;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,7 +20,6 @@ use Exception;
 use Common\Communication\HtmlMailer\Mailer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -34,22 +31,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class ApiBusinessController extends BaseController
 {
     use TBusinessController;
-
-    /**
-     * List of business.
-     *
-     * @throws ApiErrorException
-     */
-    public function list(ManagerRegistry $doctrine, Request $request): Response
-    {
-        try {
-            $businesses = $this->findBusiness($request, $this->em($doctrine), new BusinessCriteria());
-        } catch (Exception $e) {
-            throw new ApiErrorException(["Unable to retrieve the business list"], 0, $e);
-        }
-
-        return $this->buildJsonResponse(new BusinessListModel($businesses));
-    }
 
     /**
      * Removes business entity.
@@ -67,13 +48,13 @@ class ApiBusinessController extends BaseController
                 }
             }
             $removed = clone $business;
-            $this->em($doctrine)->remove($business);
-            $this->em($doctrine)->flush();
+            $this->_em($doctrine)->remove($business);
+            $this->_em($doctrine)->flush();
         } catch (Exception $e) {
             throw new ApiErrorException(["Unable to remove the business {$business->getName()}"], 0, $e);
         }
 
-        return $this->buildJsonResponse(new BusinessRemoveModel($removed));
+        return $this->_buildJsonResponse(new BusinessRemoveModel($removed));
     }
 
     /**
@@ -105,7 +86,7 @@ class ApiBusinessController extends BaseController
         }
         $sentEmails = 0;
         foreach ($reviews as $reviewId) {
-            $review = $this->repository($doctrine, Review::class)->find($reviewId);
+            $review = $this->_repository($doctrine, Review::class)->find($reviewId);
             if (!$review) {
                 $errors->append("The review $reviewId was not found.");
                 continue;
@@ -139,12 +120,11 @@ class ApiBusinessController extends BaseController
                 $errors->append("Unable to send the Google Review Link $reviewId by email");
             }
         }
-
         $totalReviews = count($reviews);
         if ($totalReviews && $totalReviews !== $sentEmails) {
             throw new ApiNormalOperationException($errors->getArrayCopy());
         }
 
-        return $this->buildJsonResponse(new ApiEmptyResponse());
+        return $this->_buildJsonResponse(new ApiEmptyResponse());
     }
 }

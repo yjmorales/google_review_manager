@@ -7,11 +7,45 @@
 }
 
 .review-details {
-    width: 230px;
+    width: 100%;
     margin: 5px;
     border: solid 1px transparent;
 }
 
-.review-details:hover {
-    border: solid 1px #117a8b;
+.img-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.img-container .image {
+    display: block;
+    height: auto;
+}
+
+.img-container .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    width: 50px;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: rgba(16,13,15,0.73);
+}
+
+.img-container:hover .overlay {
+    opacity: 1;
+}
+
+.img-container .icon {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
 }

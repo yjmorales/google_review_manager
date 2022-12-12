@@ -8,7 +8,7 @@ namespace App\Api\Business\Model;
 use App\Api\Core\Services\QrCodeManager;
 use App\Api\Core\Services\QrCodeManager\Exception\QrCodeImgNotFountException;
 use App\Core\Models\AbstractApiResponseModel;
-use App\Entity\Review;
+use App\Entity\Business;
 use Exception;
 use stdClass;
 use Symfony\Component\Routing\RouterInterface;
@@ -19,11 +19,11 @@ use Symfony\Component\Routing\RouterInterface;
 class ReviewListModel extends AbstractApiResponseModel
 {
     /**
-     * Holds the review entity.
+     * Business holding the reviews to be returned as response data.
      *
-     * @var Review[]
+     * @var Business
      */
-    private array $_reviews;
+    private Business $business;
 
     /**
      * Used to generate routes respective to the given entity.
@@ -32,13 +32,14 @@ class ReviewListModel extends AbstractApiResponseModel
      */
     private RouterInterface $_router;
 
+
     /**
-     * @param array           $reviews List of businesses.
-     * @param RouterInterface $router  Used to generate routes respective to the given entity.
+     * @param Business        $business Business holding the reviews to be returned as response data.
+     * @param RouterInterface $router   Used to generate routes respective to the given entity.
      */
-    public function __construct(array $reviews, RouterInterface $router)
+    public function __construct(Business $business, RouterInterface $router)
     {
-        $this->_reviews = $reviews;
+        $this->business = $business;
         $this->_router  = $router;
     }
 
@@ -46,30 +47,32 @@ class ReviewListModel extends AbstractApiResponseModel
      * @inheritDoc
      * @throws Exception
      */
-    public function toObject(): array
+    public function toObject(): stdClass
     {
         $data = [];
-        foreach ($this->_reviews as $review) {
+        foreach ($this->business->getReviews() as $review) {
             $item                    = new stdClass();
             $item->id                = $review->getId();
             $item->name              = $review->getName();
             $item->link              = $review->getLink();
             $item->qrCodeImgFilename = $review->getQrCodeImgFilename();
+            $item->businessEmail     = $this->business->getEmail();
             try {
                 $item->qrCodeImgBase64 = QrCodeManager::getQrCodeBase64($review->getQrCodeImgFilename());
             } catch (QrCodeImgNotFountException $e) {
                 // Intentionally blank.
             }
-            $item->urlRemoveReview = $this->_router->generate('api_v1_review_id_remove_post', [
-                'id' => $review->getId()
-            ]);
-            $item->urlUpdateReview = $this->_router->generate('api_v1_review_id_update_post', [
-                'id' => $review->getId()
-            ]);
+            $item->urlRemoveReview   = $this->_router->generate('api_v1_review_id_remove_post',
+                ['id' => $review->getId()]);
+            $item->urlUpdateReview   = $this->_router->generate('api_v1_review_id_update_post',
+                ['id' => $review->getId()]);
+            $item->urlDownloadReview = $this->_router->generate('review_download', ['review_id' => $review->getId()]);
 
             $data[] = $item;
         }
+        $result          = new stdClass();
+        $result->reviews = $data;
 
-        return ['reviews' => $data];
+        return $result;
     }
 }

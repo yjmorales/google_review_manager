@@ -8,6 +8,7 @@ namespace App\Controller\Business;
 use App\Core\Controller\BaseController;
 use App\Entity\Business;
 use App\Entity\IndustrySector;
+use App\Entity\Place;
 use App\Form\BusinessFormType;
 use App\Model\ActiveEnum;
 use App\Repository\Business\BusinessCriteria;
@@ -33,9 +34,19 @@ class BusinessController extends BaseController
      */
     public function list(ManagerRegistry $doctrine, Request $request): Response
     {
-        $industrySectors = $this->em($doctrine)->getRepository(IndustrySector::class)->findAll();
+        $industrySectors = $this->_em($doctrine)->getRepository(IndustrySector::class)->findAll();
         $criteria        = new BusinessCriteria();
-        $businesses      = $this->findBusiness($request, $this->em($doctrine), $criteria);
+        if ($request->getQueryString()) {
+            $criteria->setBusinessName($request->get('businessName'));
+            $criteria->setBusinessCreatedDate($request->get('businessCreatedDate'));
+            $criteria->setBusinessIndustrySector($request->get('businessIndustrySector'));
+            $criteria->setBusinessStatus($request->get('businessStatus'));
+            $criteria->setBusinessAddress($request->get('businessAddress'));
+            $criteria->setBusinessState($request->get('businessState'));
+            $criteria->setBusinessCity($request->get('businessCity'));
+            $criteria->setBusinessZipCode($request->get('businessZipCode'));
+        }
+        $businesses = $this->_em($doctrine)->getRepository(Business::class)->filter($criteria);
 
         return $this->render('/business/list/business_list.html.twig', [
             'businesses'     => $businesses,
@@ -77,7 +88,10 @@ class BusinessController extends BaseController
      */
     public function edit(Request $request, ManagerRegistry $doctrine, Business $business): Response
     {
-        $form     = $this->createForm(BusinessFormType::class, $business);
+        $form = $this->createForm(BusinessFormType::class, $business);
+        if ($business->getPlace() && $placeId = $business->getPlace()->getPlaceId()) {
+            $form->get('place')->setData($placeId);
+        }
         $response = $this->redirectToRoute('dashboard');
         if (!$this->_save($request, $doctrine, $form, $business)) {
             $response = $this->render('/business/create_edit/business_edit.html.twig', [
@@ -91,26 +105,6 @@ class BusinessController extends BaseController
         }
 
         return $response;
-    }
-
-    /**
-     * Removes business entity.
-     *
-     * @Route("/{id}/remove", name="business_remove")
-     */
-    public function remove(ManagerRegistry $doctrine, Business $business): Response
-    {
-        foreach ($business->getReviews() as $review) {
-            if ($filename = $review->getQrCodeImgFilename()) {
-                if (file_exists($filename)) {
-                    unlink($filename);
-                }
-            }
-        }
-        $this->em($doctrine)->remove($business);
-        $this->notifySuccess("The business \"{$business->getName()}\" has been removed successfully.");
-
-        return $this->render('/dashboard/dashboard.html.twig');
     }
 
     /**
@@ -128,13 +122,19 @@ class BusinessController extends BaseController
         $isEdit = (bool)$business->getId();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->em($doctrine);
+            $em = $this->_em($doctrine);
+            if ($placeId = $form->get('place')->getData()) {
+                $place = $this->_repository($doctrine, Place::class)->findOneByPlaceId($placeId);
+                if ($place) {
+                    $business->setPlace($place);
+                }
+            }
             $em->persist($business);
             $em->flush();
             if ($isEdit) {
-                $this->notifySuccess("The business \"{$business->getName()}\" has been updated successfully.");
+                $this->_notifySuccess("The business \"{$business->getName()}\" has been updated successfully.");
             } else {
-                $this->notifySuccess("The business \"{$business->getName()}\" has been created successfully. You are able to generate its Google Review Links.");
+                $this->_notifySuccess("The business \"{$business->getName()}\" has been created successfully. You are able to generate its Google Review Links.");
             }
 
             return true;

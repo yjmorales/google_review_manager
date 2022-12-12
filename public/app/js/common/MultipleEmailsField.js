@@ -8,6 +8,7 @@ function MultipleEmailsField() {
     // UI Elements.
     const ui = {
         $field: 'div[data-multiple-emails="true"]',
+        $fieldEmail: '.email-block',
     };
 
     /**
@@ -20,5 +21,14 @@ function MultipleEmailsField() {
         return EmailsInput(inputContainerNode, options ?? {});
     }
 
+    /**
+     * Removes all added emails.
+     * @return {void}
+     */
+    function clear() {
+        $(ui.$fieldEmail).remove();
+    }
+
     this.initMultipleEmailField = initMultipleEmailField;
+    this.clear = clear;
 }

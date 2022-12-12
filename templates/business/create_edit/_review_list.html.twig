@@ -18,36 +18,9 @@
         <div class="col-auto p-1">
             <button id="btnGenerateReviewOnEditForm"
                     data-url="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
-                    class="btn btn-xs btn-outline-info"
+                    class="btn btn-xs btn-outline-info d-none"
                     type="button">
-                <i class="fa fa-plus"></i>
                 Generate new Google Review Link
-            </button>
-        </div>
-        <div class="col-auto p-1">
-            <button id="btnOpenSendReviewByEmailConfirmation"
-                    role="button"
-                    class="btn btn-xs btn-outline-info"
-                    disabled
-                    data-business-email="{{ business.email }}"
-                    type="button">
-                Send by email
-            </button>
-        </div>
-        <div class="col-auto p-1">
-            <button id="btnRemoveSelectedReview"
-                    role="button"
-                    class="btn btn-xs btn-outline-info"
-                    disabled
-                    type="button">
-                Remove selected
-            </button>
-        </div>
-        <div class="col-auto p-1">
-            <button id="btnRemoveAllReviews"
-                    role="button"
-                    class="btn btn-xs btn-outline-info"
-                    type="button"> Remove all
             </button>
         </div>
     </div>

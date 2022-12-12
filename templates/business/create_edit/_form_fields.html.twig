@@ -5,7 +5,8 @@
         padding-left: 0;
     }
 </style>
-
+<input id="business_form_id" value="{{ business.id }}" type="hidden">
+{{ form_widget(form.place) }}
 <div class="form-group row">
     <div class="col-8">
         {{ helpers.field(form.name) }}
@@ -33,7 +34,7 @@
 <div class="form-group row">
     <div class="col-8">
         <div class="mb-3">
-            {{ helpers.field(form.address) }}
+            {{ helpers.inputSpinner(form.address) }}
         </div>
         <div class="mb-3">
             {{ helpers.field(form.city) }}

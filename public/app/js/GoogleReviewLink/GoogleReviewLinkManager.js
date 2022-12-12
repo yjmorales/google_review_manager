@@ -13,28 +13,19 @@ function GoogleReviewLinkManager() {
         $urls: $('#urls'),
         // Buttons
         $btnRemoveReview: $('#btnSubmitRemoveReview'),
-        $btnOpenUpdateReviewConfirmation: '[data-id="btn-open-update-review-confirmation"]',
-        $btnUpdateReview: $('#btnSubmitUpdateReview'),
         $btnOpenRemoveReviewConfirmation: '[data-id="btn-open-remove-review-confirmation"]',
-        $btnOpenRemoveAllConfirmation: $('#btnRemoveAllReviews'),
-        $btnOpenSendReviewByEmailConfirmation: $('#btnOpenSendReviewByEmailConfirmation'),
-        $btnRemoveSelectedReview: $('#btnRemoveSelectedReview'),
-        $btnSubmitRemoveMultipleReviews: $('#btnSubmitRemoveMultipleReviews'),
-        $btnSubmitRemoveAllReviews: $('#btnSubmitRemoveAllReviews'),
+        $btnOpenSendReviewByEmailConfirmation: '#btnOpenSendReviewByEmailConfirmation',
         $btnSubmitSendReviewByEmail: '#btnSubmitSendReviewByEmail',
         // Modals & Containers
         $modalSendReviewByEmail: $('#modalSendReviewByEmail'),
         $modalRemoveReviewItem: '#modalRemoveReviewItem',
-        $modalRemoveMultipleReviewsItem: '#modalRemoveMultipleReviewsItem',
-        $modalRemoveAllReviewsItem: '#modalRemoveAllReviewsItem',
-        $modalUpdateReviewItem: '#modalUpdateReviewItem', // Containers
         $reviewDetails: '.review-details',
         // Fields
         $fieldReviewLink: 'input[name="review-link"]',
-        $fieldCheckboxReviewSelector: '.fieldCheckboxReviewSelector',
         $emptyReviewListLabel: $('#emptyReviewListLabel'),
         $fieldMultipleEmailsToSendReview: 'fieldMultipleEmailsToSendReview',
         $indicatorSendEmailToOwner: $('#indicatorSendEmailToOwner'),
+        $fieldPlaceId: $('#business_form_place'),
     }
 
     /**
@@ -57,8 +48,7 @@ function GoogleReviewLinkManager() {
             btnRemoveReview: null,
             multipleReviewIdsToRemove: [],
             urlRemoveReview: null,
-            btnUpdateReview: null,
-            urlUpdateReview: null,
+            reviewIdToSendEmail: null,
         },
         data: {
             dataMultipleEmails: null,
@@ -95,14 +85,7 @@ function GoogleReviewLinkManager() {
         $(document).on('click', state.config.$trigger, generate);
         $(document).on('click', ui.$btnOpenRemoveReviewConfirmation, openRemoveReviewConfirmationModal);
         ui.$btnRemoveReview.on('click', submitRemoveReview);
-        $(document).on('click', ui.$btnOpenUpdateReviewConfirmation, openUpdateReviewConfirmationModal);
-        $(document).on('change', ui.$fieldCheckboxReviewSelector, activateActionsForSelectedReviews);
-        ui.$btnUpdateReview.on('click', submitUpdateReview);
-        ui.$btnRemoveSelectedReview.on('click', openRemoveSelectedReviewConfirmationModal)
-        ui.$btnSubmitRemoveMultipleReviews.on('click', submitRemoveMultipleReviews);
-        ui.$btnSubmitRemoveAllReviews.on('click', submitRemoveAllReviews);
-        ui.$btnOpenRemoveAllConfirmation.on('click', openRemoveAllReviewsConfirmationModal);
-        ui.$btnOpenSendReviewByEmailConfirmation.on('click', openSendReviewByEmailConfirmationModal);
+        $(document).on('click', ui.$btnOpenSendReviewByEmailConfirmation, openSendReviewByEmailConfirmationModal);
         $(document).on('click', ui.$btnSubmitSendReviewByEmail, submitSendReviewsByEmail);
         ui.$modalSendReviewByEmail.on('hidden.bs.modal', resetSendByEmailForm);
     }
@@ -112,13 +95,18 @@ function GoogleReviewLinkManager() {
      * @return {void}
      */
     function generate() {
+        if (getReviewsCount()) {
+            return;
+        }
         const $btn = $(this);
         const url = $btn.data('url');
         $btn.prop('disabled', true);
         if (state.config.$loading) {
             state.config.$loading.start();
         }
-        fetch(url, {method: 'POST'})
+        const body = new FormData();
+        body.append('place_id', ui.$fieldPlaceId.val());
+        fetch(url, {method: 'POST', body: body})
             .then((response) => response.json())
             .then((data) => {
                 if (state.config.$loading) {
@@ -152,33 +140,30 @@ function GoogleReviewLinkManager() {
     function getReviewHtml(review) {
         return `
         <div class="card review-details" data-id="review-details" data-review-id="${review.id}">
-            <div class="p-2">
-                <input 
-                type="checkbox"
-                class="fieldCheckboxReviewSelector"
-                data-review-id="${review.id}"
-                 >
-            </div>
             <div class="text-center">
                 <img class="img-responsive" src="${review.qrCodeImgBase64}" height="150" width="150">
             </div>
-            <div class="card-body p-2">
+            <div class="card-body p-2 text-center">
                 <strong class="d-block font-14">Review link:</strong>
                 <p class="card-text font-14"><a href="${review.link}" class="font-14">${review.link}</a></p>
             </div>
             <div class="card-footer p-2">
-            <div class="text-right">
+            <div class="text-center">
                     <button type="button" class="btn btn-outline-info btn-flat btn-xs btnCopyToClipBoard"
                             data-review-link="${review.link}">
                             <i class="fa fa-clipboard"></i>
                             <span class="text-copy-clipboard">Copy link</span>
                     </button>
-                    <button type="button" class="btn btn-outline-info btn-flat btn-xs"
-                            data-id="btn-open-update-review-confirmation"
-                            data-url-update-review="${review.urlUpdateReview}"
-                            data-link="${review.link}">
-                        <i class="fa fa-pen"></i>
-                        Edit
+                    <a href="${review.urlDownloadReview}" class="btn btn-xs btn-outline-info">
+                        Download
+                    </a>
+                     <button id="btnOpenSendReviewByEmailConfirmation"
+                            role="button"
+                            class="btn btn-xs btn-outline-info"
+                            data-review-id="${review.id}"
+                            data-business-email="${review.businessEmail}"
+                            type="button">
+                        Send by email
                     </button>
                     <button type="button" class="btn btn-outline-info btn-flat btn-xs"
                             data-id="btn-open-remove-review-confirmation"
@@ -203,30 +188,6 @@ function GoogleReviewLinkManager() {
     }
 
     /**
-     * Opens "delete" confirmation modal.
-     * @return {void}
-     */
-    function openRemoveSelectedReviewConfirmationModal() {
-        $(ui.$fieldCheckboxReviewSelector).each(function () {
-            const $reviewCheckbox = $(this);
-            if (!$reviewCheckbox.is(':checked')) {
-                return;
-            }
-            const reviewId = $reviewCheckbox.data('review-id');
-            state.clicked.multipleReviewIdsToRemove.push(reviewId);
-        });
-        $(ui.$modalRemoveMultipleReviewsItem).modal('show');
-    }
-
-    /**
-     * Opens 'remove all' confirmation modal.
-     * @return {void}
-     */
-    function openRemoveAllReviewsConfirmationModal() {
-        $(ui.$modalRemoveAllReviewsItem).modal('show');
-    }
-
-    /**
      * Opens 'send by email' confirmation modal.
      * @return {void}
      */
@@ -238,6 +199,7 @@ function GoogleReviewLinkManager() {
         if (!state.data.dataMultipleEmails) {
             state.data.dataMultipleEmails = state.modules.MultipleEmailsField.initMultipleEmailField(multipleEmailsOptions);
         }
+        state.data.reviewIdToSendEmail = $(this).data('review-id');
         $modal.modal('show');
         $modal.find('[data-business-email="true"]').text($(this).data('business-email'));
     }
@@ -259,6 +221,7 @@ function GoogleReviewLinkManager() {
                 $(ui.$modalRemoveReviewItem).modal('hide');
                 state.modules.Notification.success('Google Review Link removed successfully', 'Google Review Link');
                 setReviewNumberLabel();
+                showGenerateReviewBtn();
             })
             .catch((e) => {
                 state.modules.Notification.error('Unable to remove the selected Google Review Link', 'Google Review Link');
@@ -281,132 +244,6 @@ function GoogleReviewLinkManager() {
     }
 
     /**
-     * Removes multiples reviews from the review list.
-     * @return {void}
-     */
-    function submitRemoveMultipleReviews() {
-        const $btn = $(this);
-        const url = $btn.data('url');
-        $btn.prop('disabled', true);
-        state.modules.LoaderManager.startOverlay();
-        const data = new FormData();
-        data.append('reviews', JSON.stringify(state.clicked.multipleReviewIdsToRemove));
-        fetch(url, {method: 'POST', body: data})
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                data.reviews.forEach((review) => {
-                    $(ui.$reviewDetails).each(function () {
-                        const $this = $(this);
-                        if ($this.data('review-id') === review.id) {
-                            $this.remove();
-                        }
-                    });
-                });
-                setReviewNumberLabel();
-                $(ui.$modalRemoveMultipleReviewsItem).modal('hide');
-                state.modules.Notification.success('The selected Google Review Links were removed successfully', 'Google Review Link');
-            })
-            .catch((e) => {
-                state.modules.Notification.error('Unable to remove the selected Google Review Links', 'Google Review Link');
-            })
-            .finally(() => {
-                state.modules.LoaderManager.stopOverlay();
-                $btn.prop('disabled', false);
-            });
-    }
-
-    /**
-     * Removes multiples reviews from the review list.
-     * @return {void}
-     */
-    function submitRemoveAllReviews() {
-        const $btn = $(this);
-        const url = $btn.data('url');
-        $btn.prop('disabled', true);
-        state.modules.LoaderManager.startOverlay();
-        fetch(url, {method: 'POST'})
-            .then((response) => {
-                return response.json();
-            })
-            .then(() => {
-                $(ui.$reviewDetails).remove();
-                setReviewNumberLabel();
-                $(ui.$modalRemoveAllReviewsItem).modal('hide');
-                state.modules.Notification.success('All Google Review Links were removed successfully', 'Google Review Link');
-            })
-            .catch((e) => {
-                state.modules.Notification.error('Unable to remove all Google Review Links', 'Google Review Link');
-            })
-            .finally(() => {
-                state.modules.LoaderManager.stopOverlay();
-                $btn.prop('disabled', false);
-            });
-    }
-
-    /**
-     * Opens "update" confirmation modal.
-     * @return {void}
-     */
-    function openUpdateReviewConfirmationModal() {
-        const $btn = $(this);
-        state.clicked.btnUpdateReview = $btn.closest(ui.$reviewDetails);
-        state.clicked.urlUpdateReview = $btn.data('url-update-review');
-        $(ui.$fieldReviewLink).val($btn.data('link'));
-        $(ui.$modalUpdateReviewItem).modal('show');
-    }
-
-    /**
-     * Updates a review
-     * @return {void}
-     */
-    function submitUpdateReview() {
-        const $btn = $(this);
-        $btn.prop('disabled', true);
-        state.modules.LoaderManager.startOverlay();
-        const formData = new FormData();
-        formData.append('link', $(ui.$fieldReviewLink).val());
-        fetch(state.clicked.urlUpdateReview, {
-            method: 'POST',
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                const review = data.review;
-                const html = getReviewHtml(review);
-                const id = `[data-review-id="${review.id}"]`;
-                $(id).replaceWith(html);
-                $btn.closest('.modal').modal('hide');
-                state.modules.Notification.success('The Google Review Link was successfully updated.', 'Google Review Link');
-            })
-            .catch((e) => {
-                console.debug(e)
-                state.modules.Notification.error('Unable to update the selected Google Review Link', 'Google Review Link');
-            })
-            .finally(() => {
-                state.modules.LoaderManager.stopOverlay();
-                $btn.prop('disabled', false);
-            });
-    }
-
-    /**
-     * Once a review is selected by clicking the checkbox this activates some actions (buttons) that only
-     * should be active whenever at least there are 1 selected review.
-     */
-    function activateActionsForSelectedReviews() {
-        let atLeastOnceSelected = 0;
-        $(ui.$fieldCheckboxReviewSelector).each(function () {
-            if (atLeastOnceSelected) {
-                return;
-            }
-            atLeastOnceSelected = $(this).is(':checked');
-        });
-        ui.$btnRemoveSelectedReview.prop('disabled', !atLeastOnceSelected);
-        ui.$btnOpenSendReviewByEmailConfirmation.prop('disabled', !atLeastOnceSelected);
-    }
-
-    /**
      * Once the user clicks and accepts to send a review via email this function perform the process to send the email.
      * @return {void}
      */
@@ -417,18 +254,12 @@ function GoogleReviewLinkManager() {
         const $btn = $(this)
             , url = $btn.data('url')
             , otherReceivers = state.data.dataMultipleEmails.getEmailsList()
-            , reviewIds = []
+            , reviewIds = [state.data.reviewIdToSendEmail]
             , sendToBusiness = ui.$indicatorSendEmailToOwner.is(':checked')
         ;
+
         state.modules.LoaderManager.startOverlay();
         $btn.prop('disabled', true);
-        $(ui.$fieldCheckboxReviewSelector).each(function () {
-            const $this = $(this);
-            if (!$this.is(':checked')) {
-                return;
-            }
-            reviewIds.push($this.data('review-id'));
-        });
         const data = new FormData();
         data.append('otherReceivers', JSON.stringify(otherReceivers));
         data.append('reviewIds', JSON.stringify(reviewIds));
@@ -440,6 +271,7 @@ function GoogleReviewLinkManager() {
                     throw 'Error';
                 }
                 state.modules.Notification.success(`The selected reviews have been successfully sent via email.`, 'Email notification');
+                ui.$modalSendReviewByEmail.modal('hide');
             })
             .catch((e) => {
                 console.debug(e)
@@ -456,9 +288,40 @@ function GoogleReviewLinkManager() {
      */
     function resetSendByEmailForm() {
         ui.$indicatorSendEmailToOwner.prop('checked', true).trigger('change');
+        state.modules.MultipleEmailsField.clear();
+    }
+
+    /**
+     * Gets the count of generated reviews.
+     *
+     * @return {jQuery}
+     */
+    function getReviewsCount() {
+        return $(ui.$reviewDetails).length;
+    }
+
+    function showGenerateReviewBtn() {
+        $(state.config.$trigger).removeClass('d-none');
+    }
+
+    function hideGenerateReviewBtn() {
+        $(state.config.$trigger).addClass('d-none');
+    }
+
+    function showManagementReviewBtn() {
+        $(ui.$btnOpenSendReviewByEmailConfirmation).removeClass('d-none');
+
+    }
+
+    function hideManagementReviewBtn() {
+        $(ui.$btnOpenSendReviewByEmailConfirmation).addClass('d-none');
     }
 
     this.init = init;
     this.getReviewHtml = getReviewHtml;
     this.setReviewNumberLabel = setReviewNumberLabel;
+    this.showGenerateReviewBtn = showGenerateReviewBtn;
+    this.hideGenerateReviewBtn = hideGenerateReviewBtn;
+    this.showManagmentReviewBtn = showManagementReviewBtn;
+    this.hideManagmentReviewBtn = hideManagementReviewBtn;
 }

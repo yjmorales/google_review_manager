@@ -5,23 +5,35 @@
 
 namespace App\Api\Core\Services\GoogleReviewManager;
 
-use App\Entity\Business;
-
 /**
  * Class responsible to manage the Google Review link string.
  */
 class ApiGoogleReviewManager
 {
     /**
+     * Base URL used by google to generate a Review.
+     *
+     * @var string
+     */
+    private string $_baseUrl;
+
+    /**
+     * @param string $baseUrl Base URL used by google to generate a Review.
+     */
+    public function __construct(string $baseUrl)
+    {
+        $this->_baseUrl = $baseUrl;
+    }
+
+    /**
      * Use this function to generate a Google Review link string.
      *
-     * @param Business $business
+     * @param string $placeId
      *
      * @return string
      */
-    public function generateLink(Business $business): string
+    public function generateLink(string $placeId): string
     {
-        return 'link';
+        return "{$this->_baseUrl}{$placeId}";
     }
-
 }

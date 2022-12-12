@@ -46,13 +46,14 @@ class ReviewModel extends AbstractApiResponseModel
      * @inheritDoc
      * @throws Exception
      */
-    public function toObject(): array
+    public function toObject(): stdClass
     {
         $data                    = new stdClass();
         $data->id                = $this->_review->getId();
         $data->name              = $this->_review->getName();
         $data->link              = $this->_review->getLink();
         $data->business          = $this->_review->getBusiness()->getId();
+        $data->businessEmail     = $this->_review->getBusiness()->getEmail();
         $data->qrCodeImgFilename = $this->_review->getQrCodeImgFilename();
         try {
             $data->qrCodeImgBase64 = QrCodeManager::getQrCodeBase64($this->_review->getQrCodeImgFilename());
@@ -64,6 +65,9 @@ class ReviewModel extends AbstractApiResponseModel
         $data->urlUpdateReview = $this->_router->generate('api_v1_review_id_update_post',
             ['id' => $this->_review->getId()]);
 
-        return ['review' => $data];
+        $result         = new stdClass();
+        $result->review = $data;
+
+        return $result;
     }
 }
