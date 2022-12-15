@@ -1,37 +1,44 @@
 {% import '/components/helpers_macro.html.twig' as helpers %}
 
-<div class="row mt-2">
-    <div class="col">
-        <h5 class="mb-0">
-            <a class="text-black link-black-no-hover collapse-link"
-               data-toggle="collapse"
-               aria-expanded="true"
-               href="#business-{{ business.id }}-review-list">
-                Google Review Links
-                <i class="fa fa-angle-down ml-2 font-14"></i>
-            </a>
-        </h5>
+<div class="card">
+    <div class="card-header card-header-compressed">
+        <h3 class="card-title">Google Review Link</h3>
     </div>
-</div>
-<div id="business-{{ business.id }}-review-list" class="collapse show">
-    <div class="row form-group">
-        <div class="col-auto p-1">
-            <button id="btnGenerateReviewOnEditForm"
-                    data-url="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
-                    class="btn btn-xs btn-outline-info d-none"
-                    type="button">
-                Generate new Google Review Link
-            </button>
+    <div class="card-body">
+        <div class="row mt-2 d-none">
+            <div class="col">
+                <h5 class="mb-0">
+                    <a class="text-black link-black-no-hover collapse-link"
+                       data-toggle="collapse"
+                       aria-expanded="true"
+                       href="#business-{{ business.id }}-review-list">
+                        Google Review Links
+                        <i class="fa fa-angle-down ml-2 font-14"></i>
+                    </a>
+                </h5>
+            </div>
+        </div>
+        <div id="business-{{ business.id }}-review-list" class="collapse show">
+            <div class="row form-group">
+                <div class="col-auto p-1">
+                    <button id="btnGenerateReviewOnEditForm"
+                            data-url="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
+                            class="btn btn-xs btn-outline-info d-none"
+                            type="button">
+                        Generate new Google Review Link
+                    </button>
+                </div>
+            </div>
+            {{ helpers.loading_dot() }}
+            <div class="row" id="googleReviewListContainer">
+                {{ helpers.loading_skeleton('review-list-loader') }}
+            </div>
+            {{ helpers.no_result(
+                'No Google Review Link has been created.',
+                'emptyReviewListLabel',
+                false,
+                'd-none'
+            ) }}
         </div>
     </div>
-    {{ helpers.loading_dot() }}
-    <div class="row" id="googleReviewListContainer">
-        {{ helpers.loading_skeleton('review-list-loader') }}
-    </div>
-    {{ helpers.no_result(
-        'No Google Review Link has been created.',
-        'emptyReviewListLabel',
-        false,
-        'd-none'
-    ) }}
 </div>

@@ -24,28 +24,35 @@
     {{ helpers.notifications_success() }}
     {{ helpers.notifications_error() }}
     {{ helpers.notifications_warning() }}
-    <div class="card card-info card-outline direct-chat direct-chat-primary">
-        {{ form_start(form) }}
-        <div class="card-header card-header-compressed">
-            <h4 class="card-title">Edit business</h4>
-            <div class="card-tools">
-                {{ self.actions() }}
-            </div>
-        </div>
-        <div class="card-body p-2">
-            <div class="row">
-                <div class="col-8 offset-2">
-                    {% include '/business/create_edit/_form_fields.html.twig' %}
-                    {% include '/business/create_edit/_review_list.html.twig' %}
+    <div class="row">
+        <div class="col-8">
+            <div class="card card-info card-outline direct-chat direct-chat-primary">
+                {{ form_start(form) }}
+                <div class="card-header card-header-compressed">
+                    <h4 class="card-title">Edit business</h4>
+                    <div class="card-tools">
+                        {{ self.actions() }}
+                    </div>
                 </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div  class="col-10 offset-1" >
+                            {% include '/business/create_edit/_form_fields.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer p-2 text-right">
+                    {{ self.actions() }}
+                </div>
+                {{ form_end(form) }}
+                {{ helpers.form_processing() }}
             </div>
         </div>
-        <div class="card-footer p-2 text-right">
-            {{ self.actions() }}
+        <div class="col-4">
+            {% include '/business/create_edit/_review_list.html.twig' %}
         </div>
-        {{ form_end(form) }}
-        {{ helpers.form_processing() }}
     </div>
+
     {% include '/business/create_edit/_modalRemoveReviewItem.html.twig' %}
     {% include '/business/create_edit/_modalSendReviewByEmail.html.twig' %}
 {% endblock %}

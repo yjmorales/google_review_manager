@@ -139,7 +139,7 @@ function GoogleReviewLinkManager() {
      */
     function getReviewHtml(review) {
         return `
-        <div class="card review-details" data-id="review-details" data-review-id="${review.id}">
+        <div class=" review-details" data-id="review-details" data-review-id="${review.id}">
             <div class="text-center">
                 <img class="img-responsive" src="${review.qrCodeImgBase64}" height="150" width="150">
             </div>
