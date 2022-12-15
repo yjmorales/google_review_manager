@@ -45,3 +45,4 @@ composer.phar
 /.githubsendgrid.env
 /sendgrid.env
 /execute_migrations.sh
+/config/secrets/dev/dev.decrypt.private.php
