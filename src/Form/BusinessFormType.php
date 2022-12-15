@@ -27,7 +27,8 @@ class BusinessFormType extends AbstractType
                     'placeholder' => 'Business name',
                     'class'       => 'form-control form-control-border',
                     'minlength'   => 2,
-                    'maxlength'   => 255
+                    'maxlength'   => 255,
+                    'help'        => 'This value represents the business name.',
                 ],
             ])
             ->add('industrySector', EntityType::class, [
@@ -40,19 +41,22 @@ class BusinessFormType extends AbstractType
                 },
                 'attr'          => [
                     'class' => 'yjmSelect2',
+                    'help'  => 'This value represents what the business does.',
+
                 ],
                 'choice_label'  => 'name',
             ])
             ->add('place', HiddenType::class, [
-                'required'      => false,
-                'mapped'         => false,
+                'required' => false,
+                'mapped'   => false,
             ])
             ->add('address', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Address',
                     'class'       => 'form-control form-control-border',
                     'minlength'   => 2,
-                    'maxlength'   => 255
+                    'maxlength'   => 255,
+                    'help'        => 'Address of the business location.',
                 ],
 
             ])
@@ -61,7 +65,8 @@ class BusinessFormType extends AbstractType
                     'placeholder' => 'City',
                     'class'       => 'form-control form-control-border',
                     'minlength'   => 2,
-                    'maxlength'   => 255
+                    'maxlength'   => 255,
+                    'help'        => 'City where the business is located.',
                 ],
             ])
             ->add('state', TextType::class, [
@@ -69,7 +74,8 @@ class BusinessFormType extends AbstractType
                     'placeholder' => 'State',
                     'class'       => 'form-control form-control-border',
                     'minlength'   => 2,
-                    'maxlength'   => 255
+                    'maxlength'   => 255,
+                    'help'        => 'State where the business is located.',
                 ],
             ])
             ->add('zipCode', TextType::class, [
@@ -78,6 +84,7 @@ class BusinessFormType extends AbstractType
                     'class'       => 'form-control form-control-border zip-code',
                     'minlength'   => 2,
                     'maxlength'   => 15,
+                    'help'        => 'Zip Code where the business is located.',
                 ],
             ])
             ->add('active', CheckboxType::class, [
@@ -88,6 +95,7 @@ class BusinessFormType extends AbstractType
                     'data-on-text'   => 'Active',
                     'data-off-text'  => 'Inactive',
                     'data-off-color' => 'danger',
+                    'help'           => 'An Indicator of whether the business is currently open and generating goods and/or services.'
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -95,7 +103,8 @@ class BusinessFormType extends AbstractType
                     'class'       => 'form-control form-control-border',
                     'placeholder' => 'Business email',
                     'minlength'   => 2,
-                    'maxlength'   => 255
+                    'maxlength'   => 255,
+                    'help'        => 'This value represents the official business email.',
                 ],
             ]);
     }

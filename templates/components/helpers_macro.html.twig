@@ -6,6 +6,9 @@ Renders a symfony form field.
     <div class="form-group">
         {{ form_label(field) }}
         {{ form_widget(field) }}
+        {% if field.vars.attr.help ?? false %}
+            <small class="text-muted">{{ field.vars.attr.help }}</small>
+        {% endif %}
         {% if field.vars.errors|length %}
             <div class="text-danger">
                 {{ form_errors(field) }}
