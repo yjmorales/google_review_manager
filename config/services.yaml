@@ -12,6 +12,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    logger:
+       alias: 'monolog.logger'
+       public: true
+
     App\Demo\Generator\EntityGenerator:
         class: App\Demo\EntityGenerator
         public: true,
@@ -28,9 +32,50 @@ services:
         class: App\Entity\Business\GoogleReviewManager\GoogleReviewManager
         public: true
 
+    App\Google\GoogleMap\Place\Services:
+        class:
+        arguments:
+            - '%google_map_api_key%'
+
     Common\Communication\Mailer\SendGrid\Mailer:
         class: Common\Communication\Mailer\SendGrid\Mailer
         arguments:
             - '%sendgrid_api_key%'
             - '%sender_email%'
             - '%sender_name%'
+
+    Common\Communication\HtmlMailer\Mailer:
+        class: Common\Communication\HtmlMailer\Mailer
+        public: true
+        arguments:
+            - '@mailer'
+            - '@logger'
+            - '%sender_email%'
+            - '%internal_to_email%'
+            - '%sender_name%'
+
+    App\Google\GoogleMap\Place\Core\Transport\Transport:
+        class: App\Google\GoogleMap\Place\Core\Transport\Transport
+        public: yes
+        arguments:
+            - '%google_map_api_key%'
+
+    App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService:
+        class: App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService
+        public: yes
+        arguments:
+            - '@App\Google\GoogleMap\Place\Core\Transport\Transport'
+            - '%google_map_api_key%'
+
+    App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService:
+        class: App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService
+        public: yes
+        arguments:
+            - '@App\Google\GoogleMap\Place\Core\Transport\Transport'
+            - '%google_map_api_key%'
+
+    App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager:
+        class: App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager
+        public: yes
+        arguments:
+            - '%google_write_review_base_url%'

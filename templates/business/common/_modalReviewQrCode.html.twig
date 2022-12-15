@@ -16,10 +16,12 @@
                     </div>
                     <div class="col-12 p-2">
                         <button title="Copy Review Link to Clipboard"
-                                data-review-link="https://symfony.com/doc/5.4/validation.html"
+                                data-review-link=""
                                 class="btn btn-outline-secondary btn-xs btnCopyToClipBoard">
                             <i class="fa fa-copy"></i>
-                            <span class="text-copy-clipboard">Copy Review Link to Clipboard</span>
+                            {% set defaultBtnTxt = 'Copy Review Link to Clipboard' %}
+                            <span class="text-copy-clipboard"
+                                  data-default-text="{{ defaultBtnTxt }}">{{ defaultBtnTxt }}</span>
                         </button>
                     </div>
                 </div>

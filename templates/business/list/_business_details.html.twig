@@ -2,7 +2,7 @@
 
 <div class="d-none " data-id="{{ business.id }}" data-child-list-row-details="true">
     <div class="row p-3 datatable-child-details">
-        <div class="col-4">
+        <div class="col">
             <strong>
                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                 Name
@@ -15,6 +15,15 @@
             <p class="text-muted">
                 {{ business.location }}
             </p>
+            {% if business.email %}
+                <strong>
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </strong>
+                <p class="text-muted">
+                    <a href="mailto:{{ business.email }}">{{ business.email }}</a>
+                </p>
+            {% endif %}
             <strong>
                 <i class="fa fa-list-alt"></i>
                 Industry Sector
@@ -31,36 +40,6 @@
                     <span class="badge badge-danger">Inactive</span>
                 {% endif %}
             </p>
-        </div>
-        <div class="col-8">
-            <div class="row">
-                {% set noReviewLinksId = 'noReviewLinks_Dashboard' %}
-                {% for review in business.reviews %}
-                    <div class="card review-details col-auto cursor-pointer"
-                         data-id="review-details"
-                         data-base64="{{ review.getQrCodeBase64 }}"
-                         data-link="{{ review.link }}"
-                         data-business-name="{{ review.business.name }}"
-                         data-review-id="{{ review.id }}">
-                        <div class="text-center">
-                            {% if review.getQrCodeBase64 %}
-                                <img class="img-responsive"
-                                     src="{{ review.getQrCodeBase64 }}"
-                                     height="150"
-                                     width="150">
-                            {% endif %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-12">
-                        {{ helpers.no_result(
-                            'No Google Review Link has been created.',
-                            noReviewLinksId,
-                            false
-                        ) }}
-                    </div>
-                {% endfor %}
-            </div>
         </div>
     </div>
 </div>

@@ -47,6 +47,7 @@ function BusinessList(YJMDatatable) {
     function listenUIEvents() {
         $(ui.$btnRemoveBusinessSelectorListItem).on('click', setBusinessIdToRemove);
         $(document).on('click', ui.$btnOpenQrDetailsDialog, openQrDetailsDialog);
+        $(document).on('hidden.bs.modal', ui.$modalShowQrCode, restoreModal);
     }
 
     /**
@@ -127,13 +128,22 @@ function BusinessList(YJMDatatable) {
     function openQrDetailsDialog() {
         const $this = $(this);
         const imgBase64 = $this.data('base64');
-        const link = $this.data('link');
+        const link = $this.data('review-link');
         const businessName = $this.data('business-name');
         const $modal = $(ui.$modalShowQrCode);
         $modal.find('.qr-img').attr('src', imgBase64);
         $modal.find('.qr-link').text(link);
         $modal.find('.qr-business-name').text(businessName);
+        $modal.find('.btnCopyToClipBoard').data('review-link', link);
         $modal.modal('show');
+    }
+
+    /**
+     * Once the user closes the QR detail modal this restore it to its original state.
+     */
+    function restoreModal() {
+        const $textCopyToClipboard = $('.text-copy-clipboard');
+        $textCopyToClipboard.text($textCopyToClipboard.data('default-text'));
     }
 
     /**

@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block data %}
-data-criteria-business-industry-sector={{ criteria.businessIndustrySector }}
-data-criteria-business-status={{ criteria.businessStatus }}
+    data-criteria-business-industry-sector={{ criteria.businessIndustrySector }}
+    data-criteria-business-status={{ criteria.businessStatus }}
 {% endblock %}
 
 {% block content %}
@@ -150,9 +150,10 @@ data-criteria-business-status={{ criteria.businessStatus }}
                        class="table table-hover text-nowrap table-sm  dt-responsive">
                     <thead>
                     <tr>
-                        <th class="non-top-border text-center"> </th>
+                        <th class="non-top-border text-center"></th>
                         <th class="non-top-border">Name</th>
                         <th class="non-top-border">Industry sector</th>
+                        <th class="non-top-border">Google Review Link</th>
                         <th class="non-top-border">Location</th>
                         <th class="non-top-border cursor-help text-center"
                             data-toggle="tooltip"
@@ -179,6 +180,33 @@ data-criteria-business-status={{ criteria.businessStatus }}
                             <td data-id="{{ item.id }}" class="dt-control"></td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.industrySector ? item.industrySector.name }}</td>
+                            <td class="text-center">
+                                {% for review in item.reviews %}
+                                    {% if review.getQrCodeBase64 %}
+                                        <div class="-review-details col-auto cursor-pointer"
+                                             data-id="review-details"
+                                             data-base64="{{ review.getQrCodeBase64 }}"
+                                             data-link="{{ review.link }}"
+                                             data-review-link="{{ review.link }}"
+                                             data-business-name="{{ review.business.name }}"
+                                             data-review-id="{{ review.id }}">
+                                            <div class="text-center img-container">
+                                                {% if review.getQrCodeBase64 %}
+                                                    <img src="{{ review.getQrCodeBase64 }}"
+                                                         class="image img-responsive"
+                                                         height="50"
+                                                         width="50">
+                                                    <div class="overlay">
+                                                        <a href="#" class="icon" title="User Profile">
+                                                            <i class="fa fa-search"></i>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                             <td>
                                 <div class="row">
                                     <div class="col-auto">
@@ -202,41 +230,6 @@ data-criteria-business-status={{ criteria.businessStatus }}
                                 {% endif %}
                             </td>
                             <td class="text-right">
-
-                                <!-- Small button groups (default and split) -->
-                                {#                                <div class="btn-group "> #}
-                                {#                                    <button class="btn btn-outline-info btn-xs dropdown-toggle" type="button" #}
-                                {#                                            data-toggle="dropdown" #}
-                                {#                                            aria-haspopup="true" aria-expanded="false"> #}
-                                {#                                        Actions #}
-                                {#                                    </button> #}
-                                {#                                    <div class="dropdown-menu"> #}
-                                {#                                        <a class="dropdown-item text-info font-14" href="{{ path('business_edit', {id: item.id}) }}"> #}
-                                {#                                            <i class="fa fa-pencil-alt"></i> #}
-                                {#                                            Edit Review #}
-                                {#                                        </a> #}
-                                {#                                        <a class="dropdown-item text-info font-14" href="#"> #}
-                                {#                                            <i class="fa fa-download" aria-hidden="true"></i> #}
-                                {#                                            Download QR Codes #}
-                                {#                                        </a> #}
-                                {#                                        <a class="dropdown-item text-info font-14" href="#"> #}
-                                {#                                            <i class="fa fa-file-pdf"></i> #}
-                                {#                                            Export PDF #}
-                                {#                                        </a> #}
-
-                                {#                                        <a class="dropdown-item text-info font-14" href="#" data-id="btn-remove-business"> #}
-                                {#                                            <i class="fa fa-trash"></i> #}
-                                {#                                            Remove Review #}
-                                {#                                        </a> #}
-                                {#                                    </div> #}
-                                {#                                </div> #}
-
-                                <button type="button" class="btn btn-outline-info btn-xs">
-                                    <i class="fa fa-download" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-info btn-xs" title="Export PDF">
-                                    <i class="fa fa-file-pdf"></i>
-                                </button>
                                 <a href="{{ path('business_edit', {id: item.id}) }}" type="button"
                                    class="btn btn-outline-info btn-xs"
                                    data-id="btn-edit-business">

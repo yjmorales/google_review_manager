@@ -26,17 +26,6 @@ trait TBusinessController
      */
     public function findBusiness(Request $request, ObjectManager $em, BusinessCriteria $criteria): array
     {
-        if ($request->getQueryString()) {
-            $criteria->setBusinessName($request->get('businessName'));
-            $criteria->setBusinessCreatedDate($request->get('businessCreatedDate'));
-            $criteria->setBusinessIndustrySector($request->get('businessIndustrySector'));
-            $criteria->setBusinessStatus($request->get('businessStatus'));
-            $criteria->setBusinessAddress($request->get('businessAddress'));
-            $criteria->setBusinessState($request->get('businessState'));
-            $criteria->setBusinessCity($request->get('businessCity'));
-            $criteria->setBusinessZipCode($request->get('businessZipCode'));
-        }
 
-        return $em->getRepository(Business::class)->filter($criteria);
     }
 }

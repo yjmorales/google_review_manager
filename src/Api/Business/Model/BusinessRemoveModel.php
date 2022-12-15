@@ -32,7 +32,7 @@ class BusinessRemoveModel extends AbstractApiResponseModel
     /**
      * @inheritDoc
      */
-    public function toObject(): array
+    public function toObject(): stdClass
     {
         $business          = new stdClass();
         $business->id      = $this->_business->getId();
@@ -42,7 +42,9 @@ class BusinessRemoveModel extends AbstractApiResponseModel
         $business->city    = $this->_business->getCity();
         $business->state   = $this->_business->getState();
         $business->zipCode = $this->_business->getZipCode();
+        $result            = new stdClass();
+        $result->business  = $business;
 
-        return ['business' => $business];
+        return $result;
     }
 }

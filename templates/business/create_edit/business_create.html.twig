@@ -5,9 +5,16 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 {% endblock %}
 
 {% block title %} | Create business{% endblock %}
+
+{% block urls %}
+    data-api_v1_google_place_autocomplete_get={{ path('api_v1_google_place_autocomplete_get') }}
+    data-api_v1_google_place_details_post={{ path('api_v1_google_place_details_post') }}
+{% endblock %}
 
 {% block content %}
     <div class="card card-info card-outline direct-chat direct-chat-info">
@@ -36,14 +43,16 @@
 {% endblock %}
 {% block js %}
     {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
-    <script src="{{ asset('/app/js/business/BusinessCreate.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
-
+    <script src="{{ asset('/app/js/business/AddressAutoComplete.js') }}"></script>
     <script>
         (new BusinessCreate()).init();
         (new FormFieldFormatter()).formatZipCodeFields();
+        (new AddressAutoComplete()).init();
     </script>
 {% endblock %}

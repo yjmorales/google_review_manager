@@ -1,0 +1,133 @@
+{% set title = 'Google Review Link Manager' %}
+    {% import '/components/helpers_macro.html.twig' as helpers %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}{% block title %}{% endblock %}</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    {# Vendor styles #}
+    <link rel="stylesheet" href="{{ asset('/dist/css/template.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/css_select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/adminlte_toastr_css.css') }}">
+
+    {# App Styles #}
+    <link rel="stylesheet" href="{{ asset('/app/css/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/loading-dot.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/loading-skeleton.css') }}">
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<div class="container" style="padding: 50px">
+    <div class="row">
+        <div class="col" style="
+        background-color: #95ccd5;
+        /*height: 170px;*/
+        padding: 20px">
+            <div class="text-center" style="padding:20px;">
+                <h4>Google Review Link</h4>
+            </div>
+            <div class="text-center">
+                <img src="{{ asset('/img/logo.png') }}" height="50" width="50">
+            </div>
+            <div class="text-center" style="padding:20px;">
+                <span>Hi there! Congratulations. Your Google review link has been generated.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12" style="padding: 20px;">
+            <div class="text-center">
+                <h5><strong>Here is your link:</strong></h5>
+                <h2><i class="fa fa-hand-point-down" style="color: #0c454f"></i></h2>
+                <a href="#">https://mail.google.com/mail/u/0/#starred/FMfcgzGqQmWjBfhPvqVtRJgjSDHfzKMT</a>
+            </div>
+        </div>
+        <div class="col-12" style="padding: 20px;">
+            <div style="padding: 10px;">
+                <div>
+                    With this link you will get more Google reviews and your customers can refer you business.
+                </div>
+                <div>
+                    How to use your Google review link?
+                </div>
+            </div>
+            <ol>
+                <li style="padding: 5px">You may opt to email or text your customers and ask them to review you using
+                    the above link.
+                </li>
+                <li style="padding: 5px">You may opt to add it into the receipt sent by email.</li>
+                <li style="padding: 5px">You may opt to add it into your business website.</li>
+            </ol>
+        </div>
+        <div class="col-12" style="padding: 20px;">
+            <div class="text-center">
+                <h5><strong>Here is your link as a QR code:</strong></h5>
+                <img src="{{ asset('img/qrcode.png') }}" height="200" width="200">
+            </div>
+        </div>
+        <div class="col-12" style="padding: 40px;">
+            <div>
+
+            </div>
+            <div style="padding: 10px;">
+                <div>
+                    The above QR code holds your Google review link. It is an excellent resource to share your Google
+                    review link.
+                </div>
+                <div>
+                    How to use your QR code review link?
+                </div>
+            </div>
+
+            <ul>
+                <li style="padding: 10px"><strong>Put the QR code on a business card:</strong> Ask your customer
+                    in-person “would you be
+                    willing to leave me a
+                    review on Google?” When they say yes, hand them this card and say “Great, just point your smartphone
+                    camera at this QR code and it will take you straight to our Google Profile to leave a review.” (Put
+                    your review link on this card too.)
+                </li>
+                <li style="padding: 10px"><strong>Put the QR code on a sign in your shop:</strong> Make a sign and put
+                    it up at the front desk
+                    of your office.
+                    The sign could say something like “Please leave us a review on Google. Simply point your smartphone
+                    camera at this QR code.” (Put your review link on the sign too.)
+                </li>
+                <li style="padding: 10px"><strong>Put it on a t-shirt:</strong> Going to a conference? Meeting with
+                    customers in your
+                    business? Imagine if you
+                    were wearing a t-shirt that said “Please leave us a review on Google. Point your smartphone camera
+                    at my shirt!” People would be curious and would find it fun to do. It’s a good conversation starter.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row text-center mt-5">
+        <div class="col-lg-8 offset-lg-2 col-12 grm-black" style="font-size: 12px;">
+            <hr class="muted">
+            {{ helpers.copyright() }}
+            <span class="me-2">{{ system_title }}</span>
+            <span class="me-2" style="font-size: 15px">&reg;</span>
+            <span class="me-2">|</span>
+            All Rights Reserved
+        </div>
+    </div>
+</div>
+
+
+{# Vendor JS #}
+<script src="https://kit.fontawesome.com/8b7bd8c027.js" crossorigin="anonymous"></script>
+<script src="{{ asset('/dist/js/template.min.js') }}"></script>
+</body>
+</html>

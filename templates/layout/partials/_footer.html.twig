@@ -1,4 +1,5 @@
-{% set startDate = '2022' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
 <footer class="main-footer">
     <div class="text-center">
         {% if systemVersion is defined and systemVersion %}
@@ -6,16 +7,7 @@
                 <b>Version</b> systemVersion
             </div>
         {% endif %}
-        <strong>
-            <small>
-                {% set nowYear = 'now' | date('Y') %}
-                {% if nowYear == startDate %}
-                    Copyright &copy; {{ startDate }}.
-                {% else %}
-                    Copyright &copy; {{ startDate }} - {{ nowYear }}
-                {% endif %}
-            </small>
-        </strong>
+        <strong><small>{{ helpers.copyright() }}</small> </strong>
         <small>Yenier Jimenez - All rights reserved.</small>
         <div class="d-none">
             <small>Design based on <a href="https://adminlte.io" target="_blank">AdminLTE.io.</a></small>

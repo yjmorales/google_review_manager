@@ -34,7 +34,7 @@ function BsComponents() {
      * Once the page is loaded it initializes tooltip
      */
     function initSwitch() {
-        $(ui.$switch).bootstrapSwitch()
+        $(ui.$switch).bootstrapSwitch();
     }
 
     /**

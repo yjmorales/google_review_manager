@@ -76,6 +76,12 @@ class Business
      */
     private $email;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Place::class)
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $place;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
@@ -232,6 +238,18 @@ class Business
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

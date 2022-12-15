@@ -21,6 +21,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "guzzlehttp/guzzle": "^7.5",
         "nijens/openapi-bundle": "^1.4",
         "pda/pheanstalk": "^4.0",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -48,6 +49,7 @@
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "^5.4",
         "symfony/security-csrf": "^5.4",
+        "symfony/sendgrid-mailer": "^5.4",
         "symfony/serializer": "5.4.*",
         "symfony/string": "^5.4",
         "symfony/twig-bundle": "^5.4",
@@ -55,10 +57,11 @@
         "symfony/var-dumper": "^5.4",
         "symfony/web-link": "^5.4",
         "symfony/yaml": "^5.4",
+        "twig/cssinliner-extra": "^3.4",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^3.4",
         "twilio/sdk": "^6.42",
-        "yjmorales/php-core": "^0.6.6"
+        "yjmorales/php-core": " dev-main"
     },
     "config": {
         "allow-plugins": {
@@ -79,7 +82,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "App\\": "src/"
         }
     },
     "replace": {

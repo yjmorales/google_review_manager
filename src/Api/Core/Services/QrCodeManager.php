@@ -19,11 +19,16 @@ use Exception;
 class QrCodeManager
 {
     /**
+     * Holds the qr code file extention.
+     */
+    private const IMG_EXT = QRCode::OUTPUT_IMAGE_PNG;
+
+    /**
      * Initial configuration based on https://github.com/chillerlan/php-qrcode
      */
     private const DEFAULT_CONFIG = [
         'eccLevel'   => QRCode::ECC_H,
-        'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+        'outputType' => self::IMG_EXT,
         'version'    => 8,
     ];
 
@@ -80,7 +85,16 @@ class QrCodeManager
         if (!file_exists($fileName)) {
             throw new QrCodeImgNotFountException('QR Code filename does not exists');
         }
+        $base64 = base64_encode(file_get_contents($fileName));
 
-        return file_get_contents($fileName);
+        return 'data:' . self::IMG_EXT . ";base64,$base64";
+    }
+
+    /**
+     * @return string
+     */
+    public function getImgExt(): string
+    {
+        return self::IMG_EXT;
     }
 }

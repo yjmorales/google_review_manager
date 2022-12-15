@@ -1,6 +1,15 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_4_layout.html.twig']
+
+    paths:
+        '%kernel.project_dir%/public/email/img': default_images
+        '%kernel.project_dir%/public': styles
+        '%kernel.project_dir%/public/google_reviews/qr_codes': qr_codes
+
+    globals:
+        system_title: '%system_title%'
+
 when@test:
     twig:
         strict_variables: true

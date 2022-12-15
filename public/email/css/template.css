@@ -1,0 +1,59 @@
+.border-10 {
+    border: solid 10px #9fc3c9;
+}
+
+.google-review-manager-icon-container {
+    padding-bottom: 20px;
+    min-height: 30px;
+}
+
+.grm-title {
+    font-family: "Times New Roman";
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.grm-font-20 {
+    font-size: 20px;
+}
+
+.grm-font-14 {
+    font-size: 14px;
+}
+
+.grm-font-16 {
+    font-size: 16px;
+}
+
+.grm-font-18 {
+    font-size: 18px;
+}
+
+.grm-font-12 {
+    font-size: 12px;
+}
+
+.grm-font-10 {
+    font-size: 10px;
+}
+
+.grm-font-8 {
+    font-size: 8px;
+}
+
+.grm-font-11 {
+    font-size: 11px;
+}
+
+.grm-font-6 {
+    font-size: 6px;
+}
+
+.grm-font {
+    font-family: "Times New Roman";
+}
+
+.grm-black {
+    color: #000000 !important;
+}

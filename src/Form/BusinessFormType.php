@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,6 +42,10 @@ class BusinessFormType extends AbstractType
                     'class' => 'yjmSelect2',
                 ],
                 'choice_label'  => 'name',
+            ])
+            ->add('place', HiddenType::class, [
+                'required'      => false,
+                'mapped'         => false,
             ])
             ->add('address', TextType::class, [
                 'attr' => [
@@ -87,10 +92,10 @@ class BusinessFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
-                    'class'     => 'form-control form-control-border',
+                    'class'       => 'form-control form-control-border',
                     'placeholder' => 'Business email',
-                    'minlength' => 2,
-                    'maxlength' => 255
+                    'minlength'   => 2,
+                    'maxlength'   => 255
                 ],
             ]);
     }

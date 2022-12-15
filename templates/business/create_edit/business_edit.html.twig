@@ -5,6 +5,10 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('/app/css/business.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/lib/emails-input.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/vendor/email_multiple/assets/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 {% endblock %}
 
 {% block title %} | Edit business{% endblock %}
@@ -12,6 +16,8 @@
 {% block urls %}
     data-api_v1_business_business_id_review_generate_post="{{ path('api_v1_business_business_id_review_generate_post', {business_id: business.id}) }}"
     data-api_v1_business_business_id_review_all_get="{{ path('api_v1_business_business_id_review_all_get', {business_id: business.id}) }}"
+    data-api_v1_google_place_autocomplete_get={{ path('api_v1_google_place_autocomplete_get') }}
+    data-api_v1_google_place_details_post={{ path('api_v1_google_place_details_post') }}
 {% endblock %}
 
 {% block content %}
@@ -41,13 +47,12 @@
         {{ helpers.form_processing() }}
     </div>
     {% include '/business/create_edit/_modalRemoveReviewItem.html.twig' %}
-    {% include '/business/create_edit/_modalUpdateReviewItem.html.twig' %}
+    {% include '/business/create_edit/_modalSendReviewByEmail.html.twig' %}
 {% endblock %}
 
 {# Macro defining the btns holding the actions to perform #}
 {% macro actions() %}
-    <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">
-        <i class="fa fa-plus"></i>
+    <a href="{{ path('business_create') }}" class="btn btn-xs btn-light">
         Add new business
     </a>
     <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
@@ -56,7 +61,11 @@
 
 {% block js %}
     {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/vendor/email_multiple/lib/emails-input.js') }}"></script>
+    <script src="{{ asset('/dist/js/cleave_js.js') }}"></script>
+    <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessFormValidator.js') }}"></script>
     <script src="{{ asset('/app/js/common/FormFieldFormatter.js') }}"></script>
     <script src="{{ asset('/app/js/business/BusinessEdit.js') }}"></script>
@@ -66,7 +75,8 @@
     <script src="{{ asset('/app/js/common/DotsLoaderManager.js') }}"></script>
     <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
     <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
-
+    <script src="{{ asset('/app/js/common/MultipleEmailsField.js') }}"></script>
+    <script src="{{ asset('/app/js/business/AddressAutoComplete.js') }}"></script>
     <script>
         const businessEdit = new BusinessEdit();
         businessEdit.init();
@@ -76,5 +86,6 @@
         (new ExpandCollapse()).init();
         (new Notification()).listenUIEvents();
         (new FormFieldFormatter()).formatZipCodeFields();
+        (new AddressAutoComplete()).init();
     </script>
 {% endblock %}
