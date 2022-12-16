@@ -1,0 +1,39 @@
+.font-weight-100 {
+    font-weight: 100 !important;
+}
+
+.font-weight-100 {
+    font-weight: 1 !important;
+}
+
+.visible-wizard {
+    z-index: 2;
+    position: relative;
+}
+
+.business-geo-location-container {
+    z-index: 2;
+    background-color: white;
+}
+
+.with-90 {
+    width: 90%;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.system-font-color {
+    color: #0c454f;
+}
+
+.google-review-link-container {
+    padding: 20px !important;
+    background: #d3f5ff !important;
+}
+
+
+#hero {
+    height: 450px;
+}

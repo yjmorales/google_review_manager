@@ -12,17 +12,19 @@ use JsonSerializable;
  */
 class Address implements JsonSerializable
 {
-    private ?string $streetNumber;
+    private ?string $streetNumber = null;
 
-    private ?string $streetName;
+    private ?string $streetName = null;
 
-    private ?string $city;
+    private ?string $city = null;
 
-    private ?string $state;
+    private ?string $state = null;
 
-    private ?string $country;
+    private ?string $country = null;
 
-    private ?string $zipCode;
+    private ?string $zipCode = null;
+
+    private ?int $placeId = null;
 
     /**
      * @param string $streetNumber
@@ -70,6 +72,14 @@ class Address implements JsonSerializable
     public function setZipCode(string $zipCode): void
     {
         $this->zipCode = $zipCode;
+    }
+
+    /**
+     * @param int $placeId
+     */
+    public function setPlaceId(int $placeId): void
+    {
+        $this->placeId = $placeId;
     }
 
     /**
@@ -121,16 +131,30 @@ class Address implements JsonSerializable
     }
 
     /**
+     * @return int|null
+     */
+    public function getPlaceId(): ?int
+    {
+        return $this->placeId;
+    }
+
+    /**
      * @inheritDoc
      */
     public function jsonSerialize()
     {
+        $address = $this->streetNumber ?? '';
+        if ($this->streetName) {
+            $address .= " $this->streetName";
+        }
+
         return [
-            'address' => "$this->streetNumber $this->streetName",
+            'address' => $address,
             'city'    => $this->city,
             'state'   => $this->state,
             'country' => $this->country,
             'zipCode' => $this->zipCode,
+            'placeId' => $this->placeId,
         ];
     }
 }

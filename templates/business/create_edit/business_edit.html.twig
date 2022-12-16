@@ -62,7 +62,7 @@
     <a href="{{ path('business_create') }}" class="btn btn-xs btn-light">
         Add new business
     </a>
-    <a href="{{ path('dashboard') }}" class="btn btn-xs btn-light">Cancel</a>
+    <a href="{{ path('business_list') }}" class="btn btn-xs btn-light">Cancel</a>
     <button type="submit" class="btn btn-xs btn-info">Update</button>
 {% endmacro %}
 
@@ -83,6 +83,7 @@
     <script src="{{ asset('/app/js/GoogleReviewLink/GoogleReviewLinkManager.js') }}"></script>
     <script src="{{ asset('/app/js/common/ExpandCollapse.js') }}"></script>
     <script src="{{ asset('/app/js/common/MultipleEmailsField.js') }}"></script>
+    <script src="{{ asset('/app/js/business/FindPlaceDetails.js') }}"></script>
     <script src="{{ asset('/app/js/business/AddressAutoComplete.js') }}"></script>
     <script>
         const businessEdit = new BusinessEdit();

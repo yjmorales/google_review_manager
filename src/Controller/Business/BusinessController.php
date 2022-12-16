@@ -72,7 +72,7 @@ class BusinessController extends BaseController
                 'business'   => $business,
                 'form'       => $form->createView(),
                 'breadcrumb' => [
-                    'Dashboard'       => $this->generateUrl('dashboard'),
+                    'Business List'   => $this->generateUrl('business_list'),
                     'Create business' => $this->generateUrl('business_create'),
                 ],
             ]);
@@ -92,13 +92,13 @@ class BusinessController extends BaseController
         if ($business->getPlace() && $placeId = $business->getPlace()->getPlaceId()) {
             $form->get('place')->setData($placeId);
         }
-        $response = $this->redirectToRoute('dashboard');
+        $response = $this->redirectToRoute('business_list');
         if (!$this->_save($request, $doctrine, $form, $business)) {
             $response = $this->render('/business/create_edit/business_edit.html.twig', [
                 'form'       => $form->createView(),
                 'business'   => $business,
                 'breadcrumb' => [
-                    'Dashboard'     => $this->generateUrl('dashboard'),
+                    'Business list' => $this->generateUrl('business_list'),
                     'Edit business' => $this->generateUrl('business_edit', ['id' => $business->getId()]),
                 ],
             ]);

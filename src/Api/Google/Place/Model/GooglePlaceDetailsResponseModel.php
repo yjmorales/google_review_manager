@@ -6,7 +6,7 @@
 namespace App\Api\Google\Place\Model;
 
 use App\Core\Models\AbstractApiResponseModel;
-    use App\Google\GoogleMap\Place\Services\PlaceDetails\Address;
+use App\Google\GoogleMap\Place\Services\PlaceDetails\Address;
 use stdClass;
 
 /**
@@ -17,18 +17,32 @@ class GooglePlaceDetailsResponseModel extends AbstractApiResponseModel
     /**
      * Holds the place details.
      *
-     * @var Address
+     * @var Address|null
      */
-    private Address $address;
+    private ?Address $address = null;
 
     /**
-     * @param Address $address
+     * Holds the place name.
+     *
+     * @var string|null
      */
-    public function __construct(Address $address)
-    {
-        $this->address = $address;
-    }
+    private ?string $name;
 
+    /**
+     * Google Place Id
+     * @var string|null
+     */
+    private ?string $placeId;
+
+    /**
+     * @param stdClass $data
+     */
+    public function __construct(stdClass $data)
+    {
+        $this->address = $data->address ?? null;
+        $this->name    = $data->name ?? null;
+        $this->placeId = $data->placeId ?? null;
+    }
 
     /**
      * @inheritDoc
@@ -37,6 +51,8 @@ class GooglePlaceDetailsResponseModel extends AbstractApiResponseModel
     {
         $result          = new stdClass();
         $result->address = $this->address;
+        $result->name    = $this->name;
+        $result->placeId = $this->placeId;
 
         return $result;
     }

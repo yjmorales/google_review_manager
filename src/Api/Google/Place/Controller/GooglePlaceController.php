@@ -10,7 +10,6 @@ use App\Api\Google\Place\Model\GooglePlaceAutocompleteResponseModel;
 use App\Api\Google\Place\Model\GooglePlaceDetailsResponseModel;
 use App\Api\Google\Place\Model\PlaceMutator;
 use App\Core\Controller\BaseController;
-use App\Entity\Business;
 use App\Entity\Place;
 use App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\DetailsResponse;
@@ -75,8 +74,8 @@ class GooglePlaceController extends BaseController
         ManagerRegistry $doctrine,
         PlaceDetailsService $placeDetailsService
     ): JsonResponse {
-        $placeId    = $request->get('placeId');
-        $validator  = new DataValidator();
+        $placeId   = $request->get('placeId');
+        $validator = new DataValidator();
         if (!$validator->isValidString($placeId)) {
             throw new ApiNormalOperationException(['The `place id` validation failed.']);
         }
@@ -84,14 +83,16 @@ class GooglePlaceController extends BaseController
             'placeId' => $placeId
         ]);
         /** @var DetailsResponse $response */
-        $response = $placeDetailsService->details($placeId);
+        $response = $placeDetailsService->fullDetails($placeId);
         if (empty($place)) {
             $address = $response->getAddress();
             $place   = PlaceMutator::fromAddress($address);
             $place->setPlaceId($placeId);
+            $place->setName($response->getData()->name);
             $this->_em($doctrine)->persist($place);;
             $this->_em($doctrine)->flush();
         } else {
+            $place = PlaceMutator::fromAddress($response->getAddress(), $place);
             $response->setAddress(PlaceMutator::addressFromPlace($place));
         }
 

@@ -32,7 +32,7 @@ input {
 
 .loader::after, .loader::before {
     content: "";
-    background: white;
+    background: transparent;
     position: absolute;
     display: inline-block;
     width: 100%;

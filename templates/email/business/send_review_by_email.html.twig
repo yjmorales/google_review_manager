@@ -18,6 +18,10 @@
         </div>
         <div>
             <div style="padding: 20px; margin-top: 20px;">
+                <p class="text-center">{{ businessName }}</p>
+                <p class="text-center">
+                    <img src="{{ email.image('@default_images/googlemap.png') }}" height="25" width="25">
+                    {{ businessAddress }}</p>
                 <div class="text-center">
                     <h5><strong>Here is your link:</strong></h5>
                     <a href="{{ review.link }}">{{ review.link }}</a>

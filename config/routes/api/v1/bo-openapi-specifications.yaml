@@ -68,6 +68,32 @@ paths:
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
+  /review/generate-guest:
+    post:
+      x-symfony-controller: App\Api\Review\Controller\ApiReviewController::generateGuest
+      tags:
+        - Review
+      summary: Generates a new business review link and qr code.
+      operationId: generateReviewGuest
+      description: Generates a new business review link and qr code.
+      responses:
+        '200':
+          description: Generates a new business review link and qr code. The generated object is returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Review'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/EntityNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
   /business/{business_id}/review/all:
     get:
       x-symfony-controller: App\Api\Review\Controller\ApiReviewController::all

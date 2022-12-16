@@ -1,6 +1,8 @@
 parameters:
   system_title: 'Google Review Link Manager'
-
   google_write_review_base_url: https://search.google.com/local/writereview?placeid=
-
   google_map_api_key: '%env(GOOGLE_MAP_API_KEY)%'
+  sys_admin_email: '%env(SYS_ADMIN_EMAIL)%'
+  sys_admin_linkedin_profile_url: '%env(SYS_ADMIN_LINKEDIN_PROFILE_URL)%'
+  sys_admin_personal_page_url: '%env(SYS_ADMIN_PERSONAL_PAGE_URL)%'
+  sys_admin_phone: '%env(SYS_ADMIN_PHONE)%'

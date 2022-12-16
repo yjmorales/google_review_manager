@@ -12,6 +12,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Twig\Extensions\TextExtension: ~
+    Common\View\Twig\Filter\DashedPhoneTwigExtension: ~
+
     logger:
        alias: 'monolog.logger'
        public: true
