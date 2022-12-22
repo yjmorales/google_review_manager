@@ -1,0 +1,17 @@
+.smartwizard .nav-link:not(.active) {
+    color: #9a9a9a;
+    background-color: #ececec;
+}
+
+.smartwizard .sw-toolbar-elm .toolbar .toolbar-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.smartwizard button:disabled {
+    background-color: #cacaca !important;
+    border-color: #aeaeae !important;
+    color: #6d6d6d !important;
+}

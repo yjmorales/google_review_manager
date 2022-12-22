@@ -52,6 +52,11 @@ class Place
      */
     private $streetName;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,48 @@ class Place
     public function setStreetName(string $streetName): self
     {
         $this->streetName = $streetName;
+
+        return $this;
+    }
+
+    /**
+     * Helper function to build the nominal address.
+     * E.g: 12234 N Wolf St, Miami, FL 33173, USA
+     * @return string
+     */
+    public function getFullAddress(): string
+    {
+        $fullAddress = '';
+        if ($this->streetNumber) {
+            $fullAddress = "$fullAddress";
+        }
+        if ($this->streetName) {
+            $fullAddress .= " $this->streetName";
+        }
+        if ($this->city) {
+            $fullAddress .= ", $this->city";
+        }
+        if ($this->state) {
+            $fullAddress .= ", $this->state";
+        }
+        if ($this->zipCode) {
+            $fullAddress .= " $this->zipCode";
+        }
+        if ($this->country) {
+            $fullAddress .= ", $this->country";
+        }
+
+        return $fullAddress;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

@@ -20,6 +20,13 @@ use InvalidArgumentException;
 class PlaceDetailsService extends AbstractPlaceService
 {
     /**
+     * Holds the place id used to search the details.
+     *
+     * @var string|null
+     */
+    private ?string $placeId;
+
+    /**
      * Uses the Google Place details api and look up for results.
      *
      * @param string $placeId
@@ -29,7 +36,69 @@ class PlaceDetailsService extends AbstractPlaceService
      */
     public function details(string $placeId): IPlaceResponse
     {
-        return $this->_execute("fields=address_component&place_id=$placeId&key=$this->_apiKey");
+        $this->placeId = $placeId;
+        $fields        = PlaceFields::ADDRESS_COMPONENT;
+
+        return $this->_execute("fields=$fields&{$this->getBaseUrlArguments($placeId)}");
+    }
+
+    /**
+     * Responsible to load and return the full details of a Place.
+     *
+     * @param string $placeId Place id
+     *
+     * @return IPlaceResponse
+     * @throws Exception
+     */
+    public function fullDetails(string $placeId): IPlaceResponse
+    {
+        $this->placeId = $placeId;
+        $fields        = implode(',', [
+            PlaceFields::ADDRESS_COMPONENT,
+            PlaceFields::NAME,
+            PlaceFields::PLACE_ID,
+        ]);
+
+        return $this->_execute("fields=$fields&{$this->getBaseUrlArguments($placeId)}");
+    }
+
+    /**
+     * Builds the base URL used to query the Google Place API.
+     *
+     * @param string $placeId Place id.
+     *
+     * @return string
+     */
+    private function getBaseUrlArguments(string $placeId): string
+    {
+        return "place_id=$placeId&key=$this->_apiKey";
+    }
+
+    /**
+     * Extracts from the response the address component section type name.
+     *
+     * @param Response $dataResponse Response holding the address info.
+     * @param string   $type         Represents the address component type name used to filter the data.
+     *
+     * @return string|null
+     */
+    private function _getAddressComponentSection(Response $dataResponse, string $type): ?string
+    {
+        $data              = $dataResponse->getData();
+        $addressComponents = Arr::get($data, 'result.address_components', []);
+        if (!in_array($type, AddressComponentSectionsType::ADDRESS_TYPES)) {
+            return new InvalidArgumentException("The address component type $type is invalid");
+        }
+        foreach ($addressComponents as $component) {
+            $types = $component['types'];
+            if (!in_array($type, $types)) {
+                continue;
+            }
+
+            return (string)$component['short_name'] ?? null;
+        }
+
+        return null;
     }
 
     /**
@@ -48,12 +117,14 @@ class PlaceDetailsService extends AbstractPlaceService
         $data     = $dataResponse->getData();
         $response = new DetailsResponse();
         $response->setSuccess($dataResponse->getStatus() === ResponseStatus::OK);
-        $addressComponents = Arr::get($data, 'result.address_components');
-        $address = new Address();
+
+        // Retrieving Place address component.
+        $addressComponents = Arr::get($data, 'result.address_components', []);
+        $address           = new Address();
         foreach ($addressComponents as $component) {
             $types = $component['types'];
             foreach ($types as $type) {
-                $value = $this->_getAddressComponentSection($addressComponents, $type);
+                $value = $this->_getAddressComponentSection($dataResponse, $type);
                 if (AddressComponentSectionsType::isStreetNumber($type)) {
                     $address->setStreetNumber($value);
                 } elseif (AddressComponentSectionsType::isStreetName($type)) {
@@ -71,29 +142,15 @@ class PlaceDetailsService extends AbstractPlaceService
         }
         $response->setAddress($address);
 
+        // Retrieving place name.
+        if ($placeName = Arr::get($data, 'result.name')) {
+            $response->setPlaceName($placeName);
+        }
+        // Retrieving place id.
+        if ($this->placeId) {
+            $response->setPlaceId($this->placeId);
+        }
+
         return $response;
-    }
-
-    /**
-     * @param array  $addressComponents
-     * @param string $type
-     *
-     * @return string|null
-     */
-    private function _getAddressComponentSection(array $addressComponents, string $type): ?string
-    {
-        if (!in_array($type, AddressComponentSectionsType::ADDRESS_TYPES)) {
-            return new InvalidArgumentException("The address component type $type is invalid");
-        }
-        foreach ($addressComponents as $component) {
-            $types = $component['types'];
-            if (!in_array($type, $types)) {
-                continue;
-            }
-
-            return (string)$component['short_name'] ?? null;
-        }
-
-        return null;
     }
 }

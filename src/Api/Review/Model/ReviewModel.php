@@ -55,6 +55,7 @@ class ReviewModel extends AbstractApiResponseModel
         $data->business          = $this->_review->getBusiness()->getId();
         $data->businessEmail     = $this->_review->getBusiness()->getEmail();
         $data->qrCodeImgFilename = $this->_review->getQrCodeImgFilename();
+        $data->fullAddress       = $this->_review->getBusiness()->getPlace()->getFullAddress();;
         try {
             $data->qrCodeImgBase64 = QrCodeManager::getQrCodeBase64($this->_review->getQrCodeImgFilename());
         } catch (QrCodeImgNotFountException $e) {

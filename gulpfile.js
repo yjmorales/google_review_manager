@@ -72,6 +72,31 @@ gulp.task('adminlte_toastr_css', function () {
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest(cssDest));
 });
+gulp.task('landing_css', function () {
+    return gulp.src(
+        [
+            'public/vendor/landing_page/BizLand/assets/vendor/aos/aos.css',
+            'public/vendor/landing_page/BizLand/assets/vendor/bootstrap/css/bootstrap.min.css',
+            'public/vendor/landing_page/BizLand/assets/vendor/bootstrap-icons/bootstrap-icons.css',
+            'public/vendor/landing_page/BizLand/assets/vendor/boxicons/css/boxicons.min.css',
+            'public/vendor/landing_page/BizLand/assets/vendor/glightbox/css/glightbox.min.css',
+            'public/vendor/landing_page/BizLand/assets/vendor/swiper/swiper-bundle.min.css',
+            'public/vendor/landing_page/BizLand/assets/css/style.css',
+            'vendor/almasaeed2010/adminlte/plugins/fontawesome-free/css/all.min.css',
+        ])
+        .pipe(concat('landing_css.css'))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest(cssDest));
+});
+
+gulp.task('landing_wizard_css', function () {
+    return gulp.src(
+        [
+        ])
+        .pipe(concat('landing_wizard_css.css'))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest(cssDest));
+});
 
 /**
  * Compressing *.js files
@@ -151,6 +176,32 @@ gulp.task('cleave_js', function () {
         .pipe(terser())
         .pipe(gulp.dest(jsDest));
 });
+gulp.task('landing_js', function () {
+    return gulp.src(
+        [
+            'public/vendor/landing_page/BizLand/assets/vendor/purecounter/purecounter_vanilla.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/aos/aos.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/glightbox/js/glightbox.min.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/isotope-layout/isotope.pkgd.min.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/swiper/swiper-bundle.min.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/waypoints/noframework.waypoints.js',
+            'public/vendor/landing_page/BizLand/assets/vendor/php-email-form/validate.js',
+            'public/vendor/landing_page/BizLand/assets/js/main.js',
+        ])
+        .pipe(concat('landing_js.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
+});
+
+gulp.task('landing_wizard_js', function () {
+    return gulp.src(
+        [
+        ])
+        .pipe(concat('landing_wizard_js.js'))
+        .pipe(terser())
+        .pipe(gulp.dest(jsDest));
+});
 
 /**
  * Compressing fonts
@@ -168,6 +219,28 @@ gulp.task('fonts', function () {
         .pipe(fontMin({text: 'text'}))
         .pipe(gulp.dest('public/dist/webfonts'));
 });
+gulp.task('landing_fonts', function () {
+    return gulp.src(
+        [
+            'public/vendor/landing_page/BizLand/assets/vendor/boxicons/fonts/boxicons.woff2',
+            'public/vendor/landing_page/BizLand/assets/vendor/boxicons/fonts/boxicons.woff',
+        ])
+        .pipe(fontMin({text: 'text'}))
+        .pipe(gulp.dest('public/dist/fonts'));
+});
+gulp.task('landing_bootstrap_icons_fonts', function () {
+    return gulp.src(
+        [
+            'public/vendor/landing_page/BizLand/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2',
+            'public/vendor/landing_page/BizLand/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff',
+        ])
+        .pipe(fontMin({text: 'text'}))
+        .pipe(gulp.dest('public/dist/css/fonts'));
+});
+gulp.task('landing_img', function () {
+    return gulp.src(['public/vendor/landing_page/BizLand/assets/img/**/*']).pipe(gulp.dest('public/dist/img'));
+});
+
 
 /**
  * Runs all tasks
@@ -184,5 +257,12 @@ gulp.task('run', gulp.parallel(
     'adminlte_toastr_css',
     'css_select2',
     'js_select2',
-    'cleave_js'
+    'cleave_js',
+    'landing_css',
+    'landing_js',
+    'landing_fonts',
+    'landing_bootstrap_icons_fonts',
+    'landing_img',
+    'landing_wizard_js',
+    'landing_wizard_css',
 ));

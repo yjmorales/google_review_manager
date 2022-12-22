@@ -1,0 +1,30 @@
+<div id="smartWizard" class="smartwizard w-75 bg-white">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="#step-1-business-geo-location">
+                <h4 class="m-0">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Business Locator
+                </h4>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#step-2-email-to-send-results">
+                <h4 class="m-0">
+                    <i class="fa fa-envelope"></i>
+                    Destination
+                </h4>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content pb-1">
+        <div id="step-1-business-geo-location" class="tab-pane" role="tabpanel"
+             aria-labelledby="step-1-business-geo-location">
+            {% include '/landing/index/partials/wizard/_1_business_geo_info.html.twig' %}
+        </div>
+        <div id="step-2-email-to-send-results" class="tab-pane" role="tabpanel"
+             aria-labelledby="step-2-email-to-send-results">
+            {% include '/landing/index/partials/wizard/_2_email_to_send_results.html.twig' %}
+        </div>
+    </div>
+</div>

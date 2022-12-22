@@ -77,6 +77,8 @@ class EntityGenerator extends Fixture
         $this->_clearTable('review');
         $this->_clearTable('business');
         $this->_clearTable('industry_sector');
+        $this->_clearTable('review');
+        $this->_clearTable('place');
     }
 
     /**

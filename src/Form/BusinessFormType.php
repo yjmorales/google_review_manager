@@ -49,16 +49,19 @@ class BusinessFormType extends AbstractType
             ->add('place', HiddenType::class, [
                 'required' => false,
                 'mapped'   => false,
+                'attr'     => [
+                    'data-id' => 'business_form_place',
+                ]
             ])
             ->add('address', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Address',
                     'class'       => 'form-control form-control-border',
+                    'data-id'     => 'business_form_address',
                     'minlength'   => 2,
                     'maxlength'   => 255,
                     'help'        => 'Address of the business location.',
                 ],
-
             ])
             ->add('city', TextType::class, [
                 'attr' => [
@@ -67,6 +70,7 @@ class BusinessFormType extends AbstractType
                     'minlength'   => 2,
                     'maxlength'   => 255,
                     'help'        => 'City where the business is located.',
+                    'data-id'     => 'business_form_city',
                 ],
             ])
             ->add('state', TextType::class, [
@@ -76,6 +80,7 @@ class BusinessFormType extends AbstractType
                     'minlength'   => 2,
                     'maxlength'   => 255,
                     'help'        => 'State where the business is located.',
+                    'data-id'     => 'business_form_state',
                 ],
             ])
             ->add('zipCode', TextType::class, [
@@ -85,6 +90,7 @@ class BusinessFormType extends AbstractType
                     'minlength'   => 2,
                     'maxlength'   => 15,
                     'help'        => 'Zip Code where the business is located.',
+                    'data-id'     => 'business_form_zipCode',
                 ],
             ])
             ->add('active', CheckboxType::class, [

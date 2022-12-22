@@ -4,22 +4,27 @@
  * Component responsible to find address matches and display them as options. Once the user selects an option
  * the rest of address properties will be populated with the details.
  */
-function AddressAutoComplete() {
+function AddressAutoComplete(config = {}) {
 
+    /**
+     * Holds the auto-complete state.
+     * @type {Object}
+     */
     const state = {
         modules: {
             InputSpinner: new InputSpinner(),
+            FindPlaceDetails: config.FindPlaceDetails ?? new FindPlaceDetails(),
         }
     };
     /**
      * UI Elements.
      */
     const ui = {
-        $fieldAddress: $('#business_form_address'),
-        $fieldCity: $('#business_form_city'),
-        $fieldState: $('#business_form_state'),
-        $fieldZipCode: $('#business_form_zipCode'),
-        $fieldPlaceId: $('#business_form_place'),
+        $fieldAddress: $('input[data-id="business_form_address"]'),
+        $fieldCity: $('input[data-id="business_form_city"]'),
+        $fieldState: $('input[data-id="business_form_state"]'),
+        $fieldZipCode: $('input[data-id="business_form_zipCode"]'),
+        $fieldPlaceId: $('input[data-id="business_form_place"]'),
         $urls: $('#urls'),
     };
 
@@ -34,51 +39,38 @@ function AddressAutoComplete() {
             {
                 source: function (request, response) {
                     state.modules.InputSpinner.start(ui.$fieldAddress);
-                    jQuery.get(url, {
-                        term: request.term
-                    }, function (data) {
-                        state.modules.InputSpinner.stop(ui.$fieldAddress);
-                        response(data.predictions);
-                    });
+                    fetch(`${url}?term=${request.term}`)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            response(data.predictions);
+                        })
+                        .catch((e) => {
+                            console.debug(e)
+                        })
+                        .finally(() => {
+                            state.modules.InputSpinner.stop(ui.$fieldAddress);
+                        });
                 },
                 select: (event, ui) => {
                     $('#business_form_address').val(ui.item.label);
-                    findDetails(ui.item.value, $('#business_form_place').val());
+                    if(config.lookForDetails){
+                        state.modules.FindPlaceDetails.findDetails(ui.item.value, $('#business_form_place').val());
+                    }
                     return false;
                 }
             });
     }
 
     /**
-     *  Once the user selects an option the rest of address properties will be populated with the details.
-     * @param {string} placeId Holds the place id respective to the selected option.
-     * @param {int} businessId Holds the business id.
+     * Used to clear all business form fields.
+     * @return {void}
      */
-    function findDetails(placeId, businessId) {
-        if (!placeId) {
-            throw 'The place id is required to find a place details.';
-        }
-        const url = ui.$urls.data('api_v1_google_place_details_post')
-            , data = new FormData();
-        ui.$fieldPlaceId.val(placeId);
-        data.append('placeId', placeId);
-        data.append('businessId', businessId);
-        state.modules.InputSpinner.start(ui.$fieldAddress);
-        fetch(url, {method: 'POST', body: data})
-            .then((response) => response.json())
-            .then((data) => {
-                const addressObj = data.address;
-                ui.$fieldAddress.val(addressObj.address);
-                ui.$fieldCity.val(addressObj.city);
-                ui.$fieldState.val(addressObj.state);
-                ui.$fieldZipCode.val(addressObj.zipCode);
-            })
-            .catch((e) => {
-                console.debug(e)
-            })
-            .finally(() => {
-                state.modules.InputSpinner.stop(ui.$fieldAddress);
-            });
+    function clearForm() {
+        ui.$fieldAddress.val(null);
+        ui.$fieldCity.val(null);
+        ui.$fieldState.val(null);
+        ui.$fieldZipCode.val(null);
+        ui.$fieldPlaceId.val(null);
     }
 
     /**
@@ -90,4 +82,5 @@ function AddressAutoComplete() {
     }
 
     this.init = init;
+    this.clearForm = clearForm;
 }

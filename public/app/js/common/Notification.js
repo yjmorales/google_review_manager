@@ -45,9 +45,10 @@ function Notification() {
      *
      * @param {string} message Error message.
      * @param {string|null} title Dialog title
+     * @param {int|null} timer Timer to hide the notification
      */
-    function error(message, title = null) {
-        const prop = commonProperties(message, title);
+    function error(message, title = null, timer = null) {
+        const prop = commonProperties(message, title, timer);
         const Toast = Swal.mixin(prop.structure);
         Toast.fire(Object.assign(prop.style, {icon: 'error', background: '#FFE7E7',}));
     }
@@ -57,9 +58,10 @@ function Notification() {
      *
      * @param {string} message Success message.
      * @param {string|null} title Dialog title
+     * @param {int|null} timer Holds the timer used to hide the notification.
      */
-    function success(message, title = null) {
-        const prop = commonProperties(message, title);
+    function success(message, title = null, timer = null) {
+        const prop = commonProperties(message, title, timer);
         const Toast = Swal.mixin(prop.structure);
         Toast.fire(Object.assign(prop.style, {icon: 'success', background: '#f5fef0',}));
     }
@@ -69,8 +71,9 @@ function Notification() {
      *
      * @param {string} message warning message.
      * @param {string|null} title Dialog title
+     * @param {int|null} timer Timer to hide the notification
      */
-    function warning(message, title = null) {
+    function warning(message, title = null, timer = null) {
         const prop = commonProperties(message, title);
         const Toast = Swal.mixin(prop.structure);
         Toast.fire(Object.assign(prop.style, {icon: 'warning', background: '#FFFCE7',}));
@@ -81,21 +84,22 @@ function Notification() {
      *
      * @param {string} message warning message.
      * @param {string|null} title Dialog title
+     * @param {int|null} timer Timer to hide the notification
      */
-    function commonProperties(message, title) {
+    function commonProperties(message, title, timer = null) {
         return {
             structure: {
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 5000
+                timer: timer ?? 5000
             },
             style: {
                 title: title ?? false,
                 html: message,
                 allowEscapeKey: true,
                 showCloseButton: true,
-                closeButtonHtml: '<i class="fa-solid fa-xmark font-14" role="button" title="Close"></i>',
+                closeButtonHtml: '<i class="fa-solid fa-xmark font-14 text-black" role="button" title="Close"></i>',
             },
         }
     }

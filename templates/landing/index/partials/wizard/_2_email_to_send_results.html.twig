@@ -1,0 +1,22 @@
+<form id="form-landing-contact-info" name="contact_form">
+    <div class="row form-group d-flex justify-content-center bg-white mb-3 ">
+        <div class="col-6">
+            <h2 class="mt-0 mb-2">Google Review Link Generator</h2>
+            <label>The Google Review Link will be generated. Please enter a valid email to send it.</label>
+            <div class="input-group mb-0">
+                <input id="form_contact_email" type="email" placeholder="Enter an email address"
+                       class="form-control form-control-border form-control"
+                       name="contact_form[email]"
+                       required
+                       minlength="2"
+                       maxlength="255"
+                       help="Address of the business location.">
+                <button class="btn btn-primary" type="submit"
+                        data-url="{{ path('api_v1_review_generate_guest_post') }}"
+                        data-input="#form_contact_email"
+                        id="btnGenerateGoogleReviewLink">Generate
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

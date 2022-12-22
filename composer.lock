@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32632dae36147fb28e14b302dee848b0",
+    "content-hash": "3887674cca18f4d41ced5955f8f8edaa",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -9973,7 +9973,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:yjmorales/php-core.git",
-                "reference": "a55e177d62184f41bcf1d946d658b389f04762a7"
+                "reference": "3e3b7eb774dc07846a42cd0afe93a95d9cb4f45e"
             },
             "require": {
                 "ext-bcmath": "^7.4",
@@ -9999,7 +9999,7 @@
                 "proprietary"
             ],
             "description": "PHP Core library for web applications.",
-            "time": "2022-11-29T19:59:26+00:00"
+            "time": "2022-12-16T20:11:43+00:00"
         }
     ],
     "packages-dev": [
