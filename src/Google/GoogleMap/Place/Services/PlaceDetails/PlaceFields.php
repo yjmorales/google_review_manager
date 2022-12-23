@@ -11,9 +11,10 @@ namespace App\Google\GoogleMap\Place\Services\PlaceDetails;
  */
 class PlaceFields
 {
-    const  ADDRESS_COMPONENT = 'address_component';
-    const  BUSINESS_STATUS = 'business_status';
+    const ADDRESS_COMPONENT = 'address_component';
+    const BUSINESS_STATUS = 'business_status';
     const NAME = 'name';
     const PLACE_ID = 'place_id';
     const FORMATTED_PHONE_NUMBER = 'formatted_phone_number';
+    const TYPE = 'type';
 }

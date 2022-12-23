@@ -7,7 +7,7 @@ namespace App\Demo;
 
 use App\Entity\Business;
 use App\Entity\IndustrySector;
-use App\Model\IndustrySectorEnum;
+use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceBusinessIndustryTypes;
 use Common\DataManagement\DataGenerator\RandomGenerator;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -89,7 +89,6 @@ class EntityGenerator extends Fixture
     protected function populate(): void
     {
         $this->_createIndustrySector();
-        $this->_createBusiness();
     }
 
     /**
@@ -99,9 +98,9 @@ class EntityGenerator extends Fixture
      */
     protected function _createIndustrySector(): void
     {
-        foreach (IndustrySectorEnum::MAP as $type) {
+        foreach (PlaceBusinessIndustryTypes::MAP as $type) {
             $industry = new IndustrySector();
-            $industry->setName($type);
+            $industry->setName(ucfirst($type));
             $this->_em->persist($industry);
             $this->_em->flush();
             $this->_industrySectorList[] = $industry;
