@@ -17,6 +17,8 @@ use App\Entity\Business;
 use App\Entity\Place;
 use App\Entity\Review;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\Address;
+use App\Entity\IndustrySector;
+use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceBusinessStatusTypes;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService;
 use Common\Communication\HtmlMailer\MailerMessage;
 use Common\DataManagement\Validator\DataValidator;
@@ -154,6 +156,13 @@ class ApiReviewController extends BaseController
             if ($placeDetails->getData()->placeId) {
                 $place->setPlaceId($placeDetails->getData()->placeId);
             }
+            $place->setActive(false);
+            if ($status = $placeDetails->getData()->businessStatus) {
+                $place->setActive(PlaceBusinessStatusTypes::OPERATIONAL === $status);
+            }
+            if ($type = $placeDetails->getData()->placeType) {
+                $place->setType($type);
+            }
             $this->_em($doctrine)->persist($place);
         }
 
@@ -163,12 +172,19 @@ class ApiReviewController extends BaseController
         if (!$business) {
             $business = new Business();
             $business->setName($place->getName());
-            $business->setActive(true);
+            $business->setActive($place->isActive());
             $business->setAddress("{$place->getStreetNumber()} {$place->getStreetName()}");
             $business->setCity($place->getCity());
             $business->setState($place->getState());
             $business->setZipCode($place->getZipCode());
             $business->setPlace($place);
+            /** @var IndustrySector $industry */
+            $industry = $this->_repository($doctrine, IndustrySector::class)->findOneBy([
+                'name' => $place->getType()
+            ]);
+            if ($industry) {
+                $business->setIndustrySector($industry);
+            }
             $this->_em($doctrine)->persist($business);
         }
 

@@ -19,6 +19,10 @@ class DetailsResponse extends AbstractPlaceResponse
 
     private ?string $placeId = null;
 
+    private ?string $businessStatus = null;
+
+    private ?string $placeType = null;
+
     /**
      * @param Address $address
      */
@@ -46,23 +50,57 @@ class DetailsResponse extends AbstractPlaceResponse
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getData()
-    {
-        $data          = new stdClass();
-        $data->address = $this->address;
-        $data->name    = $this->placeName;
-        $data->placeId = $this->placeId;
-
-        return $data;
-    }
-
-    /**
      * @return Address|null
      */
     public function getAddress(): ?Address
     {
         return $this->address;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBusinessStatus(): ?string
+    {
+        return $this->businessStatus;
+    }
+
+    /**
+     * @param string $businessStatus
+     */
+    public function setBusinessStatus(string $businessStatus): void
+    {
+        $this->businessStatus = $businessStatus;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlaceType(): ?string
+    {
+        return $this->placeType;
+    }
+
+    /**
+     * @param string|null $placeType
+     */
+    public function setPlaceType(?string $placeType): void
+    {
+        $this->placeType = $placeType;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getData()
+    {
+        $data                 = new stdClass();
+        $data->address        = $this->address;
+        $data->name           = $this->placeName;
+        $data->placeId        = $this->placeId;
+        $data->businessStatus = $this->businessStatus;
+        $data->placeType      = $this->placeType;
+
+        return $data;
     }
 }

@@ -24,7 +24,9 @@ class PlaceDetailsService extends AbstractPlaceService
      *
      * @var string|null
      */
-    private ?string $placeId;
+    private ?string $placeId = null;
+
+    private ?string $businessStatus = null;
 
     /**
      * Uses the Google Place details api and look up for results.
@@ -57,6 +59,8 @@ class PlaceDetailsService extends AbstractPlaceService
             PlaceFields::ADDRESS_COMPONENT,
             PlaceFields::NAME,
             PlaceFields::PLACE_ID,
+            PlaceFields::BUSINESS_STATUS,
+            PlaceFields::TYPE,
         ]);
 
         return $this->_execute("fields=$fields&{$this->getBaseUrlArguments($placeId)}");
@@ -142,13 +146,22 @@ class PlaceDetailsService extends AbstractPlaceService
         }
         $response->setAddress($address);
 
-        // Retrieving place name.
         if ($placeName = Arr::get($data, 'result.name')) {
             $response->setPlaceName($placeName);
         }
-        // Retrieving place id.
         if ($this->placeId) {
             $response->setPlaceId($this->placeId);
+        }
+        if ($status = Arr::get($data, 'result.business_status')) {
+            $response->setBusinessStatus($status);
+        }
+        if ($placeTypes = Arr::get($data, 'result.types')) {
+            if (is_array($placeTypes) && count($placeTypes)) {
+                $response->setPlaceType($placeTypes[0]);
+            }
+            if (is_string($placeTypes) && !empty($placeTypes)) {
+                $response->setPlaceType($placeTypes);
+            }
         }
 
         return $response;

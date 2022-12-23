@@ -14,7 +14,7 @@ class AddressComponentSectionsType
     const STREET_NAME = 'route';
     const CITY = 'locality';
     const STATE = 'administrative_area_level_1';
-    const  COUNTRY = 'country';
+    const COUNTRY = 'country';
     const ZIP_CODE = 'postal_code';
     const ADDRESS_TYPES = [
         self::STREET_NUMBER,
