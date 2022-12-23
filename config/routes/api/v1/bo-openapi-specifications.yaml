@@ -242,6 +242,22 @@ paths:
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
+  /landing/contact-us-send-email:
+    post:
+      x-symfony-controller: App\Api\Landing\Controller\ApiLandingController::contactUsSendEmail
+      tags:
+        - Landing Page
+      summary: This sends the `Contact Us` email to the system administrator.
+      operationId: contactUsSendEmail
+      description: This sends the `Contact Us` email to the system administrator.
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
 #************************************
 #******** Components ****************
 #************************************
