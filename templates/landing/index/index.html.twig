@@ -61,6 +61,7 @@
             <ul>
                 <li><a class="nav-link scrollto active" href="#hero">Generate Google Review Link</a></li>
                 <li id="linkToGoogleReviewResults" class="d-none"><a class="nav-link scrollto" href="#yourGoogleReviewLink">Your Google Review Link</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
@@ -76,6 +77,7 @@
 </section>
 
 <main id="main">
+    {# Google Review Link - Results #}
     <section id="yourGoogleReviewLink" class="section-bg d-none">
         <div class="container aos-init aos-animate" data-aos="fade-up">
             <div class="section-title pb-0">
@@ -95,6 +97,9 @@
             </div>
         </div>
     </section>
+
+    {# Contact US Form #}
+    {% include '/landing/index/partials/layout/_contact_us.html.twig' %}
 </main>
 
 
@@ -112,15 +117,18 @@
 <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
 <script src="{{ asset('/app/js/landing/BusinessAddressValidator.js') }}"></script>
 <script src="{{ asset('/app/js/landing/ContactFormValidator.js') }}"></script>
+<script src="{{ asset('/app/js/landing/ContactUsFormValidator.js') }}"></script>
 <script src="{{ asset('/app/js/landing/LandingPageAddressAutoComplete.js') }}"></script>
 <script src="{{ asset('/app/js/common/InputSpinner.js') }}"></script>
 <script src="{{ asset('/app/js/common/CopyClipboard.js') }}"></script>
 <script src="{{ asset('/app/js/landing/LandingPage.js') }}"></script>
+<script src="{{ asset('/app/js/landing/ContactUsForm.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 
 <script>
     (new CopyClipboard()).init();
+    (new ContactUsForm()).init();
     $('[data-toggle="tooltip"]').tooltip();
     (new LandingPage()).init();
 </script>
