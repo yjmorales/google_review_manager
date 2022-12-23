@@ -22,9 +22,11 @@ services:
     App\Demo\Generator\EntityGenerator:
         class: App\Demo\EntityGenerator
         public: true,
-        arguments: [ '@doctrine.orm.entity_manager']
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.user_password_hasher'
         tags:
-          [ 'doctrine.fixture.orm' ]
+            [ 'doctrine.fixture.orm' ]
 
     App\Demo\Generator\EntityGeneratorCommand:
         class: App\Demo\EntityGeneratorCommand
