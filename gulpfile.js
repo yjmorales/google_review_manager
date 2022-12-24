@@ -89,15 +89,6 @@ gulp.task('landing_css', function () {
         .pipe(gulp.dest(cssDest));
 });
 
-gulp.task('landing_wizard_css', function () {
-    return gulp.src(
-        [
-        ])
-        .pipe(concat('landing_wizard_css.css'))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(gulp.dest(cssDest));
-});
-
 /**
  * Compressing *.js files
  */
@@ -152,6 +143,8 @@ gulp.task('layout_login_js', function () {
             'vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
             'vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js',
             'vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/jquery-validation/jquery.validate.min.js',
+            'vendor/almasaeed2010/adminlte/plugins/jquery-validation/additional-methods.min.js',
         ])
         .pipe(concat('layout_login_js.js'))
         .pipe(terser())
@@ -194,14 +187,7 @@ gulp.task('landing_js', function () {
         .pipe(gulp.dest(jsDest));
 });
 
-gulp.task('landing_wizard_js', function () {
-    return gulp.src(
-        [
-        ])
-        .pipe(concat('landing_wizard_js.js'))
-        .pipe(terser())
-        .pipe(gulp.dest(jsDest));
-});
+
 
 /**
  * Compressing fonts
@@ -263,6 +249,4 @@ gulp.task('run', gulp.parallel(
     'landing_fonts',
     'landing_bootstrap_icons_fonts',
     'landing_img',
-    'landing_wizard_js',
-    'landing_wizard_css',
 ));

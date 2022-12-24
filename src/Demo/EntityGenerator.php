@@ -7,12 +7,15 @@ namespace App\Demo;
 
 use App\Entity\Business;
 use App\Entity\IndustrySector;
+use App\Entity\User;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceBusinessIndustryTypes;
+use App\Security\Role\RoleTypes;
 use Common\DataManagement\DataGenerator\RandomGenerator;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * This generates random data to operate the system as a demo.
@@ -34,11 +37,28 @@ class EntityGenerator extends Fixture
     private array $_industrySectorList = [];
 
     /**
-     * @param EntityManagerInterface $em
+     * System admin email;
+     *
+     * @var string
      */
-    public function __construct(EntityManagerInterface $em)
+    private string $systemAdminEmail;
+
+    /**
+     * Password encoder
+     *
+     * @var UserPasswordHasherInterface
+     */
+    protected $passwordHasher;
+
+    /**
+     * @param EntityManagerInterface      $em
+     * @param UserPasswordHasherInterface $hasher
+     */
+    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
     {
-        $this->_em = $em;
+        $this->_em              = $em;
+        $this->systemAdminEmail = 'yjmorales86@gmail.com';
+        $this->passwordHasher   = $hasher;
     }
 
     /**
@@ -79,6 +99,7 @@ class EntityGenerator extends Fixture
         $this->_clearTable('industry_sector');
         $this->_clearTable('review');
         $this->_clearTable('place');
+        $this->_clearTable('user');
     }
 
     /**
@@ -89,6 +110,7 @@ class EntityGenerator extends Fixture
     protected function populate(): void
     {
         $this->_createIndustrySector();
+        $this->createUser();
     }
 
     /**
@@ -105,6 +127,16 @@ class EntityGenerator extends Fixture
             $this->_em->flush();
             $this->_industrySectorList[] = $industry;
         }
+    }
+
+    private function createUser()
+    {
+        $user = new User();
+        $user->setEmail($this->systemAdminEmail);
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'admin'));
+        $user->setRoles([RoleTypes::ROLE_ADMIN, RoleTypes::ROLE_USER]);
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
 
     /**

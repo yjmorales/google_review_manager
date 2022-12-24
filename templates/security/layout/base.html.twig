@@ -13,11 +13,14 @@
 <div class="login-box">
     <!-- /.login-logo -->
     <div class="w-100 text-center pb-2">
-        <img src="{{ asset('/img/logo.png') }}" height="60" width="60">
+        {% set urlIcon = path('index') %}
+        <a href="{{ urlIcon }}">
+            <img src="{{ asset('/img/logo.png') }}" height="60" width="60">
+        </a>
     </div>
     <div class="card card-outline card-primary">
-        <div class="card-header text-center">
-            <h4>Google Review Manager</h4>
+        <div class="card-header text-center p-2">
+            <h5 class="m-0">{{ title }}</h5>
         </div>
         <div class="card-body">
             {% block content %}{% endblock %}
@@ -27,7 +30,8 @@
     <!-- /.card -->
 </div>
 <!-- /.login-box -->
-<script src="{{ asset('dist/css/layout_login_css.css') }}"></script>
+<script src="{{ asset('dist/js/layout_login_js.js') }}"></script>
 {% block js %}{% endblock %}
 </body>
+
 </html>

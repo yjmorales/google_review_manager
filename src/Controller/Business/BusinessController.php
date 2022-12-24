@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Responsible to manage the business.
  *
- * @Route("/business")
+ * @Route("/admin/business")
  */
 class BusinessController extends BaseController
 {
