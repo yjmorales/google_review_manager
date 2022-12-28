@@ -211,13 +211,16 @@ class ApiReviewController extends BaseController
         }
         // Storing the review entity.
         try {
-            // Saving the entity into the db
-            $review = new Review();
-            $review->setName($business->getName());
-            $review->setLink($link);
-            $review->setBusiness($business);
-            $this->_createQrCode($review);
-            $this->_em($doctrine)->persist($review);
+            $review = $this->_repository($doctrine, Review::class)->findOneByBusiness($business);
+            if (!$review) {
+                // Saving the entity into the db
+                $review = new Review();
+                $review->setName($business->getName());
+                $review->setLink($link);
+                $review->setBusiness($business);
+                $this->_createQrCode($review);
+                $this->_em($doctrine)->persist($review);
+            }
         } catch (Exception $e) {
             throw new ApiErrorException([$e->getMessage()], 0, $e);
         }
