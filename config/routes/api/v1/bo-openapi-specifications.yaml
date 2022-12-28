@@ -17,7 +17,7 @@ info:
 #******** Paths *********************
 #************************************
 paths:
-  /business/{id}/remove:
+  /admin/business/{id}/remove:
     post:
       x-symfony-controller: App\Api\Business\Controller\ApiBusinessController::remove
       tags:
