@@ -13,6 +13,7 @@ function LandingPage() {
         modules: {
             LandingPageAddressAutoComplete: null,
             Notification: new Notification(),
+            InputSpinner: new InputSpinner(),
         }
     };
 
@@ -148,33 +149,52 @@ function LandingPage() {
         (new ContactFormValidator()).init(
             {
                 callback: () => {
+
+                    // First verifies that the submission is not a robot. Via ReCaptcha v3
                     const $btn = $(ui.$btnGenerateGoogleReviewLink);
-                    const url = $btn.data('url');
-                    $btn.prop('disabled', true);
-                    $($btn.data('input')).prop('readonly', true);
-                    const body = new FormData();
-                    body.append('place_id', ui.$fieldPlaceId.val());
-                    body.append('email', $(ui.$fieldContactEmail).val());
-                    fetch(url, {method: 'POST', body: body})
-                        .then((response) => response.json())
-                        .then((data) => {
-                            renderGoogleReviewLink(data.review);
-                            state.modules.Notification.success(
-                                `The Google Review Link has been successfully created. 
+                    const siteKey = $btn.data('sitekey');
+                    grecaptcha.ready(function () {
+                        grecaptcha.execute(siteKey, {action: 'submit'})
+                            .then(function (token) {
+                                // Once the token is got the following submits the data to generate the review. The token
+                                // should be passed.
+                                token = token.replace('\n', '');
+                                const email = $(ui.$fieldContactEmail).val();
+                                if (!Boolean(email)) {
+                                    state.modules.Notification.error('An email address is required.');
+                                    return;
+                                }
+                                const url = $btn.data('url');
+                                $btn.prop('disabled', true);
+                                state.modules.InputSpinner.start($(ui.$fieldContactEmail));
+                                $($btn.data('input')).prop('readonly', true);
+                                const body = new FormData();
+                                body.append('place_id', ui.$fieldPlaceId.val());
+                                body.append('email', email);
+                                body.append('g-recaptcha-response', token);
+                                fetch(url, {method: 'POST', body: body})
+                                    .then((response) => response.json())
+                                    .then((data) => {
+                                        renderGoogleReviewLink(data.review);
+                                        state.modules.Notification.success(
+                                            `The Google Review Link has been successfully created. 
                                           An email has been sent to those contact email address you provided on the contact form
                                           Thank you for using our Google Review Ling generator.`, 'Google Review Link', 8000);
-                            const timerToResetWizard = setTimeout(function () {
-                                state.modules.LandingPageAddressAutoComplete.clearForm();
-                                $(ui.$fieldContactEmail).val(null);
-                                ui.$smartWizard.smartWizard('reset');
-                                $('a[href="#step-2-email-to-send-results"]').removeClass('active');
-                                clearTimeout(timerToResetWizard);
-                            }, 700);
-                        }).catch((e) => {
-                        console.debug(e)
-                    }).finally(() => {
-                        $btn.prop('disabled', false);
-                        $($btn.data('input')).prop('readonly', false);
+                                        const timerToResetWizard = setTimeout(function () {
+                                            state.modules.LandingPageAddressAutoComplete.clearForm();
+                                            $(ui.$fieldContactEmail).val(null);
+                                            ui.$smartWizard.smartWizard('reset');
+                                            $('a[href="#step-2-email-to-send-results"]').removeClass('active');
+                                            clearTimeout(timerToResetWizard);
+                                        }, 700);
+                                    }).catch((e) => {
+                                    console.debug(e)
+                                }).finally(() => {
+                                    $btn.prop('disabled', false);
+                                    $($btn.data('input')).prop('readonly', false);
+                                    state.modules.InputSpinner.stop($(ui.$fieldContactEmail));
+                                });
+                            });
                     });
                 }
             });

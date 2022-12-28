@@ -93,3 +93,14 @@ services:
             - google_review_manager_
             - '%redis_password%'
             - '%redis_port%'
+
+    Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever:
+        class: Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever
+        public: yes
+
+    Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator:
+        class: Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator
+        arguments:
+            - '%recaptcha_v3_grm_secret_key%'
+            - '%google_url_token_validator%'
+            - '@Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever'

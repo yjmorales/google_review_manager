@@ -22,6 +22,7 @@ use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceBusinessStatusTypes;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService;
 use Common\Communication\HtmlMailer\MailerMessage;
 use Common\DataManagement\Validator\DataValidator;
+use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -122,8 +123,22 @@ class ApiReviewController extends BaseController
         RouterInterface $router,
         ApiGoogleReviewManager $googleReviewManager,
         PlaceDetailsService $detailsService,
-        Mailer $mailer
+        Mailer $mailer,
+        ReCaptchaV3Validator $reCaptchaV3Validator
     ): Response {
+
+        /*
+         *  Verifies that's not a robot.
+         */
+        try {
+            $isHuman = $reCaptchaV3Validator->validateToken();
+        } catch (Exception $e) {
+            throw new ApiErrorException(['Unable to validate google recaptcha v3 token.']);
+        }
+        if (!$isHuman) {
+            throw new ApiErrorException(['Invalid token. You are a robot']);
+        }
+
         // The place if is mandatory to look up the place info and generate the review.
         if (!$placeId = $request->get('place_id')) {
             throw new ApiErrorException(['The place id is required']);
