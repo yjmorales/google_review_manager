@@ -10,3 +10,8 @@ parameters:
   redis_host: '%env(REDIS_HOST)%'
   redis_port: '%env(REDIS_PORT)%'
   redis_password: null
+
+  recaptcha_v3_grm_site_key: '%env(RECAPTCHA_V3_GRM_SITE_KEY)%'
+  recaptcha_v3_grm_secret_key: '%env(RECAPTCHA_V3_GRM_SECRET_KEY)%'
+  recaptcha_v3_grm_generate_review_guest_user_action: 'generate_review_guest_user_action'
+  google_url_token_validator: 'https://www.google.com/recaptcha/api/siteverify'

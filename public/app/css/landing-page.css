@@ -36,3 +36,7 @@
 #hero {
     height: 450px;
 }
+
+.grecaptcha-badge {
+    display: none !important;
+}

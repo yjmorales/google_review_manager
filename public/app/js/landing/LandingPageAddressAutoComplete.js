@@ -39,9 +39,6 @@ function LandingPageAddressAutoComplete() {
                         .then((response) => response.json())
                         .then((data) => {
                             response(data.predictions);
-                            if (data.predictions.length) {
-                                ui.$btnGoToContactPage.prop('disabled', false);
-                            }
                         })
                         .catch((e) => {
                             console.debug(e)
@@ -53,6 +50,7 @@ function LandingPageAddressAutoComplete() {
                 select: (event, ui) => {
                     $('#business_form_address').val(ui.item.label);
                     $('input[data-id="business_form_place"]').val(ui.item.value);
+                    $('#btnGoToContactPage').prop('disabled', false);
                     return false;
                 }
             });
