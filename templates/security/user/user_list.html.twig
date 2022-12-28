@@ -1,0 +1,67 @@
+{% extends '/layout/base.html.twig' %}
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
+{% endblock %}
+
+{% block content %}
+    {{ helpers.notifications_success() }}
+    {{ helpers.notifications_error() }}
+    {{ helpers.notifications_warning() }}
+    <div class="card card-info card-outline direct-chat direct-chat-primary">
+        <div class="card-header card-header-compressed">
+            <h4 class="card-title">Users list</h4>
+            <div class="card-tools">
+                <a href="{{ path('user_create') }}" class="btn btn-tool bg-info btn-xs">
+                    Add user
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <div id="userTableContainer" class="table-responsive">
+                <table data-container="#userTableContainer"
+                       class="table table-hover text-nowrap table-sm  dt-responsive">
+                    <thead>
+                    <tr>
+                        <th class="non-top-border">Email</th>
+                        <th class="non-top-border">Role</th>
+                        <th class="non-top-border"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in users %}
+                        <tr>
+                            <td>{{ item.email }}</td>
+                            <td>
+                                {{ item.roles|join(' / ') }}
+                            </td>
+                            <td class="text-right">
+                                <a href="{{ path('user_edit', {id: item.id}) }}" type="button"
+                                   class="btn btn-outline-info btn-xs"
+                                   data-id="btn-edit-user">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <a href="{{ path('user_remove', {'id': item.id}) }}" class="btn btn-outline-danger btn-xs"
+                                   {{ app.user.id == item.id ? ' disabled ' }}
+                                   data-id="btn-remove-user">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {{ helpers.form_processing() }}
+    </div>
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
+    <script>
+        (new Notification()).listenUIEvents();
+    </script>
+{% endblock %}

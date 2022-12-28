@@ -11,8 +11,33 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Business</a>
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenuBusiness"
+                       href="#"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       class="nav-link dropdown-toggle">Business</a>
+                    <ul aria-labelledby="dropdownSubMenuBusiness"
+                        class="dropdown-menu border-0 shadow"
+                        style="left: 0; right: inherit;">
+                        <li><a href="{{ path('business_list') }}" class="dropdown-item">Business list</a></li>
+                        <li><a href="{{ path('business_create') }}" class="dropdown-item">Create business</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenuUsers"
+                       href="#"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       class="nav-link dropdown-toggle">Users</a>
+                    <ul aria-labelledby="dropdownSubMenuUsers"
+                        class="dropdown-menu border-0 shadow"
+                        style="left: 0; right: inherit;">
+                        <li><a href="{{ path('users_list') }}" class="dropdown-item">User list</a></li>
+                        <li><a href="{{ path('user_create') }}" class="dropdown-item">Create user</a></li>
+                    </ul>
                 </li>
             </ul>
             <!-- SEARCH FORM -->
