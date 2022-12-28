@@ -1,0 +1,22 @@
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
+<input type="hidden" id="userId" value="{{ user.id }}">
+<div class="form-group row">
+    <div class="col">
+        {{ helpers.field(form.email) }}
+    </div>
+</div>
+
+{% if not isEdit %}
+    <div class="form-group row">
+        <div class="col">
+            {{ helpers.field(form.password)  }}
+        </div>
+    </div>
+{% endif %}
+
+<div class="form-group row">
+    <div class="col">
+        {{ helpers.field(form.roles) }}
+    </div>
+</div>
