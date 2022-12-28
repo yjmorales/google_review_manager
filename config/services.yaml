@@ -84,3 +84,12 @@ services:
         public: yes
         arguments:
             - '%google_write_review_base_url%'
+            -
+    Common\DataStorage\Redis\RedisCacheRegistry:
+        class: Common\DataStorage\Redis\RedisCacheRegistry
+        public: yes
+        arguments:
+            - '%redis_host%'
+            - google_review_manager_
+            - '%redis_password%'
+            - '%redis_port%'

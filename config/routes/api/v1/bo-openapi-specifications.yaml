@@ -258,6 +258,22 @@ paths:
         '500':
           $ref: '#/components/responses/ServerErrorResponse'
 
+  /change-password/send-link-to-update-password:
+    post:
+      x-symfony-controller: App\Api\Security\ChangePassword\Controller\ChangePasswordController::sendLinkToUpdatePassword
+      tags:
+        - Security
+      summary: This sends an email holding a link to reset a password. It will be alive for 15 minutes.
+      operationId: changePasswordSendLinkToUpdatePassword
+      description: This sends an email holding a link to reset a password. It will be alive for 15 minutes.
+      responses:
+        '200':
+          $ref: '#/components/responses/EmptySuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/ServerErrorResponse'
+
 #************************************
 #******** Components ****************
 #************************************
