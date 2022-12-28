@@ -8,6 +8,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="{{ asset('/dist/css/layout_login_css.css') }}">
+    <link rel="stylesheet" href="{{ asset('/app/css/security.css') }}">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -20,7 +21,7 @@
     </div>
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-2">
-            <h5 class="m-0">{{ title }}</h5>
+            <h5 class="m-0">{{ title  ?? ''}}</h5>
         </div>
         <div class="card-body">
             {% block content %}{% endblock %}
@@ -31,6 +32,7 @@
 </div>
 <!-- /.login-box -->
 <script src="{{ asset('dist/js/layout_login_js.js') }}"></script>
+<script src="{{ asset('/app/js/common/Notification.js') }}"></script>
 {% block js %}{% endblock %}
 </body>
 

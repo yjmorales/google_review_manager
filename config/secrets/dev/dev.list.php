@@ -2,6 +2,9 @@
 
 return [
     'GOOGLE_MAP_API_KEY' => null,
+    'REDIS_HOST' => null,
+    'REDIS_PASSWORD' => null,
+    'REDIS_PORT' => null,
     'SENDGRID_API_KEY' => null,
     'SENDGRID_INTERNAL_TO_EMAIL' => null,
     'SENDGRID_SENDER_EMAIL' => null,

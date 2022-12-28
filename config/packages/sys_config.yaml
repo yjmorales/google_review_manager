@@ -6,3 +6,7 @@ parameters:
   sys_admin_linkedin_profile_url: '%env(SYS_ADMIN_LINKEDIN_PROFILE_URL)%'
   sys_admin_personal_page_url: '%env(SYS_ADMIN_PERSONAL_PAGE_URL)%'
   sys_admin_phone: '%env(SYS_ADMIN_PHONE)%'
+
+  redis_host: '%env(REDIS_HOST)%'
+  redis_port: '%env(REDIS_PORT)%'
+  redis_password: null
