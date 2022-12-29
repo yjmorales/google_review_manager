@@ -3,7 +3,7 @@
 /**
  * Component used to locate places. It performs an ajax call to the API. Then renders the results on UI.
  */
-function FindPlaceDetails(config) {
+function FindPlaceDetails(config = {}) {
 
     const state = {
         modules: {
@@ -14,11 +14,16 @@ function FindPlaceDetails(config) {
      * UI Elements.
      */
     const ui = {
+        // Fields
         $fieldAddress: $('input[data-id="business_form_address"]'),
         $fieldCity: $('input[data-id="business_form_city"]'),
         $fieldState: $('input[data-id="business_form_state"]'),
         $fieldZipCode: $('input[data-id="business_form_zipCode"]'),
         $fieldPlaceId: $('input[data-id="business_form_place"]'),
+        $fieldName: $('#business_form_name'),
+        $fieldIndustry: $('#business_form_industrySector'),
+
+        // Urls
         $urls: $('#urls'),
     };
 
@@ -49,6 +54,12 @@ function FindPlaceDetails(config) {
                     ui.$fieldCity.val(addressObj.city);
                     ui.$fieldState.val(addressObj.state);
                     ui.$fieldZipCode.val(addressObj.zipCode);
+                    if (!ui.$fieldName.val() && data.name) {
+                        ui.$fieldName.val(data.name);
+                    }
+                    if (!ui.$fieldIndustry.val() && data.industry) {
+                        ui.$fieldIndustry.val(data.industry).trigger('change');
+                    }
                 }
             })
             .catch((e) => {

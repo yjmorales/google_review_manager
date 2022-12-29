@@ -13,6 +13,7 @@ use App\Core\Controller\BaseController;
 use App\Entity\Place;
 use App\Google\GoogleMap\Place\Services\PlaceAutocomplete\PlaceAutocompleteService;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\DetailsResponse;
+use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceBusinessStatusTypes;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\PlaceDetailsService;
 use Common\DataManagement\Validator\DataValidator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -84,11 +85,13 @@ class GooglePlaceController extends BaseController
         ]);
         /** @var DetailsResponse $response */
         $response = $placeDetailsService->fullDetails($placeId);
-        if (empty($place)) {
+        if (!$place) {
             $address = $response->getAddress();
             $place   = PlaceMutator::fromAddress($address);
             $place->setPlaceId($placeId);
             $place->setName($response->getData()->name);
+            $place->setActive(PlaceBusinessStatusTypes::OPERATIONAL === $response->getBusinessStatus());
+            $place->setType($response->getPlaceType());
             $this->_em($doctrine)->persist($place);;
             $this->_em($doctrine)->flush();
         } else {
