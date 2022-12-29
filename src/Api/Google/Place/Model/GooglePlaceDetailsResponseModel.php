@@ -35,13 +35,19 @@ class GooglePlaceDetailsResponseModel extends AbstractApiResponseModel
     private ?string $placeId;
 
     /**
+     * @var string|null
+     */
+    private ?string $industry;
+
+    /**
      * @param stdClass $data
      */
     public function __construct(stdClass $data)
     {
-        $this->address = $data->address ?? null;
-        $this->name    = $data->name ?? null;
-        $this->placeId = $data->placeId ?? null;
+        $this->address  = $data->address ?? null;
+        $this->name     = $data->name ?? null;
+        $this->placeId  = $data->placeId ?? null;
+        $this->industry = $data->placeType ?? null;
     }
 
     /**
@@ -49,10 +55,11 @@ class GooglePlaceDetailsResponseModel extends AbstractApiResponseModel
      */
     public function toObject(): stdClass
     {
-        $result          = new stdClass();
-        $result->address = $this->address;
-        $result->name    = $this->name;
-        $result->placeId = $this->placeId;
+        $result           = new stdClass();
+        $result->address  = $this->address;
+        $result->name     = $this->name;
+        $result->placeId  = $this->placeId;
+        $result->industry = $this->industry;
 
         return $result;
     }

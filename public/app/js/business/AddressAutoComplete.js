@@ -53,9 +53,7 @@ function AddressAutoComplete(config = {}) {
                 },
                 select: (event, ui) => {
                     $('#business_form_address').val(ui.item.label);
-                    if(config.lookForDetails){
-                        state.modules.FindPlaceDetails.findDetails(ui.item.value, $('#business_form_place').val());
-                    }
+                    state.modules.FindPlaceDetails.findDetails(ui.item.value, $('#business_form_place').val());
                     return false;
                 }
             });
