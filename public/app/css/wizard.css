@@ -15,3 +15,15 @@
     border-color: #aeaeae !important;
     color: #6d6d6d !important;
 }
+
+.smartwizard {
+    width: 75%;
+}
+
+
+/* Mobile */
+@media (max-width: 640px) {
+    .smartwizard {
+        width: 90%;
+    }
+}

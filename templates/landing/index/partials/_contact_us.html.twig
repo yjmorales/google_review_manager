@@ -1,3 +1,5 @@
+{% import '/components/helpers_macro.html.twig' as helpers %}
+
 <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
         <div class="section-title">
@@ -8,15 +10,15 @@
         </div>
 
         <div class="row" data-aos="fade-up" data-aos-delay="100">
-            <div class="col-3 offset-3">
-                <div class="info-box  mb-4">
+            <div class="col-md-3 offset-md-3 col-sm-6 offset-sm-0">
+                <div class="info-box mb-md-4 pt-md-4 pt-sm-1">
                     <i class="bx bx-envelope"></i>
                     <h3>Email Us</h3>
                     <p> {{ sys_admin_email }}</p>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="info-box  mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="info-box mb-md-4 pt-md-4 pt-sm-1">
                     <i class="bx bx-phone-call"></i>
                     <h3>Call Us</h3>
                     <p>{{ sys_admin_phone|dashed }}</p>
@@ -25,13 +27,13 @@
         </div>
 
         <div class="row" data-aos="fade-up" data-aos-delay="100">
-            <div class="col-6 offset-3">
+            <div class="col-sm-12 col-md-6 offset-md-3">
                 <form id="form_contact_us" name="form_contact_us" method="post" role="form" class="php-email-form">
                     <div class="row">
-                        <div class="col form-group">
+                        <div class="col-sm-12 col-md-6 form-group">
                             <input type="text" name="name" class="form-control" placeholder="Your Name">
                         </div>
-                        <div class="col form-group">
+                        <div class="col-sm-12 col-md-6 form-group">
                             <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                         </div>
                     </div>
@@ -48,7 +50,7 @@
                                 data-input="#form_contact_email"
                                 data-sitekey="{{ siteKey }}"
                                 type="submit">
-                            <span class="spinner-border spinner-border-sm d-none btn-spinner" role="status" aria-hidden="true"></span>
+                            {{ helpers.buttonSpinner() }}
                             Send Message
                         </button>
                     </div>

@@ -35,7 +35,7 @@
             <div class="collapse {{ filtered ? 'show' }} business-list-filter-container font-14" id="filter-business">
                 <form action="{{ path('business_list') }}">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Name</label>
                             <div class="input-group mb-3">
                                 <input class="form-control " name="businessName"
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Created date</label>
                             <div class="input-group mb-3">
                                 <input class="form-control" name="businessCreatedDate"
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Industry sector</label>
                             <select class="yjmSelect2" name="businessIndustrySector"
                                     data-placeholder="Select an option">
@@ -69,7 +69,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Status</label>
                             <select class="yjmSelect2" name="businessStatus">
                                 {% for id, item in activeEnum %}
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Address</label>
                             <div class="input-group mb-3">
                                 <input class="form-control" placeholder="Business address"
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>City</label>
                             <div class="input-group mb-3">
                                 <input class="form-control" placeholder="Business city"
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>State</label>
                             <div class="input-group mb-3">
                                 <input class="form-control" placeholder="State"
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-12 col-md-6 col-lg">
                             <label>Zip Code</label>
                             <div class="input-group mb-3">
                                 <input class="form-control" placeholder="Zip Code"
@@ -147,7 +147,7 @@
             </div>
             <div id="businessTableContainer" class="table-responsive d-none">
                 <table data-is-datatable="true" data-container="#businessTableContainer"
-                       class="table table-hover text-nowrap table-sm  dt-responsive">
+                       class="table table-hover text-nowrap table-sm dt-responsive">
                     <thead>
                     <tr>
                         <th class="non-top-border text-center"></th>

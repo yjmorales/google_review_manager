@@ -141,3 +141,10 @@ Use this macro to render an input field with a spinner loader inside.
         {% endif %}
     </div>
 {% endmacro %}
+
+{#
+# Use this macro to render the spinner inside a button.
+#}
+{% macro buttonSpinner() %}
+    <span class="spinner-border spinner-border-sm d-none btn-spinner" role="status" aria-hidden="true"></span>
+{% endmacro %}
