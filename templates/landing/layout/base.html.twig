@@ -1,0 +1,83 @@
+{% set title = 'Google Review Link Generator' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {# todo: add metas #}
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{% block title %}{% endblock %}</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="{{ asset('/img/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('/img/favicon.ico') }}" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('/dist/css/landing_css.css') }}" rel="stylesheet">
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+
+{# Block urls #}
+<div id="urls" class="d-none" {% block urls %}{% endblock %}></div>
+
+{# Top nav bar #}
+<section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center">
+                <a href="{{ sys_admin_email }}">{{ sys_admin_email }}</a>
+            </i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <a title="Personal Page" href="{{ sys_admin_personal_page_url }}" class="website"><i
+                        class="bi bi-globe"></i></a>
+            <a title="Linkedin profile" href="{{ sys_admin_linkedin_profile_url }}" class="linkedin"><i
+                        class="bi bi-linkedin"></i></a>
+        </div>
+    </div>
+</section>
+
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="logo">
+            <a href="{{ path('index') }}">
+                <img src="{{ asset('/img/logo.png') }}" width="50" height="50">
+                {{ title }}
+            </a>
+        </h1>
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto active" href="#hero">Generate Google Review Link</a></li>
+                <li id="linkToGoogleReviewResults" class="d-none"><a class="nav-link scrollto"
+                                                                     href="#yourGoogleReviewLink">Your Google Review
+                        Link</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+    </div>
+</header>
+
+{% block content %}{% endblock %}
+
+{% include '/landing/layout/_footer.html.twig' %}
+
+
+<div id="preloader"></div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+</a>
+
+<script src="{{ asset('/dist/js/landing_js.js') }}"></script>
+{% block js %}{% endblock %}
+</body>
+
+</html>

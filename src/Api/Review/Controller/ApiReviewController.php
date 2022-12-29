@@ -7,6 +7,7 @@ namespace App\Api\Review\Controller;
 
 use App\Api\Business\Model\ReviewListModel;
 use App\Api\Business\Model\ReviewModel;
+use App\Api\Core\Controller\TApiController;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
 use App\Api\Core\Services\GoogleReviewManager\ApiGoogleReviewManager;
@@ -36,6 +37,8 @@ use Common\Communication\HtmlMailer\Mailer;
  */
 class ApiReviewController extends BaseController
 {
+    use TApiController;
+
     /**
      * Gets all business reviews entities.
      *
@@ -128,17 +131,11 @@ class ApiReviewController extends BaseController
     ): Response {
 
         /*
-         *  Verifies that's not a robot.
-         */
-        try {
-            $isHuman = $reCaptchaV3Validator->validateToken();
-        } catch (Exception $e) {
-            throw new ApiErrorException(['Unable to validate google recaptcha v3 token.']);
-        }
-        if (!$isHuman) {
-            throw new ApiErrorException(['Invalid token. You are a robot']);
-        }
+        *  Verifies that's not a robot.
+        */
+        $this->_validateReCaptchaV3($reCaptchaV3Validator);
 
+        // All normal. Continue...
         // The place if is mandatory to look up the place info and generate the review.
         if (!$placeId = $request->get('place_id')) {
             throw new ApiErrorException(['The place id is required']);

@@ -43,7 +43,14 @@
                                   required></textarea>
                     </div>
                     <div class="text-center">
-                        <button id="btnContactUsSubmit" data-url="{{ path('api_v1_landing_contact_us_send_email_post') }}" type="submit">Send Message</button>
+                        <button class="btn btn-primary" id="btnContactUsSubmit"
+                                data-url="{{ path('api_v1_landing_contact_us_send_email_post') }}"
+                                data-input="#form_contact_email"
+                                data-sitekey="{{ siteKey }}"
+                                type="submit">
+                            <span class="spinner-border spinner-border-sm d-none btn-spinner" role="status" aria-hidden="true"></span>
+                            Send Message
+                        </button>
                     </div>
                 </form>
             </div>

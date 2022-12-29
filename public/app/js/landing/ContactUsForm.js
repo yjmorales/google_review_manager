@@ -37,34 +37,62 @@ function ContactUsForm() {
      * Holds the logic to send the message.
      */
     function sendMessage() {
-        ui.$btnContactUsSubmit.prop('disabled', true);
-        const url = ui.$btnContactUsSubmit.data('url');
-        const data = new FormData();
-        data.append('name', ui.$name.val());
-        data.append('email', ui.$email.val());
-        data.append('subject', ui.$subject.val());
-        data.append('message', ui.$message.val());
-        fetch(url, {method: 'post', body: data})
-            .then((response) => {
-                if (!response.ok) {
-                    throw 'Unable to send the message';
-                }
-                return response.json()
-            })
-            .then((data) => {
-                state.modules.Notification.success(`Thank you for get in touch with us.`, 'Message sent.');
-                ui.$name.val(null);
-                ui.$subject.val(null);
-                ui.$email.val(null);
-                ui.$message.val(null);
-            })
-            .catch((e) => {
-                console.debug(e);
-                state.modules.Notification.error(`Unable to send the message.`, 'Message was not sent.');
-            })
-            .finally(() => {
-                ui.$btnContactUsSubmit.prop('disabled', false);
-            });
+
+
+        // First verifies that the submission is not a robot. Via ReCaptcha v3
+        const $btn = ui.$btnContactUsSubmit;
+        const siteKey = $btn.data('sitekey');
+        grecaptcha.ready(function () {
+            grecaptcha.execute(siteKey, {action: 'submit'})
+                .then(function (token) {
+                    // Once the token is got the following submits the data to send contact message. The token
+                    // should be passed.
+                    token = token.replace('\n', '');
+
+                    const $spinner = $btn.find('.btn-spinner');
+                    $btn.prop('disabled', true);
+                    $spinner.removeClass('d-none');
+                    ui.$form.find('input').attr('readonly', true);
+                    ui.$form.find('textarea').attr('readonly', true);
+
+                    const data = new FormData();
+                    data.append('name', ui.$name.val());
+                    data.append('email', ui.$email.val());
+                    data.append('subject', ui.$subject.val());
+                    data.append('message', ui.$message.val());
+                    data.append('g-recaptcha-response', token);
+
+                    const url = $btn.data('url');
+                    fetch(url, {method: 'post', body: data})
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw 'Unable to send the message';
+                            }
+                            return response.json()
+                        })
+                        .then((data) => {
+                            state.modules.Notification.success(`Thank you for get in touch with us.`, 'Message sent.');
+                            ui.$name.val(null);
+                            ui.$subject.val(null);
+                            ui.$email.val(null);
+                            ui.$message.val(null);
+                        })
+                        .catch((e) => {
+                            console.debug(e);
+                            state.modules.Notification.error(`Unable to send the message.`, 'Message was not sent.');
+                        })
+                        .finally(() => {
+                            $btn.prop('disabled', false);
+                            $spinner.addClass('d-none');
+                            ui.$form.find('input').attr('readonly', false);
+                            ui.$form.find('textarea').attr('readonly', false);
+                        });
+                });
+        });
+
+
+
+
     }
 
     this.init = init;

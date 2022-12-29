@@ -5,12 +5,14 @@
 
 namespace App\Api\Landing\Controller;
 
+use App\Api\Core\Controller\TApiController;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
 use App\Core\Controller\BaseController;
 use App\Core\Models\ApiEmptyResponse;
 use Common\Communication\HtmlMailer\MailerMessage;
 use Common\DataManagement\Validator\DataValidator;
+use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Exception;
 use Common\Communication\HtmlMailer\Mailer;
 use Psr\Log\LoggerInterface;
@@ -22,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ApiLandingController extends BaseController
 {
+    use TApiController;
+
     /**
      * Sends a message everytime the user send a message by using the contact us form.
      *
@@ -33,8 +37,19 @@ class ApiLandingController extends BaseController
      * @throws ApiErrorException
      * @throws ApiNormalOperationException
      */
-    public function contactUsSendEmail(Request $request, Mailer $mailer, LoggerInterface $logger): JsonResponse
-    {
+    public function contactUsSendEmail(
+        Request $request,
+        Mailer $mailer,
+        LoggerInterface $logger,
+        ReCaptchaV3Validator $reCaptchaV3Validator
+    ): JsonResponse {
+
+        /*
+         *  Verifies that's not a robot.
+         */
+        $this->_validateReCaptchaV3($reCaptchaV3Validator);
+
+        // All normal. Continue...
         $name    = $request->get('name');
         $email   = $request->get('email');
         $subject = $request->get('subject');
@@ -70,9 +85,9 @@ class ApiLandingController extends BaseController
                 $this->getParameter('sys_admin_email'));
             $mailerMessage->setHtmlTemplate('/email/contact_us/contact_us_by_email.html.twig');
             $mailerMessage->setContext([
-                'contactEmail'   => $email,
-                'subject' => $subject,
-                'message' => $message,
+                'contactEmail' => $email,
+                'subject'      => $subject,
+                'message'      => $message,
             ]);
             $sent = $mailer->send($mailerMessage);
             if (!$sent) {

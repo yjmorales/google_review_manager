@@ -156,22 +156,27 @@ function LandingPage() {
                     grecaptcha.ready(function () {
                         grecaptcha.execute(siteKey, {action: 'submit'})
                             .then(function (token) {
+
                                 // Once the token is got the following submits the data to generate the review. The token
                                 // should be passed.
                                 token = token.replace('\n', '');
+
                                 const email = $(ui.$fieldContactEmail).val();
                                 if (!Boolean(email)) {
                                     state.modules.Notification.error('An email address is required.');
                                     return;
                                 }
-                                const url = $btn.data('url');
+
                                 $btn.prop('disabled', true);
                                 state.modules.InputSpinner.start($(ui.$fieldContactEmail));
                                 $($btn.data('input')).prop('readonly', true);
+
                                 const body = new FormData();
                                 body.append('place_id', ui.$fieldPlaceId.val());
                                 body.append('email', email);
                                 body.append('g-recaptcha-response', token);
+
+                                const url = $btn.data('url');
                                 fetch(url, {method: 'POST', body: body})
                                     .then((response) => response.json())
                                     .then((data) => {

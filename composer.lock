@@ -10044,7 +10044,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:yjmorales/php-core.git",
-                "reference": "7c379230ff67ff9c1f4fcdd09d40f0933ba792cb"
+                "reference": "17cf771111e9baa04f9772f098bf5214ebd81d0b"
             },
             "require": {
                 "ext-bcmath": "^7.4",
@@ -10071,7 +10071,7 @@
                 "proprietary"
             ],
             "description": "PHP Core library for web applications.",
-            "time": "2022-12-28T19:27:06+00:00"
+            "time": "2022-12-29T04:07:11+00:00"
         }
     ],
     "packages-dev": [
