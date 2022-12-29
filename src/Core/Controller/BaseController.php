@@ -5,10 +5,13 @@
 
 namespace App\Core\Controller;
 
+use App\Api\Core\Exception\ApiErrorException;
 use App\Core\Models\AbstractApiResponseModel;
+use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -149,4 +152,6 @@ abstract class BaseController extends AbstractController
     {
         return $this->file($filename, "$fileBaseName.$extention");
     }
+
+
 }
