@@ -40,3 +40,42 @@
 .grecaptcha-badge {
     display: none !important;
 }
+
+.smartwizard{
+    width: 90%;
+}
+/* Mobile */
+@media (max-width: 640px) {
+    #header .logo {
+        font-size: 16px;
+    }
+
+    .navbar-mobile ul {
+        bottom: 25%;
+    }
+
+    section#hero {
+        padding: 30px 0;
+        height: 480px;
+    }
+
+    #business_form_address {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .smartwizard{
+        width: 90%;
+    }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 768px) {
+    #header .logo {
+        font-size: 25px;
+    }
+
+    .navbar-mobile ul {
+        bottom: 25%;
+    }
+}

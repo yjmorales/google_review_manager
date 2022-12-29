@@ -25,7 +25,7 @@
     {{ helpers.notifications_error() }}
     {{ helpers.notifications_warning() }}
     <div class="row">
-        <div class="col-8">
+        <div class="col-sm-12 col-md-8">
             <div class="card card-info card-outline direct-chat direct-chat-primary">
                 {{ form_start(form) }}
                 <div class="card-header card-header-compressed">
@@ -48,7 +48,7 @@
                 {{ helpers.form_processing() }}
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-sm-12 col-md-4 ">
             {% include '/business/create_edit/_review_list.html.twig' %}
         </div>
     </div>

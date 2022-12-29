@@ -41,7 +41,9 @@ function ChangePasswordGetEmailForm() {
         const email = ui.$email.val();
         const data = new FormData();
         const url = ui.$btn.data('url');
+        const $btnSpinner = ui.$btn.find('.btn-spinner');
         ui.$btn.prop('disabled', true);
+        $btnSpinner.removeClass('d-none');
         data.append('email', email);
         fetch(url, {method: 'POST', body: data})
             .then((response) => response.json())
@@ -58,6 +60,7 @@ function ChangePasswordGetEmailForm() {
             })
             .finally(() => {
                 ui.$btn.prop('disabled', false);
+                $btnSpinner.addClass('d-none');
             });
     }
 
