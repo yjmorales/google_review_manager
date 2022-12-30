@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% include '/layout/partials/_metas.html.twig' %}
+
     <title>Google Review Manager{% block title %}{% endblock %}</title>
+
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="{{ asset('/dist/css/layout_login_css.css') }}">
     <link rel="stylesheet" href="{{ asset('/app/css/security.css') }}">
 </head>
+
 <body class="hold-transition login-page">
+
 <div class="login-box">
     <!-- /.login-logo -->
     <div class="w-100 text-center pb-2">
@@ -19,10 +23,12 @@
             <img src="{{ asset('/img/logo.png') }}" height="60" width="60">
         </a>
     </div>
+
     <div class="card card-outline card-primary">
         <div class="card-header text-center p-2">
             <h5 class="m-0">{{ title  ?? ''}}</h5>
         </div>
+
         <div class="card-body">
             {% block content %}{% endblock %}
         </div>
