@@ -1,5 +1,10 @@
 {% import '/components/helpers_macro.html.twig' as helpers %}
-<footer id="footer">
+
+{% if isErrorPage is not defined %}
+    {% set isErrorPage = false %}
+{% endif %}
+
+<footer id="footer" class="{{ isErrorPage ? 'footer-fixed'}}">
     <div class="footer-top">
         <div class="container">
             <div class="row">

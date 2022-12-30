@@ -1,0 +1,19 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block title %}
+    - Error
+{% endblock %}
+
+
+{% block content %}
+    {% import '/components/helpers_macro.html.twig' as helpers %}
+
+    <div class="container mt-5 text-center" data-aos="fade-up">
+        <div class="section-title">
+            <h3><span>An error has occurred!</span></h3>
+            <p class="mb-3">It looks like an error occurred. Please contact our team.</p>
+            <a href="mailto:{{ sys_admin_email }}">{{ sys_admin_email }}</a>
+        </div>
+    </div>
+{% endblock %}
+
