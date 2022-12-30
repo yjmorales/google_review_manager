@@ -1,0 +1,20 @@
+{% extends '/errors/landing/landing_base_error.html.twig' %}
+
+{% block title %}
+    Page not found
+{% endblock %}
+
+
+{% block content %}
+    {% import '/components/helpers_macro.html.twig' as helpers %}
+<section>
+    <div class="container mt-5" data-aos="fade-up">
+        <div class="section-title">
+            <h3><span>Page not found</span></h3>
+            <p class="mb-3">The page you requested does not exist.</p>
+            <a class="btn btn-info" href="{{ path('index') }}">Go to main page</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

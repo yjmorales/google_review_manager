@@ -41,9 +41,17 @@
     display: none !important;
 }
 
-.smartwizard{
+.smartwizard {
     width: 90%;
 }
+
+.footer-fixed {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+
 /* Mobile */
 @media (max-width: 640px) {
     #header .logo {
@@ -64,7 +72,7 @@
         padding: 5px;
     }
 
-    .smartwizard{
+    .smartwizard {
         width: 90%;
     }
 }

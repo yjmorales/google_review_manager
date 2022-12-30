@@ -15,6 +15,13 @@ services:
     Twig\Extensions\TextExtension: ~
     Common\View\Twig\Filter\DashedPhoneTwigExtension: ~
 
+    App\Core\Listener\ExceptionListener:
+        arguments:
+            - '@router'
+            - "%kernel.environment%"
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     logger:
        alias: 'monolog.logger'
        public: true

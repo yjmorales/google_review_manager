@@ -1,0 +1,16 @@
+{% extends '/layout/base.html.twig' %}
+
+{% block title %}
+    - Page not found
+{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-5 text-center" data-aos="fade-up">
+        <div class="section-title">
+            <h3><span>Page not found</span></h3>
+            <p class="mb-3">The page you requested does not exist.</p>
+            <a class="btn btn-info" href="{{ path('business_list') }}">Go to business list page</a>
+        </div>
+    </div>
+{% endblock %}
