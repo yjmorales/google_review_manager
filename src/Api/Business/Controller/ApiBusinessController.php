@@ -6,6 +6,7 @@
 namespace App\Api\Business\Controller;
 
 use App\Api\Business\Model\BusinessRemoveModel;
+use App\Api\Business\Validator\ApiBusinessValidator;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
 use App\Controller\Business\TBusinessController;

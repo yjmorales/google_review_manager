@@ -3,7 +3,7 @@
  * @author Yenier Jimenez <yjmorales86@gmail.com>
  */
 
-namespace App\Api\Business\Controller;
+namespace App\Api\Business\Validator;
 
 use ArrayObject;
 use Common\DataManagement\Validator\DataValidator;
