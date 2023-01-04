@@ -4,12 +4,12 @@
     {% set isErrorPage = false %}
 {% endif %}
 
-<footer id="footer" class="{{ isErrorPage ? 'footer-fixed'}}">
+<footer id="footer" class="{{ isErrorPage ? 'footer-fixed' }}">
     <div class="footer-top">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 footer-links">
-                    <h3>YJM Solutions</h3>
+                    <h3>{{ owner_company_name }}</h3>
                     <p>
                         <strong>Phone:</strong> {{ sys_admin_phone|dashed }}<br>
                         <strong>Email:</strong> {{ sys_admin_email }}<br>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="container py-4">
-        Yenier Jimenez - {{ helpers.copyright() }}
+        {{ owner_company_name }} - {{ helpers.copyright() }}
         <div class="credits">
             This website is built based on <a href="https://bootstrapmade.com/">BootstrapMade</a> theme.
         </div>
