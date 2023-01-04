@@ -7,8 +7,8 @@ namespace App\Api\Security\ChangePassword\Controller;
 
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
+use App\Api\Core\Model\ApiEmptyResponse;
 use App\Core\Controller\BaseController;
-use App\Core\Models\ApiEmptyResponse;
 use App\Entity\User;
 use Common\Communication\HtmlMailer\Mailer;
 use Common\Communication\HtmlMailer\MailerMessage;

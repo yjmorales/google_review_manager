@@ -5,8 +5,8 @@
 
 namespace App\Api\Review\Controller;
 
-use App\Api\Business\Model\ReviewListModel;
-use App\Api\Business\Model\ReviewModel;
+use App\Api\Review\Model\ReviewListModel;
+use App\Api\Review\Model\ReviewModel;
 use App\Api\Core\Controller\TApiController;
 use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;

@@ -3,7 +3,7 @@
  * @author Yenier Jimenez <yjmorales86@gmail.com>
  */
 
-namespace App\Core\Models;
+namespace App\Api\Core\Model;
 
 use stdClass;
 

@@ -5,7 +5,7 @@
 
 namespace App\Api\Google\Place\Model;
 
-use App\Core\Models\AbstractApiResponseModel;
+use App\Api\Core\Model\AbstractApiResponseModel;
 use App\Google\GoogleMap\Place\Services\PlaceDetails\Address;
 use stdClass;
 

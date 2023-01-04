@@ -3,11 +3,11 @@
  * @author Yenier Jimenez <yjmorales86@gmail.com>
  */
 
-namespace App\Api\Business\Model;
+namespace App\Api\Review\Model;
 
+use App\Api\Core\Model\AbstractApiResponseModel;
 use App\Api\Core\Services\QrCodeManager;
 use App\Api\Core\Services\QrCodeManager\Exception\QrCodeImgNotFountException;
-use App\Core\Models\AbstractApiResponseModel;
 use App\Entity\Business;
 use Exception;
 use stdClass;

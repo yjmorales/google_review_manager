@@ -5,7 +5,7 @@
 
 namespace App\Api\Business\Model;
 
-use App\Core\Models\AbstractApiResponseModel;
+use App\Api\Core\Model\AbstractApiResponseModel;
 use App\Entity\Business;
 use stdClass;
 
