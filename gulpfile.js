@@ -84,6 +84,7 @@ gulp.task('landing_css', function () {
             'public/vendor/landing_page/BizLand/assets/css/style.css',
             'vendor/almasaeed2010/adminlte/plugins/fontawesome-free/css/all.min.css',
             'node_modules/smartwizard/dist/css/smart_wizard_all.min.css',
+            'node_modules/smartwizard/dist/css/smart_wizard.min.css',
         ])
         .pipe(concat('landing_css.css'))
         .pipe(cleanCSS({compatibility: 'ie8'}))
