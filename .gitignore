@@ -48,3 +48,4 @@ composer.phar
 /config/secrets/dev/dev.decrypt.private.php
 /.env
 /.env.test
+/deploy.sh
