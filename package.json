@@ -24,6 +24,7 @@
     "jquery-ui": "^1.13.2",
     "jquery-validation": "^1.19.5",
     "jquery.easing": "^1.4.1",
+    "smartwizard": "^6.0.6",
     "startbootstrap-grayscale": "^6.0.3"
   }
 }

@@ -83,6 +83,7 @@ gulp.task('landing_css', function () {
             'public/vendor/landing_page/BizLand/assets/vendor/swiper/swiper-bundle.min.css',
             'public/vendor/landing_page/BizLand/assets/css/style.css',
             'vendor/almasaeed2010/adminlte/plugins/fontawesome-free/css/all.min.css',
+            'node_modules/smartwizard/dist/css/smart_wizard_all.min.css',
         ])
         .pipe(concat('landing_css.css'))
         .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -183,6 +184,7 @@ gulp.task('landing_js', function () {
             'public/vendor/landing_page/BizLand/assets/vendor/waypoints/noframework.waypoints.js',
             'public/vendor/landing_page/BizLand/assets/vendor/php-email-form/validate.js',
             'node_modules/jquery-validation/dist/jquery.validate.min.js',
+            'node_modules/smartwizard/dist/js/jquery.smartWizard.min.js',
             'public/vendor/landing_page/BizLand/assets/js/main.js',
         ])
         .pipe(concat('landing_js.js'))
