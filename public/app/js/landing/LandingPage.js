@@ -223,7 +223,6 @@ function LandingPage() {
         // Scrolling the page to the generated results
         $(ui.$linkToGoogleReviewResults).removeClass('d-none');
         $(ui.$yourGoogleReviewLink).removeClass('d-none');
-        $(ui.$yourGoogleReviewLink).click();
         const top = $(ui.$linkToGoogleReviewResults).offset().top + 470;
         $('html, body').animate({scrollTop: top}, 700);
     }
