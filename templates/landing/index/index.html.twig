@@ -8,7 +8,6 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link href="{{ asset('/dist/css/landing_wizard_css.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/dist/css/adminlte_toastr_css.css') }}">
     <link rel="stylesheet" href="{{ asset('/app/css/input-loading.css') }}">
     <link rel="stylesheet" href="{{ asset('/app/css/landing-page.css') }}">
@@ -59,7 +58,6 @@
 
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('/dist/js/landing_wizard_js.js') }}"></script>
     <script src="{{ asset('/dist/js/adminlte_toastr_js.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('/app/js/common/Notification.js') }}"></script>
