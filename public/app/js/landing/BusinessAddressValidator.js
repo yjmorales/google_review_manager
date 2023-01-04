@@ -41,7 +41,7 @@ function BusinessAddressValidator() {
                 },
                 messages: {
                     'business_form[address]': {
-                        required: "Please enter a business address.",
+                        required: "Please enter a correct business name or address.",
                         minlength: "The address must be at least 2 characters long.",
                         maxlength: "The address name must not be longer than 255 characters long.",
                     },

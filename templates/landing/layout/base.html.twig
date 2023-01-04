@@ -13,6 +13,8 @@
     <link href="{{ asset('/img/favicon.ico') }}" rel="apple-touch-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
           rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+          type="text/css"/>
     <link href="{{ asset('/dist/css/landing_css.css') }}" rel="stylesheet">
     {% block css %}{% endblock %}
 </head>
@@ -27,19 +29,21 @@
     <div class="container d-flex justify-content-center justify-content-md-between">
 
         <div class="contact-info d-flex align-items-center">
-            <i class="bi bi-envelope d-flex align-items-center">
-                <a href="{{ sys_admin_email }}">{{ sys_admin_email }}</a>
-            </i>
+            {{ owner_company_name }}
         </div>
 
         <div class="social-links d-none d-md-flex align-items-center">
-            <a title="Personal Page"
+            <div class="contact-info d-flex align-items-center">
+                Follow us
+            </div>
+            <a title="{{ owner_company_name }} Linkedin profile" href="{{ sys_admin_linkedin_profile_url }}"
+               class="linkedin">
+                <i class="bi bi-linkedin"></i>
+            </a>
+            <a title="{{ owner_company_name }} website"
                href="{{ sys_admin_personal_page_url }}"
                class="website">
                 <i class="bi bi-globe"></i>
-            </a>
-            <a title="Linkedin profile" href="{{ sys_admin_linkedin_profile_url }}" class="linkedin">
-                <i class="bi bi-linkedin"></i>
             </a>
         </div>
     </div>
@@ -48,16 +52,32 @@
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo">
-            <a href="{{ path('index') }}">
-                <img src="{{ asset('/img/logo.png') }}" width="50" height="50">
-                {{ title }}
-            </a>
-        </h1>
+
+        <div>
+            <div class="d-inline-block p-2">
+                <a href="{{ path('index') }}">
+                    <img src="{{ asset('/img/logo.png') }}" width="50" height="50" style="vertical-align: text-bottom">
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <h1 class="logo">
+                    <a href="{{ path('index') }}">{{ title }}</a>
+                </h1>
+                <div class="d-block">
+                    <a class="reviews-manager-link p-2" href="{{ path('business_list') }}" target="_blank">
+                        ...and review manager
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto active" href="#hero">Generate Google Review Link</a></li>
+                <li><a class="nav-link scrollto active" href="#hero">
+                        Generate Google Review Link
+                    </a></li>
                 <li id="linkToGoogleReviewResults" class="d-none">
                     <a class="nav-link scrollto" href="#yourGoogleReviewLink">
                         Your Google Review Link

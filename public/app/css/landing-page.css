@@ -51,6 +51,17 @@
     width: 100%;
 }
 
+.font-10 {
+    font-size: 10px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.reviews-manager-link:hover {
+    text-decoration: underline;
+}
 
 /* Mobile */
 @media (max-width: 640px) {
