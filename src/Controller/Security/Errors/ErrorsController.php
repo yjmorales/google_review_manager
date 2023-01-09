@@ -56,6 +56,7 @@ class ErrorsController extends BaseController
             'sys_admin_linkedin_profile_url' => $this->getParameter('sys_admin_linkedin_profile_url'),
             'sys_admin_personal_page_url'    => $this->getParameter('sys_admin_personal_page_url'),
             'sys_admin_phone'                => $this->getParameter('sys_admin_phone'),
+            'owner_company_name'             => $this->getParameter('owner_company_name'),
         ];
     }
 }
