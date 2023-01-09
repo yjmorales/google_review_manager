@@ -2,6 +2,8 @@
 
 return [
     'GOOGLE_MAP_API_KEY' => null,
+    'RECAPTCHA_V3_GRM_SECRET_KEY' => null,
+    'RECAPTCHA_V3_GRM_SITE_KEY' => null,
     'REDIS_HOST' => null,
     'REDIS_PASSWORD' => null,
     'REDIS_PORT' => null,
