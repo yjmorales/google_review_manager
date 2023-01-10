@@ -20,8 +20,7 @@
 
     {# Google Ad Sense #}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4482787083166410"
-            crossorigin="anonymous">
-    </script>
+            crossorigin="anonymous"></script>
 
     {# Google analytics #}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleMeasurementId }}"></script>
@@ -116,7 +115,11 @@
 <script>
     // Google tag (gtag.js)
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
     const measurementId = $('#siteData').data('google-measurement-id');
     gtag('config', measurementId);
