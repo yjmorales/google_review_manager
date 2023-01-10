@@ -62,24 +62,12 @@
     <div class="container d-flex align-items-center justify-content-between">
 
 
-        <div>
-            <div class="d-inline-block p-2">
+            <h1 class="logo">
                 <a href="{{ path('index') }}">
                     <img src="{{ asset('/img/logo.png') }}" width="50" height="50" style="vertical-align: text-bottom">
+                    {{ title }}
                 </a>
-            </div>
-            <div class="d-inline-block">
-                <h1 class="logo">
-                    <a href="{{ path('index') }}">{{ title }}</a>
-                </h1>
-                <div class="d-block">
-                    <a class="reviews-manager-link p-2" href="{{ path('business_list') }}" target="_blank">
-                        ...and review manager
-                        <i class='bx bx-link-external'></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+            </h1>
 
 
         <nav id="navbar" class="navbar">

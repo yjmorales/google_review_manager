@@ -67,6 +67,11 @@
     text-decoration: underline;
 }
 
+.bg-grey-dark {
+    background-color: #343a40!important;
+    color: #c2c2c2!important;
+}
+
 /* Mobile */
 @media (max-width: 640px) {
     #header .logo {

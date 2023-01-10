@@ -4,11 +4,11 @@
     {% set isErrorPage = false %}
 {% endif %}
 
-<footer id="footer" class="{{ isErrorPage ? 'footer-fixed' }}">
-    <div class="footer-top">
+<footer id="footer" class="bg-grey-dark {{ isErrorPage ? 'footer-fixed' }}">
+    <div class="footer-top bg-grey-dark">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 footer-links">
+                <div class="col-md-6 footer-links text-center">
                     <h3>{{ owner_company_name }}</h3>
                     <p>
                         <strong>Phone:</strong> {{ sys_admin_phone|dashed }}<br>
@@ -16,7 +16,7 @@
                     </p>
                 </div>
 
-                <div class="col-md-6 footer-links">
+                <div class="col-md-6 footer-links text-center">
                     <h3>Social Networks</h3>
                     <div class="social-links mt-3">
                         <a href="{{ sys_admin_linkedin_profile_url }}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
@@ -29,9 +29,9 @@
         </div>
     </div>
 
-    <div class="container py-4">
+    <div class="container py-4 text-center">
         {{ owner_company_name }} - {{ helpers.copyright() }}
-        <div class="credits">
+        <small>
             This website is built based on <a href="https://bootstrapmade.com/">BootstrapMade</a> theme.
         </div>
     </div>
