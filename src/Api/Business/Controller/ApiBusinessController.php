@@ -105,9 +105,11 @@ class ApiBusinessController extends BaseController
                 $qrCodeBaseName = str_replace($this->_getQrCodeDir(false), '', $review->getQrCodeImgFilename());
                 $subject        = "Google Review Link - {$business->getName()}";
                 $context        = [
-                    'review'         => $review,
-                    'qrCodeBaseName' => $qrCodeBaseName,
-                    'downloadLink'   => $this->generateUrl('review_download', ['review_id' => $review->getId()]),
+                    'review'          => $review,
+                    'qrCodeBaseName'  => $qrCodeBaseName,
+                    'downloadLink'    => $this->generateUrl('review_download', ['review_id' => $review->getId()]),
+                    'businessName'    => $business->getName(),
+                    'businessAddress' => $business->getPlace() ? $business->getPlace()->getFullAddress() : '',
                 ];
                 $msg            = new MailerMessage($subject, ...$to);
                 $msg->setContext($context);
