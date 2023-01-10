@@ -9,6 +9,7 @@ use App\Api\Core\Exception\ApiErrorException;
 use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Exception;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Trait to be used by those API Controllers.
@@ -24,7 +25,7 @@ trait TApiController
      * @return void
      * @throws ApiErrorException
      */
-    protected function _validateReCaptchaV3(ReCaptchaV3Validator $reCaptchaV3Validator, Logger $logger): void
+    protected function _validateReCaptchaV3(ReCaptchaV3Validator $reCaptchaV3Validator, LoggerInterface $logger): void
     {
         /*
         *  Verifies that's not a robot.

@@ -27,6 +27,7 @@ use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -75,7 +76,7 @@ class ApiReviewController extends BaseController
         Business $business,
         RouterInterface $router,
         ApiGoogleReviewManager $googleReviewManager,
-        Logger $logger
+        LoggerInterface $logger
     ): Response {
         if (!$placeId = $request->get('place_id')) {
             throw new ApiErrorException(['The place id is required']);
@@ -131,7 +132,7 @@ class ApiReviewController extends BaseController
         PlaceDetailsService $detailsService,
         Mailer $mailer,
         ReCaptchaV3Validator $reCaptchaV3Validator,
-        Logger $logger
+        LoggerInterface $logger
     ): Response {
 
         /*
