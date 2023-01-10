@@ -26,6 +26,7 @@ use Common\DataManagement\Validator\DataValidator;
 use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -73,7 +74,8 @@ class ApiReviewController extends BaseController
         ManagerRegistry $doctrine,
         Business $business,
         RouterInterface $router,
-        ApiGoogleReviewManager $googleReviewManager
+        ApiGoogleReviewManager $googleReviewManager,
+        Logger $logger
     ): Response {
         if (!$placeId = $request->get('place_id')) {
             throw new ApiErrorException(['The place id is required']);
@@ -100,6 +102,7 @@ class ApiReviewController extends BaseController
             }
             $this->_em($doctrine)->flush();
         } catch (Exception $e) {
+            $logger->error($e->getMessage());
             throw new ApiErrorException([$e->getMessage()], 0, $e);
         }
 
@@ -127,7 +130,8 @@ class ApiReviewController extends BaseController
         ApiGoogleReviewManager $googleReviewManager,
         PlaceDetailsService $detailsService,
         Mailer $mailer,
-        ReCaptchaV3Validator $reCaptchaV3Validator
+        ReCaptchaV3Validator $reCaptchaV3Validator,
+        Logger $logger
     ): Response {
 
         /*
@@ -219,6 +223,7 @@ class ApiReviewController extends BaseController
                 $this->_em($doctrine)->persist($review);
             }
         } catch (Exception $e) {
+            $logger->error($e->getMessage());
             throw new ApiErrorException([$e->getMessage()], 0, $e);
         }
 
@@ -244,6 +249,7 @@ class ApiReviewController extends BaseController
                 throw new Exception('not sent');
             }
         } catch (Exception $e) {
+            $logger->error($e->getMessage());
             throw new ApiErrorException(["Unable to send the Google Review Link {$review->getId()} by email"]);
         }
 
