@@ -180,6 +180,9 @@ function LandingPage() {
                                 fetch(url, {method: 'POST', body: body})
                                     .then((response) => response.json())
                                     .then((data) => {
+                                        if (data.status > 299) {
+                                            throw '';
+                                        }
                                         renderGoogleReviewLink(data.review);
                                         state.modules.Notification.success(
                                             `The Google Review Link has been successfully created. 
@@ -193,7 +196,7 @@ function LandingPage() {
                                             clearTimeout(timerToResetWizard);
                                         }, 700);
                                     }).catch((e) => {
-                                    console.debug(e)
+                                    (new Notification()).error('Unable to generate the Google Review Link. Please try later.', 'An error occurs.')
                                 }).finally(() => {
                                     $btn.prop('disabled', false);
                                     $($btn.data('input')).prop('readonly', false);

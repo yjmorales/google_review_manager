@@ -38,10 +38,14 @@ function LandingPageAddressAutoComplete() {
                     fetch(`${url}?term=${request.term}`)
                         .then((response) => response.json())
                         .then((data) => {
+                            if(data.status > 299){
+                                throw '';
+                            }
                             response(data.predictions);
                         })
                         .catch((e) => {
-                            console.debug(e)
+                            (new Notification()).error('Unable to find the location. Please try later.', 'An error occurs.')
+
                         })
                         .finally(() => {
                             state.modules.InputSpinner.stop(ui.$fieldAddress);
