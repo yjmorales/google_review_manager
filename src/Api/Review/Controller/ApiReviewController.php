@@ -137,7 +137,7 @@ class ApiReviewController extends BaseController
         /*
         *  Verifies that's not a robot.
         */
-        $this->_validateReCaptchaV3($reCaptchaV3Validator);
+        $this->_validateReCaptchaV3($reCaptchaV3Validator, $logger);
 
         // All normal. Continue...
         // The place if is mandatory to look up the place info and generate the review.

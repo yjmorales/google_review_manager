@@ -47,7 +47,7 @@ class ApiLandingController extends BaseController
         /*
          *  Verifies that's not a robot.
          */
-        $this->_validateReCaptchaV3($reCaptchaV3Validator);
+        $this->_validateReCaptchaV3($reCaptchaV3Validator, $logger);
 
         // All normal. Continue...
         $name    = $request->get('name');
