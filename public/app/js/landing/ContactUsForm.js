@@ -71,7 +71,7 @@ function ContactUsForm() {
                             return response.json()
                         })
                         .then((data) => {
-                            state.modules.Notification.success(`Thank you for get in touch with us.`, 'Message sent.');
+                            state.modules.Notification.success(`Thank you for contacting us. Our team will read your comment and if necessary we will contact you.`, 'Message sent.');
                             ui.$name.val(null);
                             ui.$subject.val(null);
                             ui.$email.val(null);
@@ -89,10 +89,6 @@ function ContactUsForm() {
                         });
                 });
         });
-
-
-
-
     }
 
     this.init = init;
