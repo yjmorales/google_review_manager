@@ -23,12 +23,16 @@
             crossorigin="anonymous">
     </script>
 
+    {# Google analytics #}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleMeasurementId }}"></script>
+
 </head>
 
 <body>
 
 {# Block urls #}
 <div id="urls" class="d-none" {% block urls %}{% endblock %}></div>
+<div id="siteData" data-google-measurement-id="{{ googleMeasurementId }}"></div>
 
 {# Top nav bar #}
 <section id="topbar" class="d-flex align-items-center">
@@ -108,6 +112,17 @@
 </a>
 
 <script src="{{ asset('/dist/js/landing_js.js') }}"></script>
+
+<script>
+    // Google tag (gtag.js)
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    const measurementId = $('#siteData').data('google-measurement-id');
+    gtag('config', measurementId);
+</script>
+
+
 {% block js %}{% endblock %}
 </body>
 

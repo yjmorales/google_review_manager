@@ -2,6 +2,7 @@
 
 return [
     'GOOGLE_MAP_API_KEY' => null,
+    'GOOGLE_MEASUREMENT_ID' => null,
     'RECAPTCHA_V3_GRM_SECRET_KEY' => null,
     'RECAPTCHA_V3_GRM_SITE_KEY' => null,
     'REDIS_HOST' => null,

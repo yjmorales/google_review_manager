@@ -23,7 +23,8 @@ class LandingController extends BaseController
             'sys_admin_phone'                => $this->getParameter('sys_admin_phone'),
             'siteKey'                        => $this->getParameter('recaptcha_v3_grm_site_key'),
             'userAction'                     => $this->getParameter('recaptcha_v3_grm_generate_review_guest_user_action'),
-            'owner_company_name'                     => $this->getParameter('owner_company_name'),
+            'owner_company_name'             => $this->getParameter('owner_company_name'),
+            'googleMeasurementId'            => $this->getParameter('google_measurement_id'),
         ]);
-        }
     }
+}
