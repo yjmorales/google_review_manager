@@ -111,3 +111,6 @@ services:
             - '%recaptcha_v3_grm_secret_key%'
             - '%google_url_token_validator%'
             - '@Common\Security\AntiSpam\ReCaptcha\v3\ClientToken\HttpPostTokenRetriever'
+
+    App\EmailNotifier\EmailNotificationHandler:
+        tags: [messenger.message_handler]
