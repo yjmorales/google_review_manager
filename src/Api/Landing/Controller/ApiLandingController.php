@@ -10,6 +10,7 @@ use App\Api\Core\Exception\ApiErrorException;
 use App\Api\Core\Exception\ApiNormalOperationException;
 use App\Api\Core\Model\ApiEmptyResponse;
 use App\Core\Controller\BaseController;
+use App\Notification\NotificationType;
 use Common\Communication\HtmlMailer\MailerMessage;
 use Common\DataManagement\Validator\DataValidator;
 use Common\Security\AntiSpam\ReCaptcha\v3\ReCaptchaV3Validator;
@@ -18,6 +19,9 @@ use Common\Communication\HtmlMailer\Mailer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 
 /**
  * API Controller to manages the landing page.
@@ -41,13 +45,15 @@ class ApiLandingController extends BaseController
         Request $request,
         Mailer $mailer,
         LoggerInterface $logger,
-        ReCaptchaV3Validator $reCaptchaV3Validator
+        ReCaptchaV3Validator $reCaptchaV3Validator,
+        NotifierInterface $notifier
+
     ): JsonResponse {
 
         /*
          *  Verifies that's not a robot.
          */
-        $this->_validateReCaptchaV3($reCaptchaV3Validator, $logger);
+//        $this->_validateReCaptchaV3($reCaptchaV3Validator, $logger);
 
         // All normal. Continue...
         $name    = $request->get('name');
@@ -60,7 +66,7 @@ class ApiLandingController extends BaseController
         $isValid   &= $validName = $validator->isValidString($name, 2, 255, false);
         $isValid   &= $validEmail = $validator->isValidString($email, 2, 255);
         $isValid   &= $validSubject = $validator->isValidString($subject, 2, 255, false);
-        $isValid   &= $validMsg = $validator->isValidString($message, 2, 500);
+//        $isValid   &= $validMsg = $validator->isValidString($message, 2, 500);
 
         $errors = [];
         if (!$validName) {
@@ -72,9 +78,9 @@ class ApiLandingController extends BaseController
         if (!$validSubject) {
             $errors[] = 'The subject you entered is invalid.';
         }
-        if (!$validMsg) {
-            $errors[] = 'The message you entered is invalid.';
-        }
+//        if (!$validMsg) {
+//            $errors[] = 'The message you entered is invalid.';
+//        }
 
         if (!$isValid) {
             throw new ApiNormalOperationException($errors);
@@ -89,10 +95,14 @@ class ApiLandingController extends BaseController
                 'subject'      => $subject,
                 'message'      => $message,
             ]);
-            $sent = $mailer->send($mailerMessage);
-            if (!$sent) {
-                throw new Exception('not sent');
-            }
+
+            $notification = new Notification('New Invoice', [NotificationType::EMAIL]);
+            $notification->content('You got a new invoice for 15 EUR.');
+
+            // The receiver of the Notification
+            $recipient = new Recipient($this->getParameter('sys_admin_email'));
+            $notifier->send($notification, $recipient);
+
         } catch (Exception $e) {
             $logger->error('The Contact us message was not able to send.');
             throw new ApiErrorException(['The message was not able to be sent.'], 0, $e);

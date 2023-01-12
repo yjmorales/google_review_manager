@@ -18,12 +18,16 @@ RUN apt-get update \
     python3-apt \
     python3-pip \
     beanstalkd \
+    libicu-dev \
+    libxslt-dev \
 \
 ### Install PHP extras
     && pecl install mcrypt \
     && apt-get update && apt-get install -y zlib1g-dev libmcrypt-dev \
     && docker-php-ext-install -j$(nproc) zip mysqli pdo pdo_mysql gd \
     && docker-php-ext-enable mcrypt \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl xsl \
 \
 ### Changing Ownership of document root directory to apache.
     && chown -R www-data:www-data /var/www/html
@@ -38,7 +42,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && mv composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer \
 \
-### Installl Node
+### Install Node
     && curl -sL https://deb.nodesource.com/setup_14.x | bash \
     && apt-get install --yes nodejs \
 \
