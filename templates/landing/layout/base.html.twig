@@ -99,18 +99,23 @@
 </a>
 
 <script src="{{ asset('/dist/js/landing_js.js') }}"></script>
+<script src="{{ asset('/app/vendor/particles.js/particles.js') }}"></script>
+<script src="{{ asset('/app/js/landing/particles-stars.js') }}"></script>
+
+
 
 <script>
-    // Google tag (gtag.js)
+    // Google Analytic tag (gtag.js)
     window.dataLayer = window.dataLayer || [];
-
     function gtag() {
         dataLayer.push(arguments);
     }
-
     gtag('js', new Date());
     const measurementId = $('#siteData').data('google-measurement-id');
     gtag('config', measurementId);
+
+    // Particles
+    new Particles();
 </script>
 
 

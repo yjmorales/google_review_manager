@@ -22,6 +22,7 @@
 
 {% block content %}
     <section id="hero">
+        <div id="particles-js" data-effect="star"></div>
         <div class="row visible-wizard">
             <div class="col text-center d-flex justify-content-center w-100">
                 {% include '/landing/index/partials/wizard/_wizard.html.twig' %}
@@ -32,7 +33,7 @@
     <main id="main">
     {# Google Review Link - Results #}
     <section id="yourGoogleReviewLink" class="section-bg d-none">
-        <div class="container aos-init aos-animate" data-aos="fade-up">
+        <div class="container aos-init aos-animate" >
             <div class="section-title pb-0">
                 <h3>Here is your Google Review Link</h3>
                 <p class="font-weight-100">
@@ -44,7 +45,7 @@
                 </p>
             </div>
             <div class="row">
-                <div class="col aos-init aos-animate" data-aos="fade-right" data-aos-delay="100">
+                <div class="col aos-init aos-animate" >
                     {% include '/landing/index/partials/_google_review_link_results.html.twig' %}
                 </div>
             </div>
