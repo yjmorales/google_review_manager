@@ -125,7 +125,10 @@ The following will build the database structure:
 
 ### Contact
 
-Yenier Jimenez 
+
+> **Yenier Jimenez**
+<br>
+http://yenierjimenez.com
 <br>
 yjmorales86@gmail.com
 
