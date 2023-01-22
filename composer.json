@@ -1,8 +1,11 @@
 {
+    "name": "yjmorales/google_review_manager",
+    "description": "Google Review Link Generator & Manager.",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "version": "1.1.0",
     "repositories": [
         {
             "type": "git",
