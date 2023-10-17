@@ -128,7 +128,7 @@ The following will build the database structure:
 
 > **Yenier Jimenez**
 <br>
-http://yenierjimenez.com
+http://yenierjimenez.net
 <br>
 yjmorales86@gmail.com
 
